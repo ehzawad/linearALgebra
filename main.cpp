@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
             std::ifstream inputFile(argv[2]);
 
             if (inputFile.is_open()) {
-                size_t dimension;
+                size_t dimension{};
                 mType determinant{};
                 // first value in the file == matrix dimension
                 inputFile >> dimension;
