@@ -1,82 +1,97 @@
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
-M = 
-7 8 1 
-1 2 2 
-3 4 5 
+M =
+7 8 1
+1 2 2
+3 4 5
+LaplaceExpansion::det(M) = 20
+M =
+7 8 1
+1 2 2
+3 4 5
+LaplaceExpansion::det(M) = 20
+M =
+7 8 1
+1 2 2
+3 4 5
+LaplaceExpansion::det(M) = 20
+M =
+7 8 1
+1 2 2
+3 4 5
 LaplaceExpansion::det(M) = 20
 M = 
 7 8 1 

@@ -8,10 +8,18 @@
 typedef double mType;
 
 
+
 int main(int argc, char* argv[])
 {
     Hill chiper;
-    const std::string msg = "Proper usage: \"MatrixDeterminant -f filename\" ";
+    const std::string msg = "Proper usage: \"./MatrixDeterminant -f filename\" ";
+
+    if (argc < 3 || argc > 3)
+    {
+        std::cout << msg;
+        std::cout << std::endl;
+        return -1;
+    }
 
     if (argc == 3) {
         if (std::string(argv[1]) == "-f") {
