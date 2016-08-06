@@ -44,4 +44,5 @@ public:
     {
         return laplaceExpansion(util::deleteRowAndColumn(M, row, col));
     }
+
 };

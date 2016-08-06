@@ -2,7 +2,6 @@
 #include "hillchiper.hpp"
 #include <algorithm>
 #include <fstream>
-#include <iostream>
 #include <stdexcept>
 #include <string>
 
@@ -17,6 +16,8 @@ int main(int argc, char* argv[])
         std::cout << std::endl;
         return -1;
     }
+
+    // main execution Block
     try {
         Hill chiper;
         if (argc == 3) {

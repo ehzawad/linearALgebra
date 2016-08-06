@@ -1,5 +1,5 @@
-#ifndef _UTILITIES_HPP_
-#define _UTILITIES_HPP_
+#ifndef _UTIL_HPP_
+#define _UTIL_HPP_
 
 #include <iostream>
 #include <vector>
@@ -93,6 +93,48 @@ util::Matrix<T> deleteRowAndColumn(util::Matrix<T> M, size_t i, size_t j)
 
     return M;
 }
+
+template <typename T>
+util::Matrix<T> inputMatrix(std::string input)
+{
+    size_t row, col;
+    std::cout << "Please enter row of " << input;
+    std::cin >> row;
+    std::cout << "please enter col of " << input;
+    std::cin >> col;
+
+    util::Matrix<double> matrix = util::makeMatrix<double>(row, col);
+
+    util::readMatrix(matrix, std::cin);
+    return matrix;
+}
+
+template <typename T>
+bool inline isMulPossible(const Matrix<T>& matA, const Matrix<T>& matB)
+{
+    return matA[0].size() == matB.size();
+}
+
+template <typename T>
+Matrix<T> doMultiple(const Matrix<T>& matA, const Matrix<T>& matB)
+{
+    size_t multipleRow = matA.size();
+    size_t multipleCol = matB[0].size();
+
+    // initialize with value 0 in two dimentional matrices
+    util::Matrix<double> multiple(multipleRow, std::vector<double>(multipleCol, 0));
+
+    for (size_t i = 0; i < matA.size(); i++) {
+        for (size_t k = 0; k < matB[0].size(); k++) {
+            for (size_t j = 0; j < matB.size(); j++) {
+                multiple[i][k] += matA[i][j] * matB[j][k];
+            }
+        }
+    }
+
+    return multiple;
+}
+
 // namespace End
 }
 
