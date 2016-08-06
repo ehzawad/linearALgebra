@@ -1,5 +1,5 @@
 #include "Utilities.hpp"
-#include "hillchiper.hpp"
+#include "hillCipher.hpp"
 #include <algorithm>
 #include <fstream>
 #include <stdexcept>
