@@ -7,6 +7,7 @@
 
 typedef double mType;
 
+
 int main(int argc, char* argv[])
 {
     const std::string msg = "Proper usage: \"./MatrixDeterminant -f filename\" ";
@@ -19,7 +20,6 @@ int main(int argc, char* argv[])
 
     // main execution Block
     try {
-        Hill chiper;
         if (argc == 3) {
             if (std::string(argv[1]) == "-f") {
                 std::ifstream inputFile(argv[2]);
@@ -41,6 +41,8 @@ int main(int argc, char* argv[])
                     std::ofstream tmp("results.txt", std::ios_base::app);
                     tmp << "M = " << std::endl;
                     util::printMatrix(matrix, tmp);
+
+                    Hill chiper;
 
                     // LAPLACE EXPANSION
                     determinant = chiper.laplaceExpansion(matrix);
