@@ -4,6 +4,11 @@
 #include <iostream>
 #include <vector>
 
+
+using V = std::vector<int>;
+using VV = std::vector<V>;
+using VVV = std::vector<VV>;
+
 namespace util {
 
 template <typename T>
@@ -133,6 +138,24 @@ Matrix<T> doMultiple(const Matrix<T>& matA, const Matrix<T>& matB)
     }
 
     return multiple;
+}
+
+// remember prime number always interger , so no need of template
+// faster prime check, taken from stackoverflow.com
+inline bool isPrime(unsigned int num)
+{
+    if (num <= 3) {
+        return num > 1;
+    } else if (num % 2 == 0 || num % 3 == 0) {
+        return false;
+    } else {
+        for (size_t i = 5; i * i <= num; i += 6) {
+            if (num % i == 0 || num % (i + 2) == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 // namespace End
