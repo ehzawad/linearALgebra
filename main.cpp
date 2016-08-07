@@ -28,12 +28,14 @@ int main(int argc, char* argv[])
                     size_t dimension{};
                     mType determinant{};
                     // first value in the file == matrix dimension
-                    inputFile >> dimension;
+                    // inputFile >> dimension;
+                    std::cin >> dimension;
 
                     util::Matrix<mType> matrix = util::makeMatrix<mType>(dimension, dimension);
 
                     // read matrix from file
-                    util::readMatrix(matrix, inputFile);
+                    // util::readMatrix(matrix, inputFile);
+                    util::readMatrix(matrix, std::cin);
 
                     std::cout << "M = " << std::endl;
                     util::printMatrix(matrix);
