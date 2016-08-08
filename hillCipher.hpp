@@ -1,12 +1,28 @@
 #include "Utilities.hpp"
-#include <stdexcept>
+#include "linuxUtil.hpp"
 #include <iomanip>
+#include <stdexcept>
+#include <string>
 
 class Hill {
 private:
     int detValue;
+    std::string encryptText;
 
 public:
+    // setter and getter of string
+    void setEncryptText(void)
+    {
+        termios process = linuxUtil::setNotEchoingMode();
+        this->encryptText = util::inputData("message", ".+");
+        linuxUtil::goBack(process);
+    }
+
+    std::string getEncryptText(void)
+    {
+        return this->encryptText;
+    }
+
     void setDeterminantValue(int detValue)
     {
         this->detValue = detValue;
@@ -20,6 +36,44 @@ public:
             return this->detValue;
         }
     }
+
+void statementToken(std::string& vec)
+{
+    size_t tokens{};
+    size_t spaceFact{};
+
+    if (vec.size() % 2 == 0) {
+        tokens = vec.size() / 2;
+        spaceFact = vec.size();
+    } else if ((vec.size() % 2 != 0) && util::isPrime(vec.size())) {
+        vec.resize(vec.size() + 1);
+        tokens = (vec.size() / 2);
+        spaceFact = vec.size();
+    } else {
+        tokens = vec.size() / 3;
+        spaceFact = vec.size();
+    }
+
+    std::cout << "TOkensize : " << tokens << std::endl;
+
+    size_t split{};
+
+    if (spaceFact % 2 == 0) {
+        split = 2;
+    } else {
+        split = 3;
+    }
+
+    util::VV twoD(tokens);
+
+    for (size_t i = 0; i < tokens; i++) {
+        std::copy_n(vec.begin(), split, std::back_inserter(twoD[i]));
+
+        util::dimensionVariant(twoD[i], split);
+
+        vec.erase(vec.begin(), vec.begin() + split);
+    }
+}
 
     int laplaceExpansion(util::VV M)
     {

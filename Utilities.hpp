@@ -5,6 +5,8 @@
 #include <cctype>
 #include <iomanip>
 #include <iostream>
+#include <regex>
+#include <string>
 #include <vector>
 
 namespace util {
@@ -172,6 +174,7 @@ bool isPrime(int num)
 // A - 1
 // B - 1
 // .... Z - 26
+// also same for small letters
 //
 int engAlphabet(const char character)
 {
@@ -197,12 +200,8 @@ void dimensionVariant(V& oneD, size_t split)
 
     std::cout << std::endl;
 
-    for (size_t i = 0; i < split; i++) {
-        for (size_t j = 0; j < 1; j++) {
-            std::cout << std::setw(3) << twoDPseudoTranpose[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
+    printMatrix(twoDPseudoTranpose);
+    std::cout << std::endl;
 }
 
 // http://stackoverflow.com/questions/30734787/c-2d-vector-convert-int-to-double
@@ -213,6 +212,30 @@ void twoDintToTwoDdouble(twoD& shit, VV& doubleShit)
         doubleShit.emplace_back(std::begin(v), std::end(v));
     }
 }
+
+bool validate(const std::string& data, const std::string& expression)
+{
+    std::regex validationExpression = std::regex(expression);
+    return regex_match(data, validationExpression);
+}
+
+std::string inputData(const std::string& fieldName, const std::string& expression)
+{
+    std::string data;
+
+    std::cout << "Enter " << fieldName << ": ";
+    getline(std::cin, data);
+
+    // validate the data
+    while (!(validate(data, expression))) {
+        std::cout << "Invalid " << fieldName << ".\n";
+        std::cout << "Enter " << fieldName << ": ";
+
+        getline(std::cin, data);
+    }
+    return data;
+}
+
 
 // namespace End
 }
