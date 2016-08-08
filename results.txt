@@ -431,3 +431,8 @@ M =
   5   6   3 
   7   2   1 
 LaplaceExpansion::det(M) = 352
+M = 
+  1   2   3 
+  4   2  -3 
+ -2   1   5 
+LaplaceExpansion::det(M) = 9

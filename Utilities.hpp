@@ -30,7 +30,7 @@ VV makeMatrix(int rows, int cols)
 // If number is clouser enough to zero then like 0.00000000000001 set defaults to zero
 // this is not strictly necessary
 
-bool inline isZero(int number, double epsilon = 1e-12)
+bool isZero(int number, double epsilon = 1e-12)
 {
     return (number < epsilon) && (number > -epsilon);
 }
@@ -41,7 +41,7 @@ bool inline isZero(int number, double epsilon = 1e-12)
 // printMatrix(M, std::ofstream("temp.txt")) -> print Matrix M in temp.txt file
 // SIMILAR for read input
 
-void inline printMatrix(const VV& matrix, std::ostream& output = std::cout)
+void printMatrix(const VV& matrix, std::ostream& output = std::cout)
 {
     for (const auto& row : matrix) {
         for (const auto& col : row) {
@@ -52,7 +52,7 @@ void inline printMatrix(const VV& matrix, std::ostream& output = std::cout)
 }
 
 // same as printMatrix, just for double with precison
-void inline printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
+void printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
 {
     for (const auto& row : matrix) {
         for (const auto& col : row) {
@@ -65,7 +65,7 @@ void inline printMatrixDouble(const VV& matrix, std::ostream& output = std::cout
     }
 }
 
-void inline readMatrix(VV& matrix, std::istream& input = std::cin)
+void readMatrix(VV& matrix, std::istream& input = std::cin)
 {
     for (auto& row : matrix) {
         for (auto& col : row) {
@@ -76,7 +76,7 @@ void inline readMatrix(VV& matrix, std::istream& input = std::cin)
 
 //  function for finding column where 'value' repeats the most
 // By default it seeks the column with the most amount of zeros
-int inline findBestColumn(util::VV& M, int value = 0)
+int findBestColumn(util::VV& M, int value = 0)
 {
     // first = column index
     // second = number of 'value' occurrences
@@ -125,7 +125,7 @@ util::VV inputMatrix(std::string input)
     return matrix;
 }
 
-bool inline isMulPossible(const VV& matA, const VV& matB)
+bool isMulPossible(const VV& matA, const VV& matB)
 {
     return matA[0].size() == matB.size();
 }
@@ -151,7 +151,7 @@ VV doMultiple(const VV& matA, const VV& matB)
 
 // remember prime number always interger , so no need of template
 // faster prime check, taken from stackoverflow.com
-inline bool isPrime(int num)
+bool isPrime(int num)
 {
     if (num <= 3) {
         return num > 1;
@@ -173,7 +173,7 @@ inline bool isPrime(int num)
 // B - 1
 // .... Z - 26
 //
-inline int engAlphabet(const char character)
+int engAlphabet(const char character)
 {
     if (std::isalpha(character) && std::isupper(character)) {
         return (character - 'A' + 1);
@@ -185,7 +185,7 @@ inline int engAlphabet(const char character)
 }
 
 // making one dimentional row vector to two dimentional column vector
-inline void dimensionVariant(V& oneD, size_t split)
+void dimensionVariant(V& oneD, size_t split)
 {
     VV twoDPseudoTranpose(split, V(split, 0));
 
