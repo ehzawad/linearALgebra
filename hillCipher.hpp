@@ -92,8 +92,8 @@ public:
             }
         }
 
-        util::printMatrix(A);
         std::cout << std::endl;
+        util::printMatrixDouble(A);
     }
 
     void adjugateMat(util::VV& A)
@@ -114,8 +114,8 @@ public:
             }
         }
 
-        transpose(I);
         std::cout << std::endl;
+        transpose(I);
     }
 
     // Minors obtained by removing just one row and one column from square matrices (first minors){minor matrix}

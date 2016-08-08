@@ -1,6 +1,7 @@
 #ifndef _UTIL_HPP_
 #define _UTIL_HPP_
 
+#include <iomanip>
 #include <iostream>
 #include <vector>
 
@@ -8,7 +9,6 @@ namespace util {
 using V = std::vector<double>;
 using VV = std::vector<V>;
 // using VVV = std::vector<VV>;
-
 
 VV makeMatrix(int rows, int cols)
 {
@@ -38,8 +38,22 @@ void inline printMatrix(const VV& matrix, std::ostream& output = std::cout)
 {
     for (const auto& row : matrix) {
         for (const auto& col : row) {
+            output << std::setw(3) << col << " ";
+        }
+        output << std::endl;
+    }
+}
+
+// same as printMatrix, just for double with precison
+void inline printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
+{
+    for (const auto& row : matrix) {
+        for (const auto& col : row) {
+            output << std::setprecision(3);
+            output << std::setw(10);
             output << col << " ";
         }
+
         output << std::endl;
     }
 }

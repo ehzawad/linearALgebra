@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-typedef int mType;
+typedef double mType;
 
 int main(int argc, char* argv[])
 {
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
                     // inputFile >> dimension;
                     std::cin >> dimension;
 
-                    util::VV matrix = util::makeMatrix<mType>(dimension, dimension);
+                    util::VV matrix = util::makeMatrix(dimension, dimension);
 
                     // read matrix from file
                     // util::readMatrix(matrix, inputFile);
