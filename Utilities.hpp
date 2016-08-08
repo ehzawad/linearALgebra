@@ -5,19 +5,15 @@
 #include <vector>
 
 
+namespace util {
 using V = std::vector<int>;
 using VV = std::vector<V>;
 using VVV = std::vector<VV>;
 
-namespace util {
-
 template <typename T>
-using Matrix = std::vector<std::vector<T>>;
-
-template <typename T>
-Matrix<T> makeMatrix(size_t rows, size_t cols)
+VV makeMatrix(size_t rows, size_t cols)
 {
-    Matrix<T> temp(rows);
+    VV temp(rows);
     for (auto& row : temp) {
         row.resize(cols);
     }
@@ -26,9 +22,9 @@ Matrix<T> makeMatrix(size_t rows, size_t cols)
 }
 
 // If number is clouser enough to zero then like 0.00000000000001 set defaults to zero
+// this is not strictly necessary
 
-template <typename T>
-bool inline isZero(T number, double epsilon = 1e-12)
+bool inline isZero(int number, double epsilon = 1e-12)
 {
     return (number < epsilon) && (number > -epsilon);
 }
@@ -39,8 +35,7 @@ bool inline isZero(T number, double epsilon = 1e-12)
 // printMatrix(M, std::ofstream("temp.txt")) -> print Matrix M in temp.txt file
 // SIMILAR for read input
 
-template <typename T>
-void inline printMatrix(const Matrix<T>& matrix, std::ostream& output = std::cout)
+void inline printMatrix(const VV& matrix, std::ostream& output = std::cout)
 {
     for (const auto& row : matrix) {
         for (const auto& col : row) {
@@ -50,8 +45,7 @@ void inline printMatrix(const Matrix<T>& matrix, std::ostream& output = std::cou
     }
 }
 
-template <typename T>
-void inline readMatrix(Matrix<T>& matrix, std::istream& input = std::cin)
+void inline readMatrix(VV& matrix, std::istream& input = std::cin)
 {
     for (auto& row : matrix) {
         for (auto& col : row) {
@@ -62,8 +56,7 @@ void inline readMatrix(Matrix<T>& matrix, std::istream& input = std::cin)
 
 //  function for finding column where 'value' repeats the most
 // By default it seeks the column with the most amount of zeros
-template <typename T>
-size_t inline findBestColumn(util::Matrix<T>& M, T value = 0)
+size_t inline findBestColumn(util::VV& M, int value = 0)
 {
     // first = column index
     // second = number of 'value' occurrences
@@ -85,8 +78,7 @@ size_t inline findBestColumn(util::Matrix<T>& M, T value = 0)
     return bestColumn.first;
 }
 
-template <typename T>
-util::Matrix<T> deleteRowAndColumn(util::Matrix<T> M, size_t i, size_t j)
+util::VV deleteRowAndColumn(util::VV M, size_t i, size_t j)
 {
     // delete column ...as it is pointer to pointer
     for (size_t k = 0; k < M.size(); ++k) {
@@ -99,8 +91,7 @@ util::Matrix<T> deleteRowAndColumn(util::Matrix<T> M, size_t i, size_t j)
     return M;
 }
 
-template <typename T>
-util::Matrix<T> inputMatrix(std::string input)
+util::VV inputMatrix(std::string input)
 {
     size_t row, col;
     std::cout << "Please enter row of " << input;
@@ -108,26 +99,24 @@ util::Matrix<T> inputMatrix(std::string input)
     std::cout << "please enter col of " << input;
     std::cin >> col;
 
-    util::Matrix<double> matrix = util::makeMatrix<double>(row, col);
+    VV matrix = util::makeMatrix<int>(row, col);
 
     util::readMatrix(matrix, std::cin);
     return matrix;
 }
 
-template <typename T>
-bool inline isMulPossible(const Matrix<T>& matA, const Matrix<T>& matB)
+bool inline isMulPossible(const VV& matA, const VV& matB)
 {
     return matA[0].size() == matB.size();
 }
 
-template <typename T>
-Matrix<T> doMultiple(const Matrix<T>& matA, const Matrix<T>& matB)
+VV doMultiple(const VV& matA, const VV& matB)
 {
     size_t multipleRow = matA.size();
     size_t multipleCol = matB[0].size();
 
     // initialize with value 0 in two dimentional matrices
-    util::Matrix<double> multiple(multipleRow, std::vector<double>(multipleCol, 0));
+    VV multiple(multipleRow, V(multipleCol, 0));
 
     for (size_t i = 0; i < matA.size(); i++) {
         for (size_t k = 0; k < matB[0].size(); k++) {

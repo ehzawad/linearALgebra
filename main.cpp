@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-typedef double mType;
+typedef int mType;
 
 
 int main(int argc, char* argv[])
@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
                     // inputFile >> dimension;
                     std::cin >> dimension;
 
-                    util::Matrix<mType> matrix = util::makeMatrix<mType>(dimension, dimension);
+                    util::VV matrix = util::makeMatrix<mType>(dimension, dimension);
 
                     // read matrix from file
                     // util::readMatrix(matrix, inputFile);
@@ -46,10 +46,14 @@ int main(int argc, char* argv[])
 
                     Hill chiper;
 
+
+
                     // LAPLACE EXPANSION
                     determinant = chiper.laplaceExpansion(matrix);
                     std::cout << "LaplaceExpansion::det(M) = " << determinant << std::endl;
                     tmp << "LaplaceExpansion::det(M) = " << determinant << std::endl;
+
+
 
                 }
                 // couldn't open file specified as second parameter of program invocation
@@ -64,7 +68,7 @@ int main(int argc, char* argv[])
                 std::cout << std::endl;
             }
         } else {
-            //@ todo = proccess keyboard input
+            // develope in QT
             std::cerr << msg;
             std::cout << std::endl;
         }
