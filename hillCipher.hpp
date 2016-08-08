@@ -1,7 +1,26 @@
 #include "Utilities.hpp"
+#include <stdexcept>
+#include <iomanip>
 
 class Hill {
+private:
+    int detValue;
+
 public:
+    void setDeterminantValue(int detValue)
+    {
+        this->detValue = detValue;
+    }
+
+    int getDeterminantValue(void)
+    {
+        if (this->detValue == 0) {
+            return -1;
+        } else {
+            return this->detValue;
+        }
+    }
+
     int laplaceExpansion(util::VV M)
     {
         int determinant{};
@@ -68,14 +87,14 @@ public:
 
         int size = A.size();
 
-        for (int row = 0; row < size -1; ++row) {
+        for (int row = 0; row < size - 1; ++row) {
             for (int col = row + 1; col < size; col++) {
                 std::swap(A[row][col], A[col][row]);
             }
         }
 
-
         util::printMatrix(A);
+        std::cout << std::endl;
     }
 
     void adjugateMat(util::VV& A)
@@ -84,6 +103,7 @@ public:
         util::printMatrix(A);
 
         invertible(A);
+        std::cout << std::endl;
     }
 
     void invertible(util::VV& I)
@@ -92,11 +112,12 @@ public:
 
         for (int row = 0; row < size; ++row) {
             for (int col = 0; col < size; col++) {
-                I[row][col] = (float)(1 / -1 ) * I[row][col];
+                I[row][col] = I[row][col] / (double)(getDeterminantValue());
             }
         }
 
         transpose(I);
+        std::cout << std::endl;
     }
 
     // Minors obtained by removing just one row and one column from square matrices (first minors){minor matrix}

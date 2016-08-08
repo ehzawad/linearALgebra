@@ -356,3 +356,29 @@ M =
 1 5 
 7 5 
 LaplaceExpansion::det(M) = -30
+M = 
+1 2 3 4 
+7 5 9 3 
+-5 -3 -4 6 
+-1 2 3 4 
+LaplaceExpansion::det(M) = 86
+M = 
+1 7 
+4 5 
+LaplaceExpansion::det(M) = -23
+M = 
+1 7 
+4 5 
+LaplaceExpansion::det(M) = -23
+M = 
+1 8 
+7 6 
+LaplaceExpansion::det(M) = -50
+M = 
+7 5 
+9 5 
+LaplaceExpansion::det(M) = -10
+M = 
+1 9 
+1 13 
+LaplaceExpansion::det(M) = 4

@@ -5,9 +5,10 @@
 #include <vector>
 
 namespace util {
-using V = std::vector<int>;
+using V = std::vector<double>;
 using VV = std::vector<V>;
-using VVV = std::vector<VV>;
+// using VVV = std::vector<VV>;
+
 
 template <typename T>
 VV makeMatrix(int rows, int cols)

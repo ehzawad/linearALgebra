@@ -45,15 +45,15 @@ int main(int argc, char* argv[])
 
                     Hill chiper;
 
-
-                    chiper.allExpand(matrix);
                     // LAPLACE EXPANSION
                     determinant = chiper.laplaceExpansion(matrix);
-
 
                     std::cout << "LaplaceExpansion::det(M) = " << determinant << std::endl;
                     tmp << "LaplaceExpansion::det(M) = " << determinant << std::endl;
 
+                    chiper.allExpand(matrix);
+
+                    std::cout << std::endl;
 
                 }
                 // couldn't open file specified as second parameter of program invocation
