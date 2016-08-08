@@ -17,12 +17,12 @@ public:
         return determinant;
     }
 
-    int expand(util::VV& M, size_t col)
+    int expand(util::VV& M, int col)
     {
         int determinant{};
         int sign{ 1 };
 
-        for (size_t row = 0; row < M.size(); ++row) {
+        for (int row = 0; row < (int)M.size(); ++row) {
             if ((row + col) % 2 == 1) {
                 sign = -1;
             } else {
@@ -41,12 +41,12 @@ public:
         int cofactor{};
         int sign{ 1 };
 
-        size_t size = M.size();
+        int size = M.size();
 
         util::VV cofactorMatrix(size, util::V(size, 0));
 
-        for (size_t row = 0; row < size; ++row) {
-            for (size_t col = 0; col < size; col++) {
+        for (int row = 0; row < size; ++row) {
+            for (int col = 0; col < size; col++) {
                 if ((row + col) % 2 == 1) {
                     sign = -1;
                 } else {
@@ -63,24 +63,47 @@ public:
         adjugateMat(cofactorMatrix);
     }
 
-    void adjugateMat(util::VV& A)
+    void transpose(util::VV A)
     {
-        size_t size = A.size();
 
-        for (size_t row = 0; row < size; ++row) {
-            for (size_t col = 0; col < size; col++) {
+        int size = A.size();
+
+        for (int row = 0; row < size -1; ++row) {
+            for (int col = row + 1; col < size; col++) {
                 std::swap(A[row][col], A[col][row]);
             }
         }
 
+
         util::printMatrix(A);
+    }
+
+    void adjugateMat(util::VV& A)
+    {
+
+        util::printMatrix(A);
+
+        invertible(A);
+    }
+
+    void invertible(util::VV& I)
+    {
+        int size = I.size();
+
+        for (int row = 0; row < size; ++row) {
+            for (int col = 0; col < size; col++) {
+                I[row][col] = (float)(1 / -1 ) * I[row][col];
+            }
+        }
+
+        transpose(I);
     }
 
     // Minors obtained by removing just one row and one column from square matrices (first minors){minor matrix}
     // are required for calculating matrix cofactors{cofactor matrix},
     // which in turn are useful for computing both the determinant and inverse of square matrices.
 
-    int findMinor(util::VV& M, size_t row, size_t col)
+    int findMinor(util::VV& M, int row, int col)
     {
         return laplaceExpansion(util::deleteRowAndColumn(M, row, col));
     }

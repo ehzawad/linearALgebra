@@ -264,3 +264,95 @@ M =
 1 5 
 7 5 
 LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 2 3 
+1 1 2 
+0 1 2 
+LaplaceExpansion::det(M) = -1
+M = 
+1 2 3 
+1 1 2 
+0 1 2 
+LaplaceExpansion::det(M) = -1
+M = 
+1 2 3 
+1 1 2 
+0 1 2 
+LaplaceExpansion::det(M) = -1
+M = 
+1 2 3 
+1 1 2 
+0 1 2 
+LaplaceExpansion::det(M) = -1
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30

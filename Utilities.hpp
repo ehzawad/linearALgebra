@@ -10,7 +10,7 @@ using VV = std::vector<V>;
 using VVV = std::vector<VV>;
 
 template <typename T>
-VV makeMatrix(size_t rows, size_t cols)
+VV makeMatrix(int rows, int cols)
 {
     VV temp(rows);
     for (auto& row : temp) {
@@ -55,15 +55,15 @@ void inline readMatrix(VV& matrix, std::istream& input = std::cin)
 
 //  function for finding column where 'value' repeats the most
 // By default it seeks the column with the most amount of zeros
-size_t inline findBestColumn(util::VV& M, int value = 0)
+int inline findBestColumn(util::VV& M, int value = 0)
 {
     // first = column index
     // second = number of 'value' occurrences
-    std::pair<size_t, size_t> bestColumn{ 0, 0 };
+    std::pair<int, int> bestColumn{ 0, 0 };
 
-    for (size_t i = 0; i < M.size(); ++i) {
-        size_t count{};
-        for (size_t j = 0; j < M.size(); ++j) {
+    for (int i = 0; i < (int)M.size(); ++i) {
+        int count{};
+        for (int j = 0; j < (int)M.size(); ++j) {
             if (M[j][i] == value)
                 count++;
         }
@@ -77,10 +77,10 @@ size_t inline findBestColumn(util::VV& M, int value = 0)
     return bestColumn.first;
 }
 
-util::VV deleteRowAndColumn(util::VV M, size_t i, size_t j)
+util::VV deleteRowAndColumn(util::VV M, int i, int j)
 {
     // delete column ...as it is pointer to pointer
-    for (size_t k = 0; k < M.size(); ++k) {
+    for (int k = 0; k < (int)M.size(); ++k) {
         M[k].erase(M[k].begin() + j);
     }
 
@@ -92,7 +92,7 @@ util::VV deleteRowAndColumn(util::VV M, size_t i, size_t j)
 
 util::VV inputMatrix(std::string input)
 {
-    size_t row, col;
+    int row, col;
     std::cout << "Please enter row of " << input;
     std::cin >> row;
     std::cout << "please enter col of " << input;
@@ -111,15 +111,15 @@ bool inline isMulPossible(const VV& matA, const VV& matB)
 
 VV doMultiple(const VV& matA, const VV& matB)
 {
-    size_t multipleRow = matA.size();
-    size_t multipleCol = matB[0].size();
+    int multipleRow = matA.size();
+    int multipleCol = matB[0].size();
 
     // initialize with value 0 in two dimentional matrices
     VV multiple(multipleRow, V(multipleCol, 0));
 
-    for (size_t i = 0; i < matA.size(); i++) {
-        for (size_t k = 0; k < matB[0].size(); k++) {
-            for (size_t j = 0; j < matB.size(); j++) {
+    for (int i = 0; i < (int)matA.size(); i++) {
+        for (int k = 0; k < (int)matB[0].size(); k++) {
+            for (int j = 0; j < (int)matB.size(); j++) {
                 multiple[i][k] += matA[i][j] * matB[j][k];
             }
         }
@@ -130,14 +130,14 @@ VV doMultiple(const VV& matA, const VV& matB)
 
 // remember prime number always interger , so no need of template
 // faster prime check, taken from stackoverflow.com
-inline bool isPrime(unsigned int num)
+inline bool isPrime(int num)
 {
     if (num <= 3) {
         return num > 1;
     } else if (num % 2 == 0 || num % 3 == 0) {
         return false;
     } else {
-        for (size_t i = 5; i * i <= num; i += 6) {
+        for (int i = 5; i * i <= num; i += 6) {
             if (num % i == 0 || num % (i + 2) == 0) {
                 return false;
             }

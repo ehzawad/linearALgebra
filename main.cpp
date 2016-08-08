@@ -7,7 +7,6 @@
 
 typedef int mType;
 
-
 int main(int argc, char* argv[])
 {
     const std::string msg = "Proper usage: \"./MatrixDeterminant -f filename\" ";
@@ -25,7 +24,7 @@ int main(int argc, char* argv[])
                 std::ifstream inputFile(argv[2]);
 
                 if (inputFile.is_open()) {
-                    size_t dimension{};
+                    int dimension{};
                     mType determinant{};
                     // first value in the file == matrix dimension
                     // inputFile >> dimension;
@@ -44,19 +43,16 @@ int main(int argc, char* argv[])
                     tmp << "M = " << std::endl;
                     util::printMatrix(matrix, tmp);
 
-
-
                     Hill chiper;
 
 
-
                     chiper.allExpand(matrix);
-
                     // LAPLACE EXPANSION
                     determinant = chiper.laplaceExpansion(matrix);
+
+
                     std::cout << "LaplaceExpansion::det(M) = " << determinant << std::endl;
                     tmp << "LaplaceExpansion::det(M) = " << determinant << std::endl;
-
 
 
                 }
