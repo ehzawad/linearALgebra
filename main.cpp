@@ -72,6 +72,7 @@ int main(int argc, char* argv[])
             std::cerr << msg;
             std::cout << std::endl;
         }
+        // three dots means It can capture any kind of error
     } catch (...) {
         std::cerr << "something went wrong " << std::endl;
     }

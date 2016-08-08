@@ -1,6 +1,8 @@
 #ifndef _UTIL_HPP_
 #define _UTIL_HPP_
 
+#include <algorithm>
+#include <cctype>
 #include <iomanip>
 #include <iostream>
 #include <vector>
@@ -8,7 +10,12 @@
 namespace util {
 using V = std::vector<double>;
 using VV = std::vector<V>;
+// three dimensional vector
 // using VVV = std::vector<VV>;
+//
+using oneD = std::vector<int>;
+using twoD = std::vector<V>;
+//
 
 VV makeMatrix(int rows, int cols)
 {
@@ -157,6 +164,53 @@ inline bool isPrime(int num)
             }
         }
         return true;
+    }
+}
+
+// converting englist letters to corresponding number
+// required for hill cipher or other cipher like ceaser cipher
+// A - 1
+// B - 1
+// .... Z - 26
+//
+inline int engAlphabet(const char character)
+{
+    if (std::isalpha(character) && std::isupper(character)) {
+        return (character - 'A' + 1);
+    } else if (std::isalpha(character) && std::islower(character)) {
+        return (character - 'a' + 1);
+    } else {
+        return 0;
+    }
+}
+
+// making one dimentional row vector to two dimentional column vector
+inline void dimensionVariant(V& oneD, size_t split)
+{
+    VV twoDPseudoTranpose(split, V(split, 0));
+
+    for (size_t i = 0; i < split; i++) {
+        for (size_t j = 0; j < 1; j++) {
+            twoDPseudoTranpose[i][j] = engAlphabet(oneD[i]);
+        }
+    }
+
+    std::cout << std::endl;
+
+    for (size_t i = 0; i < split; i++) {
+        for (size_t j = 0; j < 1; j++) {
+            std::cout << std::setw(3) << twoDPseudoTranpose[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+// http://stackoverflow.com/questions/30734787/c-2d-vector-convert-int-to-double
+void twoDintToTwoDdouble(twoD& shit, VV& doubleShit)
+{
+    doubleShit.reserve(shit.size());
+    for (auto&& v : shit) {
+        doubleShit.emplace_back(std::begin(v), std::end(v));
     }
 }
 
