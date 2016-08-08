@@ -225,3 +225,42 @@ M =
 8 6 7 
 4 6 2 
 LaplaceExpansion::det(M) = 102
+M = 
+1 5 4 
+7 5 3 
+1 8 9 
+M = 
+1 2 3 
+4 7 6 
+5 4 3 
+M = 
+LaplaceExpansion::det(M) = 0
+M = 
+1 5 
+7 5 
+M = 
+4 5 
+1 4 
+LaplaceExpansion::det(M) = 11
+M = 
+4 5 
+1 4 
+LaplaceExpansion::det(M) = 11
+M = 
+1 2 4 
+7 2 6 
+4 5 3 
+LaplaceExpansion::det(M) = 90
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30
+M = 
+1 2 3 
+7 3 2 
+4 6 5 
+LaplaceExpansion::det(M) = 39
+M = 
+1 5 
+7 5 
+LaplaceExpansion::det(M) = -30

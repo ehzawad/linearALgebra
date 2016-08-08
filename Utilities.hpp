@@ -4,7 +4,6 @@
 #include <iostream>
 #include <vector>
 
-
 namespace util {
 using V = std::vector<int>;
 using VV = std::vector<V>;

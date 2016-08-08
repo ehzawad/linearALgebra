@@ -44,9 +44,13 @@ int main(int argc, char* argv[])
                     tmp << "M = " << std::endl;
                     util::printMatrix(matrix, tmp);
 
+
+
                     Hill chiper;
 
 
+
+                    chiper.allExpand(matrix);
 
                     // LAPLACE EXPANSION
                     determinant = chiper.laplaceExpansion(matrix);

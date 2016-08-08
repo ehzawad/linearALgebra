@@ -36,15 +36,17 @@ public:
         return determinant;
     }
 
-    util::VV allExpand(util::VV& M)
+    void allExpand(util::VV& M)
     {
         int cofactor{};
         int sign{ 1 };
 
-        util::VV cofactorMatrix;
+        size_t size = M.size();
 
-        for (size_t row = 0; row < M.size(); ++row) {
-            for (size_t col = 0; col < M[0].size(); col++) {
+        util::VV cofactorMatrix(size, util::V(size, 0));
+
+        for (size_t row = 0; row < size; ++row) {
+            for (size_t col = 0; col < size; col++) {
                 if ((row + col) % 2 == 1) {
                     sign = -1;
                 } else {
@@ -52,27 +54,26 @@ public:
                 }
 
                 if (!util::isZero(M[row][col])) {
-                    cofactor += sign * findMinor(M, row, col);
+                    cofactor = sign * findMinor(M, row, col);
                     cofactorMatrix[row][col] = cofactor;
                 }
             }
         }
 
         adjugateMat(cofactorMatrix);
-        return cofactorMatrix;
     }
 
-    util::VV adjugateMat(util::VV& A)
+    void adjugateMat(util::VV& A)
     {
-        util::VV transpose;
+        size_t size = A.size();
 
-        for (size_t row = 0; row < transpose.size(); ++row) {
-            for (size_t col = 0; col < transpose[0].size(); col++) {
-                transpose[row][col] = A[col][row];
+        for (size_t row = 0; row < size; ++row) {
+            for (size_t col = 0; col < size; col++) {
+                std::swap(A[row][col], A[col][row]);
             }
         }
 
-        return transpose;
+        util::printMatrix(A);
     }
 
     // Minors obtained by removing just one row and one column from square matrices (first minors){minor matrix}
