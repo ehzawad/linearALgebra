@@ -84,7 +84,6 @@ public:
 
     void transpose(util::VV A)
     {
-
         int size = A.size();
 
         for (int row = 0; row < size - 1; ++row) {
@@ -99,7 +98,6 @@ public:
 
     void adjugateMat(util::VV& A)
     {
-
         util::printMatrix(A);
 
         invertible(A);

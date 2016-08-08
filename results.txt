@@ -382,3 +382,7 @@ M =
 1 9 
 1 13 
 LaplaceExpansion::det(M) = 4
+M = 
+1 6 
+7 9 
+LaplaceExpansion::det(M) = -33

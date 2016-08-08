@@ -10,7 +10,6 @@ using VV = std::vector<V>;
 // using VVV = std::vector<VV>;
 
 
-template <typename T>
 VV makeMatrix(int rows, int cols)
 {
     VV temp(rows);
@@ -99,7 +98,7 @@ util::VV inputMatrix(std::string input)
     std::cout << "please enter col of " << input;
     std::cin >> col;
 
-    VV matrix = util::makeMatrix<int>(row, col);
+    VV matrix = util::makeMatrix(row, col);
 
     util::readMatrix(matrix, std::cin);
     return matrix;
