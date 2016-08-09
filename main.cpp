@@ -21,6 +21,11 @@ int main(void)
     // allocating room for square Matrix
     // square matrix
     util::VV matrix = util::makeMatrix(matDimension, matDimension);
+    // util::VV matrix{
+    //     { 1, 2, 3 },
+    //     { 1, 1, 2 },
+    //     { 0, 1, 2 }
+    // };
 
     // Should check command line argument vectors properly
     // otherwise program will send SEGV fault
@@ -49,5 +54,9 @@ int main(void)
     mType determinant{};
     determinant = Cipher.laplaceExpansion(matrix);
 
+    std::cout << determinant << std::endl;
+
     std::cout << std::endl;
+
+    std::flush(std::cout);
 }

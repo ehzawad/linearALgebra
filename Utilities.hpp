@@ -99,6 +99,10 @@ void readMatrix(VV& matrix, std::istream& input = std::cin)
             input >> col;
         }
     }
+
+
+    // Ignore to the end of line
+    input.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 //  function for finding column where 'value' repeats the most
@@ -138,19 +142,6 @@ util::VV deleteRowAndColumn(util::VV M, int i, int j)
     return M;
 }
 
-util::VV inputMatrix(std::string input)
-{
-    int row, col;
-    std::cout << "Please enter row of " << input;
-    std::cin >> row;
-    std::cout << "please enter col of " << input;
-    std::cin >> col;
-
-    VV matrix = util::makeMatrix(row, col);
-
-    util::readMatrix(matrix, std::cin);
-    return matrix;
-}
 
 bool isMulPossible(const VV& matA, const VV& matB)
 {
@@ -243,8 +234,6 @@ void twoDintToTwoDdouble(twoD& shit, VV& doubleShit)
         doubleShit.emplace_back(std::begin(v), std::end(v));
     }
 }
-
-
 
 // namespace End
 }
