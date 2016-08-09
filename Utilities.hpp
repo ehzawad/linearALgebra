@@ -200,8 +200,14 @@ void dimensionVariant(V& oneD, size_t split)
 
     std::cout << std::endl;
 
-    printMatrix(twoDPseudoTranpose);
-    std::cout << std::endl;
+    for (size_t i = 0; i < split; i++) {
+        for (size_t j = 0; j < 1; j++) {
+            std::cout << twoDPseudoTranpose[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+
 }
 
 // http://stackoverflow.com/questions/30734787/c-2d-vector-convert-int-to-double

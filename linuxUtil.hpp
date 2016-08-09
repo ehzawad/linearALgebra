@@ -5,7 +5,6 @@ namespace linuxUtil {
 
 termios setNotEchoingMode()
 {
-
     // instantiating termios object type
     // which immediately help us to know the currentState
     termios currentState;

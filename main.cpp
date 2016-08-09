@@ -82,5 +82,10 @@ int main(void)
     cipher.setEncryptText();
 
     std::cout << cipher.getEncryptText();
+
+    std::cout << std::endl;
+
+    cipher.statementToken();
+
     std::cout << std::endl;
 }

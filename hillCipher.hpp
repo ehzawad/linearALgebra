@@ -37,43 +37,48 @@ public:
         }
     }
 
-void statementToken(std::string& vec)
-{
-    size_t tokens{};
-    size_t spaceFact{};
+    void statementToken()
+    {
+        try {
+            std::string vec = this->getEncryptText();
+            size_t tokens{};
+            size_t spaceFact{};
 
-    if (vec.size() % 2 == 0) {
-        tokens = vec.size() / 2;
-        spaceFact = vec.size();
-    } else if ((vec.size() % 2 != 0) && util::isPrime(vec.size())) {
-        vec.resize(vec.size() + 1);
-        tokens = (vec.size() / 2);
-        spaceFact = vec.size();
-    } else {
-        tokens = vec.size() / 3;
-        spaceFact = vec.size();
+            if (vec.size() % 2 == 0) {
+                tokens = vec.size() / 2;
+                spaceFact = vec.size();
+            } else if ((vec.size() % 2 != 0) && util::isPrime(vec.size())) {
+                vec.resize(vec.size() + 1);
+                tokens = (vec.size() / 2);
+                spaceFact = vec.size();
+            } else {
+                tokens = vec.size() / 3;
+                spaceFact = vec.size();
+            }
+
+            std::cout << "TOkensize : " << tokens << std::endl;
+
+            size_t split{};
+
+            if (spaceFact % 2 == 0) {
+                split = 2;
+            } else {
+                split = 3;
+            }
+
+            util::VV twoD(tokens);
+
+            for (size_t i = 0; i < tokens; i++) {
+                std::copy_n(vec.begin(), split, std::back_inserter(twoD[i]));
+
+                util::dimensionVariant(twoD[i], split);
+
+                vec.erase(vec.begin(), vec.begin() + split);
+            }
+        } catch (...) {
+            std::cout << "Something wrong there ! " << std::endl;
+        }
     }
-
-    std::cout << "TOkensize : " << tokens << std::endl;
-
-    size_t split{};
-
-    if (spaceFact % 2 == 0) {
-        split = 2;
-    } else {
-        split = 3;
-    }
-
-    util::VV twoD(tokens);
-
-    for (size_t i = 0; i < tokens; i++) {
-        std::copy_n(vec.begin(), split, std::back_inserter(twoD[i]));
-
-        util::dimensionVariant(twoD[i], split);
-
-        vec.erase(vec.begin(), vec.begin() + split);
-    }
-}
 
     int laplaceExpansion(util::VV M)
     {
