@@ -54,7 +54,9 @@ int main(void)
     mType determinant{};
     determinant = Cipher.laplaceExpansion(matrix);
 
-    std::cout << determinant << std::endl;
+    std::cout << std::endl;
+    std::cout << "determinant : ";
+    std::cout << "(" << determinant << ")" << std::endl;
 
     std::cout << std::endl;
 

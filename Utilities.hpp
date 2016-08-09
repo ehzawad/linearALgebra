@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 // macro
-#define ONECOLUMN  1
+#define ONECOLUMN 1
 
 namespace util {
 using V = std::vector<double>;
@@ -100,8 +100,8 @@ void readMatrix(VV& matrix, std::istream& input = std::cin)
         }
     }
 
-
-    // Ignore to the end of line
+    // http://stackoverflow.com/questions/257091/how-do-i-flush-the-cin-buffer
+    // Ignore to the end of line , flushing std::cin in c++ way
     input.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
@@ -141,7 +141,6 @@ util::VV deleteRowAndColumn(util::VV M, int i, int j)
 
     return M;
 }
-
 
 bool isMulPossible(const VV& matA, const VV& matB)
 {
@@ -222,8 +221,6 @@ void dimensionVariant(V& oneD, size_t split)
         }
         std::cout << std::endl;
     }
-
-
 }
 
 // http://stackoverflow.com/questions/30734787/c-2d-vector-convert-int-to-double
