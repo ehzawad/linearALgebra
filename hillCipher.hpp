@@ -1,5 +1,9 @@
+#ifndef _HILLCipher_HPP_
+#define _HILLCipher_HPP_
+
 #include "Utilities.hpp"
 #include "linuxUtil.hpp"
+#include <climits>
 #include <iomanip>
 #include <stdexcept>
 #include <string>
@@ -7,9 +11,20 @@
 class Hill {
 private:
     int detValue;
+    std::string dimension;
     std::string encryptText;
 
 public:
+    void setDimension(void)
+    {
+        this->dimension = util::inputData("dimension", "\\d+");
+    }
+
+    int getDimension(void)
+    {
+        return std::stoi(dimension);
+    }
+
     // setter and getter of string
     void setEncryptText(void)
     {
@@ -186,3 +201,5 @@ public:
         return laplaceExpansion(util::deleteRowAndColumn(M, row, col));
     }
 };
+
+#endif

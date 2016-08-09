@@ -1,3 +1,10 @@
+// header guard
+// This file specific Linux
+// for Windows, logic is same
+// but implementation will differ
+#ifndef _LinuxTermios_HPP_
+#define _LinuxTermios_HPP_
+
 #include <termios.h>
 #include <unistd.h>
 
@@ -45,3 +52,4 @@ void goBack(termios& previouslyRunningState)
 
 }
 
+#endif

@@ -8,6 +8,8 @@
 #include <regex>
 #include <string>
 #include <vector>
+// macro
+#define ONECOLUMN  1
 
 namespace util {
 using V = std::vector<double>;
@@ -18,6 +20,29 @@ using VV = std::vector<V>;
 using oneD = std::vector<int>;
 using twoD = std::vector<V>;
 //
+//
+bool validate(const std::string& data, const std::string& expression)
+{
+    std::regex validationExpression = std::regex(expression);
+    return regex_match(data, validationExpression);
+}
+
+std::string inputData(const std::string& fieldName, const std::string& expression)
+{
+    std::string data;
+
+    std::cout << "Enter " << fieldName << ": ";
+    getline(std::cin, data);
+
+    // validate the data
+    while (!(validate(data, expression))) {
+        std::cout << "Invalid " << fieldName << ".\n";
+        std::cout << "Enter " << fieldName << ": ";
+
+        getline(std::cin, data);
+    }
+    return data;
+}
 
 VV makeMatrix(int rows, int cols)
 {
@@ -201,7 +226,7 @@ void dimensionVariant(V& oneD, size_t split)
     std::cout << std::endl;
 
     for (size_t i = 0; i < split; i++) {
-        for (size_t j = 0; j < 1; j++) {
+        for (size_t j = 0; j < ONECOLUMN; j++) {
             std::cout << twoDPseudoTranpose[i][j] << " ";
         }
         std::cout << std::endl;
@@ -219,28 +244,6 @@ void twoDintToTwoDdouble(twoD& shit, VV& doubleShit)
     }
 }
 
-bool validate(const std::string& data, const std::string& expression)
-{
-    std::regex validationExpression = std::regex(expression);
-    return regex_match(data, validationExpression);
-}
-
-std::string inputData(const std::string& fieldName, const std::string& expression)
-{
-    std::string data;
-
-    std::cout << "Enter " << fieldName << ": ";
-    getline(std::cin, data);
-
-    // validate the data
-    while (!(validate(data, expression))) {
-        std::cout << "Invalid " << fieldName << ".\n";
-        std::cout << "Enter " << fieldName << ": ";
-
-        getline(std::cin, data);
-    }
-    return data;
-}
 
 
 // namespace End
