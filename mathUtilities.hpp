@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cctype>
 #include <climits>
+#include <cstdlib>
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
@@ -101,6 +102,10 @@ void readMatrix(VV& matrix, std::istream& input = std::cin)
     for (auto& row : matrix) {
         for (auto& col : row) {
             input >> col;
+            if (input.fail()) {
+                std::cin.clear(); // reset the failed state
+                std::_Exit(EXIT_FAILURE);
+            }
         }
     }
 
