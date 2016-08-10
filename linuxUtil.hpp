@@ -21,7 +21,8 @@ termios setNotEchoingMode()
     // This function may be invoked from a background  process;  however,  the
     // terminal  attributes  may  be  subsequently  changed  by  a  foreground
     // process.
-    //
+
+    // similarly,
     // tcsetattr() is for setter for termios object
 
     // On program startup, the integer file descriptors  associated  with  the

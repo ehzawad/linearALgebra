@@ -6,7 +6,7 @@
 #include <string>
 #include <string>
 
-namespace validateInput {
+namespace ValidateInput {
 
 bool validate(const std::string& data, const std::string& expression)
 {

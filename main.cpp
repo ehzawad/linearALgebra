@@ -15,19 +15,19 @@ int main(void)
 
     // dimension which required for making matrix
     int matDimension{};
-    Cipher.setDimension();
-    matDimension = Cipher.getDimension();
+    MathUtility::setDimension();
+    matDimension = MathUtility::getDimension();
 
     // allocating room for square Matrix
     // square matrix
-    util::VV matrix = util::makeMatrix(matDimension, matDimension);
+    MathUtility::VV matrix = MathUtility::makeMatrix(matDimension, matDimension);
 
     // Should check command line argument vectors properly
     // otherwise program will send SEGV fault
     // std::ifstream inputFile((argv[1]));
     // you should check
     // if (inputFile.is_open()){
-    //      util::readMatrix(matrix, inputFile);
+    //      MathUtility::readMatrix(matrix, inputFile);
     // }
     // else {
     // ....
@@ -37,7 +37,7 @@ int main(void)
     std::cout << "Please enter your Matrix, which will be used for encryption";
     std::cout << std::endl;
 
-    util::readMatrix(matrix, std::cin);
+    MathUtility::readMatrix(matrix, std::cin);
 
     Cipher.setEncryptText();
 
@@ -48,7 +48,7 @@ int main(void)
     Cipher.statementToken();
 
     mType determinant{};
-    determinant = Cipher.laplaceExpansion(matrix);
+    determinant = MathUtility::laplaceExpansion(matrix);
 
     std::cout << std::endl;
     std::cout << "determinant : ";
