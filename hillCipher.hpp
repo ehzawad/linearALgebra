@@ -33,6 +33,7 @@ public:
         linuxUtil::goBack(process);
     }
 
+    // get encryptText text
     std::string getEncryptText(void)
     {
         return this->encryptText;
@@ -49,6 +50,17 @@ public:
             return -1;
         } else {
             return this->detValue;
+        }
+    }
+
+    void splittingOnTheFly(util::VV twoD, std::string& vec, size_t tokens, size_t split)
+    {
+        for (size_t i = 0; i < tokens; i++) {
+            std::copy_n(vec.begin(), split, std::back_inserter(twoD[i]));
+
+            util::dimensionVariant(twoD[i], split);
+
+            vec.erase(vec.begin(), vec.begin() + split);
         }
     }
 
@@ -83,13 +95,8 @@ public:
 
             util::VV twoD(tokens);
 
-            for (size_t i = 0; i < tokens; i++) {
-                std::copy_n(vec.begin(), split, std::back_inserter(twoD[i]));
+            splittingOnTheFly(twoD, vec, tokens, split);
 
-                util::dimensionVariant(twoD[i], split);
-
-                vec.erase(vec.begin(), vec.begin() + split);
-            }
         } catch (...) {
             std::cout << "Something wrong there ! " << std::endl;
         }

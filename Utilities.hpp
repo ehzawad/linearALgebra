@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <climits>
 #include <iomanip>
 #include <iostream>
 #include <regex>
@@ -24,7 +25,7 @@ using twoD = std::vector<V>;
 bool validate(const std::string& data, const std::string& expression)
 {
     std::regex validationExpression = std::regex(expression);
-    return regex_match(data, validationExpression);
+    return std::regex_match(data, validationExpression);
 }
 
 std::string inputData(const std::string& fieldName, const std::string& expression)
