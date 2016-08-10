@@ -211,25 +211,44 @@ int engAlphabet(const char character)
     }
 }
 
+MathUtility::VV dimensionVariantReturn(V& oneD, size_t split)
+{
+    VV pseudoTranpose(split, V(split, 0));
+
+    for (size_t i = 0; i < split; i++) {
+        for (size_t j = 0; j < ONECOLUMN; j++) {
+            pseudoTranpose[i][j] = engAlphabet(oneD[i]);
+        }
+    }
+
+    return pseudoTranpose;
+}
+
+void dimensionVariantPrint(VV& pseudoVector, size_t split)
+{
+    for (size_t i = 0; i < split; i++) {
+        for (size_t j = 0; j < ONECOLUMN; j++) {
+            std::cout << pseudoVector[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 // making one dimentional row vector to two dimentional column vector
 void dimensionVariant(V& oneD, size_t split)
 {
-    VV twoDPseudoTranpose(split, V(split, 0));
+    VV PseudoTranpose(split, V(split, 0));
 
     for (size_t i = 0; i < split; i++) {
-        for (size_t j = 0; j < 1; j++) {
-            twoDPseudoTranpose[i][j] = engAlphabet(oneD[i]);
+        for (size_t j = 0; j < ONECOLUMN; j++) {
+            PseudoTranpose[i][j] = engAlphabet(oneD[i]);
         }
     }
 
     std::cout << std::endl;
 
-    for (size_t i = 0; i < split; i++) {
-        for (size_t j = 0; j < ONECOLUMN; j++) {
-            std::cout << twoDPseudoTranpose[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
+    MathUtility::dimensionVariantPrint(PseudoTranpose, split);
 }
 
 // http://stackoverflow.com/questions/30734787/c-2d-vector-convert-int-to-double

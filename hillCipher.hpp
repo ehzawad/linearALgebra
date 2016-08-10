@@ -18,10 +18,10 @@ public:
     void setEncryptText(void);
     // get encryptText text
     std::string getEncryptText(void);
-    void splittingOnTheFly(MathUtility::VV twoD, std::string& vec, size_t tokens, size_t split);
+    void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, size_t split, MathUtility::VV&, MathUtility::VV&);
 
-    void tokeniner(std::string& vec);
-    void statementToken();
+    void tokenizer(std::string vec);
+    void statementToken(void);
 };
 
 // Implementation of hill class
@@ -38,16 +38,29 @@ std::string Hill::getEncryptText(void)
     return this->encryptText;
 }
 
-void Hill::splittingOnTheFly(MathUtility::VV twoD, std::string& vec, size_t tokens, size_t split)
+void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, size_t split, MathUtility::VV& holder, MathUtility::VV& keyMatrix)
 {
     for (size_t i = 0; i < tokens; i++) {
-        std::copy_n(vec.begin(), split, std::back_inserter(twoD[i]));
-        MathUtility::dimensionVariant(twoD[i], split);
+        // dynamically splittingOnTheFly the string
+        std::copy_n(vec.begin(), split, std::back_inserter(dimVariantMat[i]));
+        // change one dimensional container to two dimensional container
+        holder = MathUtility::dimensionVariantReturn(dimVariantMat[i], split);
+
+        std::cout << "Before encipher : " << std::endl;
+        MathUtility::dimensionVariantPrint(holder, split);
+
+        // doing multiple with keyMatrix
+        MathUtility::VV heal = MathUtility::doMultiple(keyMatrix, holder);
+
+        std::cout << "After encrypted : " << std::endl;
+        MathUtility::dimensionVariantPrint(heal, split);
+
+        // dynamically decreease the vector by using C++ erasing Template
         vec.erase(vec.begin(), vec.begin() + split);
     }
 }
 
-void Hill::tokeniner(std::string& vec)
+void Hill::tokenizer(std::string vec)
 {
     size_t tokens{};
     size_t spaceFact{};
@@ -68,14 +81,28 @@ void Hill::tokeniner(std::string& vec)
     size_t split = (spaceFact % 2 == 0) ? 2 : 3;
     MathUtility::VV twoD(tokens);
 
-    splittingOnTheFly(twoD, vec, tokens, split);
+    MathUtility::VV holder(split, MathUtility::V(split, 0));
+
+    MathUtility::VV keyMatrix = MathUtility::makeMatrix(split, split);
+
+    std::cout << "Enter your Matrix(" << split << "X" << split << ")"
+              << ", which will be used for Crypto -->";
+    std::cout << std::endl;
+
+    MathUtility::readMatrix(keyMatrix, std::cin);
+
+    std::cout << std::endl;
+
+    splittingOnTheFly(twoD, vec, tokens, split, holder, keyMatrix);
 }
 
 void Hill::statementToken()
 {
     try {
-        std::string vec = this->getEncryptText();
-        tokeniner(vec);
+        setEncryptText();
+        std::string vec = this->encryptText;
+        std::cout << std::endl;
+        tokenizer(vec);
     } catch (...) {
         std::cout << "Something wrong there ! " << std::endl;
     }

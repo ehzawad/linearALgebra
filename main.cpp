@@ -10,49 +10,10 @@ typedef double mType;
 // int main(int agrc, char* argv[])
 int main(void)
 {
-    // Hill Class object
+    // Hill Cipher object
     Hill Cipher;
 
-    // dimension which required for making matrix
-    int matDimension{};
-    MathUtility::setDimension();
-    matDimension = MathUtility::getDimension();
-
-    // allocating room for square Matrix
-    // square matrix
-    MathUtility::VV matrix = MathUtility::makeMatrix(matDimension, matDimension);
-
-    // Should check command line argument vectors properly
-    // otherwise program will send SEGV fault
-    // std::ifstream inputFile((argv[1]));
-    // you should check
-    // if (inputFile.is_open()){
-    //      MathUtility::readMatrix(matrix, inputFile);
-    // }
-    // else {
-    // ....
-    //     return -1;
-    // }
-
-    std::cout << "Please enter your Matrix, which will be used for encryption";
-    std::cout << std::endl;
-
-    MathUtility::readMatrix(matrix, std::cin);
-
-    Cipher.setEncryptText();
-
-    std::cout << Cipher.getEncryptText();
-
-    std::cout << std::endl;
-
     Cipher.statementToken();
-
-    mType determinant{};
-    determinant = MathUtility::InverseOperation::laplaceExpansion(matrix);
-
-    std::cout << std::endl;
-    std::cout << "determinant : ";
-    std::cout << "(" << determinant << ")" << std::endl;
 
     std::cout << std::endl;
 
