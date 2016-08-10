@@ -59,14 +59,6 @@ public:
 
         std::cout << "TOkensize : " << tokens << std::endl;
 
-        // size_t split{};
-
-        // if (spaceFact % 2 == 0) {
-        //     split = 2;
-        // } else {
-        //     split = 3;
-        // }
-
         size_t split = (spaceFact % 2 == 0) ? 2 : 3;
 
         MathUtility::VV twoD(tokens);
