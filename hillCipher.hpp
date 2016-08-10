@@ -1,8 +1,9 @@
 #ifndef _HILLCipher_HPP_
 #define _HILLCipher_HPP_
 
-#include "Utilities.hpp"
+#include "mathUtilities.hpp"
 #include "linuxUtil.hpp"
+#include "inputValidate.hpp"
 #include <climits>
 #include <iomanip>
 #include <stdexcept>
@@ -17,7 +18,7 @@ private:
 public:
     void setDimension(void)
     {
-        this->dimension = util::inputData("dimension", "\\d+");
+        this->dimension = validateInput::inputData("dimension", "\\d+");
     }
 
     int getDimension(void)
@@ -29,7 +30,7 @@ public:
     void setEncryptText(void)
     {
         termios process = linuxUtil::setNotEchoingMode();
-        this->encryptText = util::inputData("message", ".+");
+        this->encryptText = validateInput::inputData("message", ".+");
         linuxUtil::goBack(process);
     }
 

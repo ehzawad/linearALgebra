@@ -1,13 +1,11 @@
-#ifndef _UTIL_HPP_
-#define _UTIL_HPP_
+#ifndef _MATHUTIL_HPP_
+#define _MATHUTIL_HPP_
 
 #include <algorithm>
 #include <cctype>
 #include <climits>
 #include <iomanip>
 #include <iostream>
-#include <regex>
-#include <string>
 #include <vector>
 // macro
 #define ONECOLUMN 1
@@ -21,29 +19,7 @@ using VV = std::vector<V>;
 using oneD = std::vector<int>;
 using twoD = std::vector<V>;
 //
-//
-bool validate(const std::string& data, const std::string& expression)
-{
-    std::regex validationExpression = std::regex(expression);
-    return std::regex_match(data, validationExpression);
-}
 
-std::string inputData(const std::string& fieldName, const std::string& expression)
-{
-    std::string data;
-
-    std::cout << "Enter " << fieldName << ": ";
-    getline(std::cin, data);
-
-    // validate the data
-    while (!(validate(data, expression))) {
-        std::cout << "Invalid " << fieldName << ".\n";
-        std::cout << "Enter " << fieldName << ": ";
-
-        getline(std::cin, data);
-    }
-    return data;
-}
 
 VV makeMatrix(int rows, int cols)
 {

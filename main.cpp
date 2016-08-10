@@ -1,4 +1,4 @@
-#include "Utilities.hpp"
+#include "mathUtilities.hpp"
 #include "hillCipher.hpp"
 #include <algorithm>
 #include <fstream>
@@ -34,7 +34,8 @@ int main(void)
     //     return -1;
     // }
 
-    std::cout << "Please enter your Matrix, which will be used for encryption" << std::endl;
+    std::cout << "Please enter your Matrix, which will be used for encryption";
+    std::cout << std::endl;
 
     util::readMatrix(matrix, std::cin);
 
