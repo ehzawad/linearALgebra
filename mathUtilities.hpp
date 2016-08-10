@@ -24,16 +24,29 @@ std::string dimension;
 using oneD = std::vector<int>;
 using twoD = std::vector<V>;
 
-// as some mutual recursion happening here
-// function declaration is not hoisting like JS
-// forward declaration is necessary here
-// Findind Inverse Matrix
-int findMinor(MathUtility::VV& M, int row, int col);
-int expand(MathUtility::VV& M, int col);
-void allExpand(MathUtility::VV& M);
-int laplaceExpansion(MathUtility::VV M);
-void invertible(MathUtility::VV& I);
-void transpose(MathUtility::VV A);
+void setDimension(void)
+{
+    dimension = ValidateInput::inputData("dimension", "\\d+");
+}
+
+int getDimension(void)
+{
+    return std::stoi(dimension);
+}
+
+void setDeterminantValue(int detValue)
+{
+    determinantValue = detValue;
+}
+
+int getDeterminantValue(void)
+{
+    if (determinantValue == 0) {
+        throw std::overflow_error("Divide by zero exception");
+    } else {
+        return determinantValue;
+    }
+}
 
 VV makeMatrix(int rows, int cols)
 {
@@ -223,106 +236,55 @@ void twoDintToTwoDdouble(twoD& shit, VV& doubleShit)
     }
 }
 
-void setDimension(void)
-{
-    dimension = ValidateInput::inputData("dimension", "\\d+");
-}
+// as some mutual recursion happening here
+// function declaration is not hoisting like JS
+// forward declaration is necessary here
+// Findind Inverse Matrix
+namespace InverseOperation {
+    int findMinor(MathUtility::VV& M, int row, int col);
+    int expand(MathUtility::VV& M, int col);
+    void allExpand(MathUtility::VV& M);
+    int laplaceExpansion(MathUtility::VV M);
+    void invertible(MathUtility::VV& I);
+    void transpose(MathUtility::VV A);
 
-int getDimension(void)
-{
-    return std::stoi(dimension);
-}
+    void invertible(MathUtility::VV& I)
+    {
+        int size = I.size();
 
-void setDeterminantValue(int detValue)
-{
-    determinantValue = detValue;
-}
-
-int getDeterminantValue(void)
-{
-    if (determinantValue == 0) {
-        throw std::overflow_error("Divide by zero exception");
-    } else {
-        return determinantValue;
-    }
-}
-
-void invertible(MathUtility::VV& I)
-{
-    int size = I.size();
-
-    for (int row = 0; row < size; ++row) {
-        for (int col = 0; col < size; col++) {
-            I[row][col] = I[row][col] / (double)(getDeterminantValue());
-        }
-    }
-
-    std::cout << std::endl;
-    MathUtility::transpose(I);
-}
-
-// Minors obtained by removing just one row and one column from square matrices (first minors){minor matrix}
-// are required for calculating matrix cofactors{cofactor matrix},
-// which in turn are useful for computing both the determinant and inverse of square matrices.
-
-int findMinor(MathUtility::VV& M, int row, int col)
-{
-    return MathUtility::laplaceExpansion(MathUtility::deleteRowAndColumn(M, row, col));
-}
-
-void adjugateMat(MathUtility::VV& A)
-{
-    MathUtility::printMatrix(A);
-
-    MathUtility::invertible(A);
-    std::cout << std::endl;
-}
-
-int expand(MathUtility::VV& M, int col)
-{
-    int determinant{};
-    int sign{ 1 };
-
-    for (int row = 0; row < (int)M.size(); ++row) {
-        if ((row + col) % 2 == 1) {
-            sign = -1;
-        } else {
-            sign = 1;
+        for (int row = 0; row < size; ++row) {
+            for (int col = 0; col < size; col++) {
+                I[row][col] = I[row][col] / (double)(MathUtility::getDeterminantValue());
+            }
         }
 
-        if (!MathUtility::isZero(M[row][col])) {
-            determinant += sign * M[row][col] * MathUtility::findMinor(M, row, col);
-        }
-    }
-    return determinant;
-}
-
-int laplaceExpansion(MathUtility::VV M)
-{
-    int determinant{};
-
-    if (M.size() == 1) {
-        determinant = M[0][0];
-    } else if (M.size() == 2) {
-        determinant = (M[0][0] * M[1][1]) - (M[0][1] * M[1][0]);
-    } else {
-        determinant = MathUtility::expand(M, MathUtility::findBestColumn(M));
+        std::cout << std::endl;
+        InverseOperation::transpose(I);
     }
 
-    return determinant;
-}
+    // Minors obtained by removing just one row and one column from square matrices (first minors){minor matrix}
+    // are required for calculating matrix cofactors{cofactor matrix},
+    // which in turn are useful for computing both the determinant and inverse of square matrices.
 
-void allExpand(MathUtility::VV& M)
-{
-    int cofactor{};
-    int sign{ 1 };
+    int findMinor(MathUtility::VV& M, int row, int col)
+    {
+        return InverseOperation::laplaceExpansion(MathUtility::deleteRowAndColumn(M, row, col));
+    }
 
-    int size = M.size();
+    void adjugateMat(MathUtility::VV& A)
+    {
+        MathUtility::printMatrix(A);
 
-    MathUtility::VV cofactorMatrix(size, MathUtility::V(size, 0));
+        InverseOperation::invertible(A);
+        std::cout << std::endl;
+    }
 
-    for (int row = 0; row < size; ++row) {
-        for (int col = 0; col < size; col++) {
+    int expand(MathUtility::VV& M, int col)
+    {
+        int determinant{};
+        int sign{ 1 };
+
+        for (int row = 0; row < (int)M.size(); ++row) {
             if ((row + col) % 2 == 1) {
                 sign = -1;
             } else {
@@ -330,27 +292,67 @@ void allExpand(MathUtility::VV& M)
             }
 
             if (!MathUtility::isZero(M[row][col])) {
-                cofactor = sign * findMinor(M, row, col);
-                cofactorMatrix[row][col] = cofactor;
+                determinant += sign * M[row][col] * InverseOperation::findMinor(M, row, col);
             }
         }
+        return determinant;
     }
 
-    adjugateMat(cofactorMatrix);
-}
+    int laplaceExpansion(MathUtility::VV M)
+    {
+        int determinant{};
 
-void transpose(MathUtility::VV A)
-{
-    int size = A.size();
-
-    for (int row = 0; row < size - 1; ++row) {
-        for (int col = row + 1; col < size; col++) {
-            std::swap(A[row][col], A[col][row]);
+        if (M.size() == 1) {
+            determinant = M[0][0];
+        } else if (M.size() == 2) {
+            determinant = (M[0][0] * M[1][1]) - (M[0][1] * M[1][0]);
+        } else {
+            determinant = InverseOperation::expand(M, MathUtility::findBestColumn(M));
         }
+
+        return determinant;
     }
 
-    std::cout << std::endl;
-    MathUtility::printMatrixDouble(A);
+    void allExpand(MathUtility::VV& M)
+    {
+        int cofactor{};
+        int sign{ 1 };
+
+        int size = M.size();
+
+        MathUtility::VV cofactorMatrix(size, MathUtility::V(size, 0));
+
+        for (int row = 0; row < size; ++row) {
+            for (int col = 0; col < size; col++) {
+                if ((row + col) % 2 == 1) {
+                    sign = -1;
+                } else {
+                    sign = 1;
+                }
+
+                if (!MathUtility::isZero(M[row][col])) {
+                    cofactor = sign * findMinor(M, row, col);
+                    cofactorMatrix[row][col] = cofactor;
+                }
+            }
+        }
+
+        adjugateMat(cofactorMatrix);
+    }
+
+    void transpose(MathUtility::VV A)
+    {
+        int size = A.size();
+
+        for (int row = 0; row < size - 1; ++row) {
+            for (int col = row + 1; col < size; col++) {
+                std::swap(A[row][col], A[col][row]);
+            }
+        }
+
+        std::cout << std::endl;
+        MathUtility::printMatrixDouble(A);
+    }
 }
 
 // namespace End

@@ -48,7 +48,7 @@ int main(void)
     Cipher.statementToken();
 
     mType determinant{};
-    determinant = MathUtility::laplaceExpansion(matrix);
+    determinant = MathUtility::InverseOperation::laplaceExpansion(matrix);
 
     std::cout << std::endl;
     std::cout << "determinant : ";
