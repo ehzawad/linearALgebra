@@ -18,5 +18,8 @@ CXXFLAGS =  -ggdb3 -O0 -std=c++14 -lpthread -Werror -pedantic-errors
 all:
 	$(CXX) $(CXXFLAGS) $(LD) $(SRC) -o $(EXE)
 
+run:
+	./$(EXE)
+
 clean:
 	rm -f core *.o $(EXE)
