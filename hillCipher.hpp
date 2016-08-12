@@ -22,7 +22,7 @@ public:
     std::string getEncryptText(void);
     void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, size_t split, MathUtility::VV&, MathUtility::VV&);
 
-    void tokenizer(std::string vec);
+    void tokenizer(std::string&);
     void statementToken(void);
     void encryptedCode(MathUtility::VV&);
     void decryptCode(void);
@@ -58,9 +58,6 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
         // change dimension of vector
         holder = MathUtility::dimensionVariantReturn(dimVariantMat[i], split);
 
-        // before cipher
-        // MathUtility::dimensionVariantPrint(holder, split);
-
         // doing multiple with keyMatrix
         MathUtility::VV heal = MathUtility::doMultiple(keyMatrix, holder);
 
@@ -79,7 +76,7 @@ void Hill::decryptCode(void)
     std::cout << encryptedCodeString.size() << " ";
 }
 
-void Hill::tokenizer(std::string vec)
+void Hill::tokenizer(std::string& vec)
 {
     size_t tokens{};
     size_t spaceFact{};
@@ -114,6 +111,10 @@ void Hill::tokenizer(std::string vec)
     MathUtility::readMatrix(keyMatrix, std::cin);
 
     std::cout << std::endl;
+
+    MathUtility::VV inverseKeyMatrix = MathUtility::findInverseMat(keyMatrix);
+
+    MathUtility::printMatrix(inverseKeyMatrix);
 
     splittingOnTheFly(twoD, vec, tokens, split, holder, keyMatrix);
 }
