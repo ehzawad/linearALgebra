@@ -10,19 +10,21 @@ typedef double mType;
 int main(void)
 {
     try {
-        MathUtility::VV matrix = MathUtility::makeMatrix(3, 3);
+        // MathUtility::VV matrix = MathUtility::makeMatrix(3, 3);
+        // //
+        // MathUtility::readMatrix(matrix, std::cin);
         //
-        MathUtility::readMatrix(matrix, std::cin);
+        // MathUtility::VV F = MathUtility::findInverseMat(matrix);
+        //
+        // MathUtility::printMatrix(F);
 
-        MathUtility::VV F = MathUtility::findInverseMat(matrix);
+        Hill Cipher;
 
+        Cipher.statementToken();
 
-        MathUtility::printMatrix(F);
+        std::cout << std::endl;
 
-        // Hill Cipher;
-
-        // Cipher.statementToken();
-
+        Cipher.decryptCode();
         std::cout << std::endl;
 
         std::flush(std::cout);

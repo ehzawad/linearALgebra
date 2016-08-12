@@ -12,6 +12,8 @@
 class Hill {
 private:
     std::string encryptText;
+    MathUtility::VV encryptedCodeString;
+    size_t splitLength;
 
 public:
     // setter and getter of string
@@ -22,6 +24,8 @@ public:
 
     void tokenizer(std::string vec);
     void statementToken(void);
+    void encryptedCode(MathUtility::VV&);
+    void decryptCode(void);
 };
 
 // Implementation of hill class
@@ -36,6 +40,13 @@ void Hill::setEncryptText(void)
 std::string Hill::getEncryptText(void)
 {
     return this->encryptText;
+}
+
+void Hill::encryptedCode(MathUtility::VV& cipherCode)
+{
+    for (auto& hillCipheredCode : cipherCode) {
+        encryptedCodeString.push_back(hillCipheredCode);
+    }
 }
 
 void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, size_t split, MathUtility::VV& holder, MathUtility::VV& keyMatrix)
@@ -56,9 +67,16 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
         // after cipher
         MathUtility::dimensionVariantPrint(heal, split);
 
+        encryptedCode(heal);
+
         // dynamically decreease the vector by using C++ erasing Template
         vec.erase(vec.begin(), vec.begin() + split);
     }
+}
+
+void Hill::decryptCode(void)
+{
+    std::cout << encryptedCodeString.size() << " ";
 }
 
 void Hill::tokenizer(std::string vec)
@@ -80,6 +98,9 @@ void Hill::tokenizer(std::string vec)
 
     std::cout << "TOkensize : " << tokens << std::endl;
     size_t split = (spaceFact % 2 == 0) ? 2 : 3;
+
+    this->splitLength = split;
+
     MathUtility::VV twoD(tokens);
 
     MathUtility::VV holder(split, MathUtility::V(split, 0));
