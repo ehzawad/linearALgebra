@@ -10,7 +10,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
-// macro
+// macros
 #define ONECOLUMN 1
 
 namespace MathUtility {
@@ -226,7 +226,8 @@ void dimensionVariantPrint(MathUtility::VV& pseudoVector, size_t split)
         }
         std::cout << "  ";
     }
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl
+              << std::endl;
 }
 
 // making one dimentional row vector to two dimentional column vector

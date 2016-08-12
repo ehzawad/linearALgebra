@@ -8,6 +8,9 @@
 #include <iomanip>
 #include <stdexcept>
 #include <string>
+#include <functional>
+#include <thread>
+#include <future>
 
 class Hill {
 private:
@@ -24,7 +27,6 @@ public:
     void tokenizer(std::string&);
     void statementToken(void);
     void encryptedCode(MathUtility::VV&);
-    void decryptCode(void);
 };
 
 // Implementation of hill class
@@ -54,32 +56,26 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
     for (size_t i = 0; i < tokens; i++) {
         // dynamically splittingOnTheFly the string
         std::copy_n(vec.begin(), split, std::back_inserter(dimVariantMat[i]));
-
         // change dimension of vector
         holder = MathUtility::dimensionVariantReturn(dimVariantMat[i], split);
-
         // doing multiple with keyMatrix
         MathUtility::VV heal = MathUtility::doMultiple(keyMatrix, holder);
 
         // after cipher
-        std::cout << "EncryptedToken[" << std::setw(2) << ++counter << "] -- ";
+        std::cout << "EncryptedToken[" << std::setw(2) << ++counter << " ] -- ";
         MathUtility::dimensionVariantPrint(heal, split);
 
         MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, heal);
 
-        std::cout << "DecryptedToken[" << std::setw(2) << ++counter << "] -- ";
+        std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
         MathUtility::dimensionVariantPrint(decrypt, split);
 
+        // this will help us to the whole string in vector
         encryptedCode(heal);
 
         // dynamically decreease the vector by using C++ erasing Template
         vec.erase(vec.begin(), vec.begin() + split);
     }
-}
-
-void Hill::decryptCode(void)
-{
-    std::cout << encryptedCodeString.size() << " ";
 }
 
 void Hill::tokenizer(std::string& vec)
@@ -101,27 +97,24 @@ void Hill::tokenizer(std::string& vec)
 
     std::cout << "TOkensize : " << tokens << std::endl;
     size_t split = (spaceFact % 2 == 0) ? 2 : 3;
-
     this->splitLength = split;
 
     MathUtility::VV twoD(tokens);
-
     MathUtility::VV holder(split, MathUtility::V(split, 0));
-
     MathUtility::VV keyMatrix = MathUtility::makeMatrix(split, split);
 
     std::cout << "Enter your Matrix(" << split << "X" << split << ")"
               << ", which will be used for Crypto -->";
     std::cout << std::endl;
-
     MathUtility::readMatrix(keyMatrix, std::cin);
-
     std::cout << std::endl;
 
     MathUtility::VV inverseKeyMatrix = MathUtility::findInverseMat(keyMatrix);
-
+    std::cout << "Inverse of KeyMatrix : " << std::endl;
     MathUtility::printMatrix(inverseKeyMatrix);
+    std::cout << std::endl;
 
+    // heart of the program
     splittingOnTheFly(twoD, vec, tokens, split, holder, keyMatrix, inverseKeyMatrix);
 }
 

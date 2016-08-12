@@ -30,6 +30,7 @@ std::string inputData(const std::string& fieldName, const std::string& expressio
     }
     return data;
 }
+// end ValidateInput namespace
 }
 
 #endif
