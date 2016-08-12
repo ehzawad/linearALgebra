@@ -8,9 +8,6 @@
 #include <iomanip>
 #include <stdexcept>
 #include <string>
-#include <functional>
-#include <thread>
-#include <future>
 
 class Hill {
 private:
