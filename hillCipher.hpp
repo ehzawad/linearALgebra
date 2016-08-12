@@ -20,8 +20,7 @@ public:
     void setEncryptText(void);
     // get encryptText text
     std::string getEncryptText(void);
-    void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, size_t split, MathUtility::VV&, MathUtility::VV&);
-
+    void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, size_t split, MathUtility::VV&, MathUtility::VV&, MathUtility::VV&);
     void tokenizer(std::string&);
     void statementToken(void);
     void encryptedCode(MathUtility::VV&);
@@ -49,8 +48,9 @@ void Hill::encryptedCode(MathUtility::VV& cipherCode)
     }
 }
 
-void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, size_t split, MathUtility::VV& holder, MathUtility::VV& keyMatrix)
+void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, size_t split, MathUtility::VV& holder, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
 {
+    size_t counter {};
     for (size_t i = 0; i < tokens; i++) {
         // dynamically splittingOnTheFly the string
         std::copy_n(vec.begin(), split, std::back_inserter(dimVariantMat[i]));
@@ -62,7 +62,13 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
         MathUtility::VV heal = MathUtility::doMultiple(keyMatrix, holder);
 
         // after cipher
+        std::cout << "EncryptedToken[" << ++counter << "] -- ";
         MathUtility::dimensionVariantPrint(heal, split);
+
+        MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, heal);
+
+        std::cout << "DecryptedToken[" << ++counter << "] -- ";
+        MathUtility::dimensionVariantPrint(decrypt, split);
 
         encryptedCode(heal);
 
@@ -116,7 +122,7 @@ void Hill::tokenizer(std::string& vec)
 
     MathUtility::printMatrix(inverseKeyMatrix);
 
-    splittingOnTheFly(twoD, vec, tokens, split, holder, keyMatrix);
+    splittingOnTheFly(twoD, vec, tokens, split, holder, keyMatrix, inverseKeyMatrix);
 }
 
 void Hill::statementToken()

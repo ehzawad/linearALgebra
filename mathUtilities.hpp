@@ -222,11 +222,11 @@ void dimensionVariantPrint(MathUtility::VV& pseudoVector, size_t split)
 {
     for (size_t i = 0; i < split; i++) {
         for (size_t j = 0; j < ONECOLUMN; j++) {
-            std::cout << pseudoVector[i][j] << " ";
+            std::cout << std::setw(3) << pseudoVector[i][j] << " ";
         }
-        std::cout << std::endl;
+        std::cout << "  ";
     }
-    std::cout << std::endl;
+    std::cout << std::endl << std::endl;
 }
 
 // making one dimentional row vector to two dimentional column vector
@@ -319,7 +319,6 @@ namespace InverseOperation {
                 int sign = ((row + col) % 2 == 1) ? -1 : 1;
 
                 cofactor = sign * findMinor(M, row, col);
-                std::cout << "cofactor " << cofactor << std::endl;
                 cofactorMatrix[row][col] = cofactor;
             }
         }
