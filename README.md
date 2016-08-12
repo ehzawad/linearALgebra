@@ -10,3 +10,11 @@
 ### Run
 
     make run
+
+
+# Programm Output Representation
+    According to Course Requirement
+
+     PROF. DR. KHONDAKER ABDUL MALEQUE
+     Faculty, AIUB
+     Department of Mathematics
