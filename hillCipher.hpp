@@ -62,12 +62,12 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
         MathUtility::VV heal = MathUtility::doMultiple(keyMatrix, holder);
 
         // after cipher
-        std::cout << "EncryptedToken[" << ++counter << "] -- ";
+        std::cout << "EncryptedToken[" << std::setw(2) << ++counter << "] -- ";
         MathUtility::dimensionVariantPrint(heal, split);
 
         MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, heal);
 
-        std::cout << "DecryptedToken[" << ++counter << "] -- ";
+        std::cout << "DecryptedToken[" << std::setw(2) << ++counter << "] -- ";
         MathUtility::dimensionVariantPrint(decrypt, split);
 
         encryptedCode(heal);
