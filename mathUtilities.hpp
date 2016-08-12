@@ -187,6 +187,8 @@ bool isPrime(int num)
     }
 }
 
+namespace Helper
+{
 // converting englist letters to corresponding number
 // required for hill cipher or other cipher like ceaser cipher
 // A - 1
@@ -243,7 +245,10 @@ void dimensionVariant(MathUtility::V& oneD, size_t split)
 
     std::cout << std::endl;
 
-    MathUtility::dimensionVariantPrint(PseudoTranpose, split);
+    dimensionVariantPrint(PseudoTranpose, split);
+}
+
+// end helperNamespace
 }
 
 // http://stackoverflow.com/questions/30734787/c-2d-vector-convert-int-to-double

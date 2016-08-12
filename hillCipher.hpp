@@ -57,18 +57,18 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
         // dynamically splittingOnTheFly the string
         std::copy_n(vec.begin(), split, std::back_inserter(dimVariantMat[i]));
         // change dimension of vector
-        holder = MathUtility::dimensionVariantReturn(dimVariantMat[i], split);
+        holder = MathUtility::Helper::dimensionVariantReturn(dimVariantMat[i], split);
         // doing multiple with keyMatrix
         MathUtility::VV heal = MathUtility::doMultiple(keyMatrix, holder);
 
         // after cipher
         std::cout << "EncryptedToken[" << std::setw(2) << ++counter << " ] -- ";
-        MathUtility::dimensionVariantPrint(heal, split);
+        MathUtility::Helper::dimensionVariantPrint(heal, split);
 
         MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, heal);
 
         std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
-        MathUtility::dimensionVariantPrint(decrypt, split);
+        MathUtility::Helper::dimensionVariantPrint(decrypt, split);
 
         // this will help us to the whole string in vector
         encryptedCode(heal);
