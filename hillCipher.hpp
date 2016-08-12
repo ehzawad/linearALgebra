@@ -9,10 +9,13 @@
 #include <stdexcept>
 #include <string>
 
+#define ONECOLUMN 1
+
 class Hill {
 private:
     std::string encryptText;
     MathUtility::VV encryptedCodeString;
+    MathUtility::VV decryptedCodeString;
     size_t splitLength;
 
 public:
@@ -23,8 +26,28 @@ public:
     void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, size_t split, MathUtility::VV&, MathUtility::VV&, MathUtility::VV&);
     void tokenizer(std::string&);
     void statementToken(void);
+
+    // this is directly store encrypted code
     void encryptedCode(MathUtility::VV&);
+    void printEncryptedCode(void);
+    // this is directly store decrypted code
+    void decryptedCode(MathUtility::VV&);
+    void printDecryptedCode(void);
 };
+
+void Hill::printEncryptedCode()
+{
+    std::cout << "encrypted String : " << std::endl;
+    MathUtility::printMatrix(this->encryptedCodeString);
+    std::cout << std::endl;
+}
+
+void Hill::printDecryptedCode()
+{
+    std::cout << "decrypted String : " << std::endl;
+    MathUtility::printMatrix(this->decryptedCodeString);
+    std::cout << std::endl;
+}
 
 // Implementation of hill class
 void Hill::setEncryptText(void)
@@ -47,9 +70,16 @@ void Hill::encryptedCode(MathUtility::VV& cipherCode)
     }
 }
 
+void Hill::decryptedCode(MathUtility::VV& deCipherCode)
+{
+    for (auto& hillCipheredCode : deCipherCode) {
+        decryptedCodeString.push_back(hillCipheredCode);
+    }
+}
+
 void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, size_t split, MathUtility::VV& holder, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
 {
-    size_t counter {};
+    size_t counter{};
     for (size_t i = 0; i < tokens; i++) {
         // dynamically splittingOnTheFly the string
         std::copy_n(vec.begin(), split, std::back_inserter(dimVariantMat[i]));
@@ -62,13 +92,15 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
         std::cout << "EncryptedToken[" << std::setw(2) << ++counter << " ] -- ";
         MathUtility::Helper::dimensionVariantPrint(heal, split);
 
+        // this will help us to the whole string in vector
+        decryptedCode(heal);
+
         MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, heal);
 
         std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
         MathUtility::Helper::dimensionVariantPrint(decrypt, split);
 
-        // this will help us to the whole string in vector
-        encryptedCode(heal);
+        encryptedCode(decrypt);
 
         // dynamically decreease the vector by using C++ erasing Template
         vec.erase(vec.begin(), vec.begin() + split);

@@ -12,6 +12,9 @@ int main(void)
 
         Cipher.statementToken();
         std::cout << std::endl;
+
+        Cipher.printEncryptedCode();
+        Cipher.printDecryptedCode();
     } catch (...) {
         std::cout << "Something unexpected !" << std::endl;
     }
