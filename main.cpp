@@ -1,5 +1,5 @@
-#include "mathUtilities.hpp"
 #include "hillCipher.hpp"
+#include "mathUtilities.hpp"
 #include <algorithm>
 #include <fstream>
 #include <stdexcept>
@@ -7,15 +7,30 @@
 
 typedef double mType;
 
-// int main(int agrc, char* argv[])
 int main(void)
 {
-    // Hill Cipher object
-    Hill Cipher;
+    try {
+        MathUtility::VV matrix = MathUtility::makeMatrix(3, 3);
 
-    Cipher.statementToken();
+        MathUtility::readMatrix(matrix, std::cin);
 
-    std::cout << std::endl;
+        double det = MathUtility::InverseOperation::laplaceExpansionDet(matrix);
 
-    std::flush(std::cout);
+        MathUtility::VV cofactorMat = MathUtility::InverseOperation::findCofactorMatrix(matrix);
+
+
+        MathUtility::VV cofacMatT = MathUtility::InverseOperation::doTranspose(cofactorMat);
+
+        MathUtility::printMatrix(cofactorMat);
+
+        MathUtility::VV finalMat = MathUtility::InverseOperation::doInvertible(cofactorMat, det);
+
+        MathUtility::printMatrix(finalMat);
+
+        std::cout << std::endl;
+
+        std::flush(std::cout);
+    } catch (...) {
+        std::cout << "Something unexpected !" << std::endl;
+    }
 }

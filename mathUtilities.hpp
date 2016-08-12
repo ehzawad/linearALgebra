@@ -19,7 +19,6 @@ using VV = std::vector<V>;
 // three dimensional vector
 // using VVV = std::vector<VV>;
 
-int determinantValue;
 std::string dimension;
 //
 using oneD = std::vector<int>;
@@ -35,20 +34,6 @@ int getDimension(void)
     return std::stoi(dimension);
 }
 
-void setDeterminantValue(int detValue)
-{
-    determinantValue = detValue;
-}
-
-int getDeterminantValue(void)
-{
-    if (determinantValue == 0) {
-        throw std::overflow_error("Divide by zero exception");
-    } else {
-        return determinantValue;
-    }
-}
-
 VV makeMatrix(int rows, int cols)
 {
     VV temp(rows);
@@ -62,7 +47,7 @@ VV makeMatrix(int rows, int cols)
 // If number is clouser enough to zero then like 0.00000000000001 set defaults to zero
 // this is not strictly necessary
 
-bool isZero(int number, double epsilon = 1e-12)
+bool isZero(double number, double epsilon = 1e-12)
 {
     return (number < epsilon) && (number > -epsilon);
 }
@@ -97,6 +82,7 @@ void printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
     }
 }
 
+// reading input from console or other file stream
 void readMatrix(VV& matrix, std::istream& input = std::cin)
 {
     for (auto& row : matrix) {
@@ -116,11 +102,11 @@ void readMatrix(VV& matrix, std::istream& input = std::cin)
 
 //  function for finding column where 'value' repeats the most
 // By default it seeks the column with the most amount of zeros
-int findBestColumn(MathUtility::VV& M, int value = 0)
+int findBestColumn(MathUtility::VV& M, double value = 0)
 {
     // first = column index
     // second = number of 'value' occurrences
-    std::pair<int, int> bestColumn{ 0, 0 };
+    std::pair<double, double> bestColumn{ 0, 0 };
 
     for (int i = 0; i < (int)M.size(); ++i) {
         int count{};
@@ -265,26 +251,14 @@ void twoDintToTwoDdouble(twoD& shit, VV& doubleShit)
 // forward declaration is necessary here
 // Findind Inverse Matrix
 namespace InverseOperation {
+    // here is not passing reference , be careful
+    int laplaceExpansionDet(MathUtility::VV M);
+
+    // but here all matrix are passed by reference
     int findMinor(MathUtility::VV& M, int row, int col);
     int expand(MathUtility::VV& M, int col);
-    void allExpand(MathUtility::VV& M);
-    int laplaceExpansion(MathUtility::VV M);
-    void invertible(MathUtility::VV& I);
-    void transpose(MathUtility::VV A);
-
-    void invertible(MathUtility::VV& I)
-    {
-        int size = I.size();
-
-        for (int row = 0; row < size; ++row) {
-            for (int col = 0; col < size; col++) {
-                I[row][col] = I[row][col] / (double)(MathUtility::getDeterminantValue());
-            }
-        }
-
-        std::cout << std::endl;
-        InverseOperation::transpose(I);
-    }
+    MathUtility::VV doTranspose(MathUtility::VV& A);
+    MathUtility::VV doInvertible(MathUtility::VV& I, double);
 
     // Minors obtained by removing just one row and one column from square matrices (first minors){minor matrix}
     // are required for calculating matrix cofactors{cofactor matrix},
@@ -292,28 +266,15 @@ namespace InverseOperation {
 
     int findMinor(MathUtility::VV& M, int row, int col)
     {
-        return InverseOperation::laplaceExpansion(MathUtility::deleteRowAndColumn(M, row, col));
-    }
-
-    void adjugateMat(MathUtility::VV& A)
-    {
-        MathUtility::printMatrix(A);
-
-        InverseOperation::invertible(A);
-        std::cout << std::endl;
+        return InverseOperation::laplaceExpansionDet(MathUtility::deleteRowAndColumn(M, row, col));
     }
 
     int expand(MathUtility::VV& M, int col)
     {
         int determinant{};
-        int sign{ 1 };
 
         for (int row = 0; row < (int)M.size(); ++row) {
-            if ((row + col) % 2 == 1) {
-                sign = -1;
-            } else {
-                sign = 1;
-            }
+            int sign = ((row + col) % 2 == 1) ? -1 : 1;
 
             if (!MathUtility::isZero(M[row][col])) {
                 determinant += sign * M[row][col] * InverseOperation::findMinor(M, row, col);
@@ -322,7 +283,7 @@ namespace InverseOperation {
         return determinant;
     }
 
-    int laplaceExpansion(MathUtility::VV M)
+    int laplaceExpansionDet(MathUtility::VV M)
     {
         int determinant{};
 
@@ -337,10 +298,9 @@ namespace InverseOperation {
         return determinant;
     }
 
-    void allExpand(MathUtility::VV& M)
+    MathUtility::VV findCofactorMatrix(MathUtility::VV& M)
     {
         int cofactor{};
-        int sign{ 1 };
 
         int size = M.size();
 
@@ -348,24 +308,20 @@ namespace InverseOperation {
 
         for (int row = 0; row < size; ++row) {
             for (int col = 0; col < size; col++) {
-                if ((row + col) % 2 == 1) {
-                    sign = -1;
-                } else {
-                    sign = 1;
-                }
+                int sign = ((row + col) % 2 == 1) ? -1 : 1;
 
-                if (!MathUtility::isZero(M[row][col])) {
-                    cofactor = sign * findMinor(M, row, col);
-                    cofactorMatrix[row][col] = cofactor;
-                }
+                cofactor = sign * findMinor(M, row, col);
+                std::cout << "cofactor " << cofactor << std::endl;
+                cofactorMatrix[row][col] = cofactor;
             }
         }
 
-        adjugateMat(cofactorMatrix);
+        return cofactorMatrix;
     }
 
-    void transpose(MathUtility::VV A)
+    MathUtility::VV doTranspose(MathUtility::VV& A)
     {
+
         int size = A.size();
 
         for (int row = 0; row < size - 1; ++row) {
@@ -374,8 +330,34 @@ namespace InverseOperation {
             }
         }
 
-        std::cout << std::endl;
-        MathUtility::printMatrixDouble(A);
+        return A;
+    }
+
+    MathUtility::VV doInvertible(MathUtility::VV& I, double detValue)
+    {
+        if (detValue == 0) {
+            throw std::overflow_error("Divide by zero exception");
+        } else {
+
+            int size = I.size();
+
+            // std::vector<std::vector<double>> adj(size, std::vector<double>(size, 0));
+            MathUtility::VV adj(size, MathUtility::V(size, 0.00));
+
+            for (int row = 0; row < size; ++row) {
+                for (int col = 0; col < size; col++) {
+                    adj[row][col] += (double)(I[row][col] * (1.00 / (double)detValue));
+                }
+            }
+
+            for (const auto& row : adj) {
+                for (const auto& col : row) {
+                    std::cout << col << " ";
+                }
+                std::cout << std::endl;
+            }
+            return adj;
+        }
     }
 }
 
