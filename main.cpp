@@ -11,21 +11,17 @@ int main(void)
 {
     try {
         MathUtility::VV matrix = MathUtility::makeMatrix(3, 3);
-
+        //
         MathUtility::readMatrix(matrix, std::cin);
 
-        double det = MathUtility::InverseOperation::laplaceExpansionDet(matrix);
-
-        MathUtility::VV cofactorMat = MathUtility::InverseOperation::findCofactorMatrix(matrix);
+        MathUtility::VV F = MathUtility::findInverseMat(matrix);
 
 
-        MathUtility::VV cofacMatT = MathUtility::InverseOperation::doTranspose(cofactorMat);
+        MathUtility::printMatrix(F);
 
-        MathUtility::printMatrix(cofactorMat);
+        // Hill Cipher;
 
-        MathUtility::VV finalMat = MathUtility::InverseOperation::doInvertible(cofactorMat, det);
-
-        MathUtility::printMatrix(finalMat);
+        // Cipher.statementToken();
 
         std::cout << std::endl;
 

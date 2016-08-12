@@ -34,7 +34,7 @@ int getDimension(void)
     return std::stoi(dimension);
 }
 
-VV makeMatrix(int rows, int cols)
+MathUtility::VV makeMatrix(int rows, int cols)
 {
     VV temp(rows);
     for (auto& row : temp) {
@@ -58,7 +58,7 @@ bool isZero(double number, double epsilon = 1e-12)
 // printMatrix(M, std::ofstream("temp.txt")) -> print Matrix M in temp.txt file
 // SIMILAR for read input
 
-void printMatrix(const VV& matrix, std::ostream& output = std::cout)
+void printMatrix(const MathUtility::VV& matrix, std::ostream& output = std::cout)
 {
     for (const auto& row : matrix) {
         for (const auto& col : row) {
@@ -83,7 +83,7 @@ void printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
 }
 
 // reading input from console or other file stream
-void readMatrix(VV& matrix, std::istream& input = std::cin)
+void readMatrix(MathUtility::VV& matrix, std::istream& input = std::cin)
 {
     for (auto& row : matrix) {
         for (auto& col : row) {
@@ -111,8 +111,9 @@ int findBestColumn(MathUtility::VV& M, double value = 0)
     for (int i = 0; i < (int)M.size(); ++i) {
         int count{};
         for (int j = 0; j < (int)M.size(); ++j) {
-            if (M[j][i] == value)
+            if (M[j][i] == value) {
                 count++;
+            }
         }
 
         if (count > bestColumn.second) {
@@ -137,28 +138,35 @@ MathUtility::VV deleteRowAndColumn(MathUtility::VV M, int i, int j)
     return M;
 }
 
-bool isMulPossible(const VV& matA, const VV& matB)
+bool isMulPossible(VV& matA, VV& matB)
 {
     return matA[0].size() == matB.size();
 }
 
-VV doMultiple(const VV& matA, const VV& matB)
+MathUtility::VV doMultiple(MathUtility::VV& matA, MathUtility::VV& matB)
 {
-    int multipleRow = matA.size();
-    int multipleCol = matB[0].size();
+    // multipleRow comes from column of first matrixA
+    size_t multipleRow = matA.size();
+    // multipleCol comes from row of second matrixB
+    size_t multipleCol = matB[0].size();
 
     // initialize with value 0 in two dimentional matrices
-    VV multiple(multipleRow, V(multipleCol, 0));
+    // initialize matrix is strictly necessary
+    VV multipleM(multipleRow, V(multipleCol, 0));
 
-    for (int i = 0; i < (int)matA.size(); i++) {
-        for (int k = 0; k < (int)matB[0].size(); k++) {
-            for (int j = 0; j < (int)matB.size(); j++) {
-                multiple[i][k] += matA[i][j] * matB[j][k];
+    if (MathUtility::isMulPossible(matA, matB)) {
+        // performing multiplication
+        for (size_t m = 0; m < matA.size(); m++) {
+            for (size_t i = 0; i < matB[0].size(); i++) {
+                // step hold for sum of two corresponding elements
+                for (size_t j = 0; j < matB.size(); j++) {
+                    multipleM[m][i] += matA[m][j] * matB[j][i];
+                }
             }
         }
     }
 
-    return multiple;
+    return multipleM;
 }
 
 // remember prime number always interger , so no need of template
@@ -197,9 +205,9 @@ int engAlphabet(const char character)
     }
 }
 
-MathUtility::VV dimensionVariantReturn(V& oneD, size_t split)
+MathUtility::VV dimensionVariantReturn(MathUtility::V& oneD, size_t split)
 {
-    VV pseudoTranpose(split, V(split, 0));
+    MathUtility::VV pseudoTranpose(split, V(split, 0));
 
     for (size_t i = 0; i < split; i++) {
         for (size_t j = 0; j < ONECOLUMN; j++) {
@@ -210,7 +218,7 @@ MathUtility::VV dimensionVariantReturn(V& oneD, size_t split)
     return pseudoTranpose;
 }
 
-void dimensionVariantPrint(VV& pseudoVector, size_t split)
+void dimensionVariantPrint(MathUtility::VV& pseudoVector, size_t split)
 {
     for (size_t i = 0; i < split; i++) {
         for (size_t j = 0; j < ONECOLUMN; j++) {
@@ -222,7 +230,7 @@ void dimensionVariantPrint(VV& pseudoVector, size_t split)
 }
 
 // making one dimentional row vector to two dimentional column vector
-void dimensionVariant(V& oneD, size_t split)
+void dimensionVariant(MathUtility::V& oneD, size_t split)
 {
     VV PseudoTranpose(split, V(split, 0));
 
@@ -238,7 +246,7 @@ void dimensionVariant(V& oneD, size_t split)
 }
 
 // http://stackoverflow.com/questions/30734787/c-2d-vector-convert-int-to-double
-void twoDintToTwoDdouble(twoD& shit, VV& doubleShit)
+void twoDintToTwoDdouble(MathUtility::twoD& shit, MathUtility::VV& doubleShit)
 {
     doubleShit.reserve(shit.size());
     for (auto&& v : shit) {
@@ -321,7 +329,6 @@ namespace InverseOperation {
 
     MathUtility::VV doTranspose(MathUtility::VV& A)
     {
-
         int size = A.size();
 
         for (int row = 0; row < size - 1; ++row) {
@@ -341,7 +348,6 @@ namespace InverseOperation {
 
             int size = I.size();
 
-            // std::vector<std::vector<double>> adj(size, std::vector<double>(size, 0));
             MathUtility::VV adj(size, MathUtility::V(size, 0.00));
 
             for (int row = 0; row < size; ++row) {
@@ -350,15 +356,19 @@ namespace InverseOperation {
                 }
             }
 
-            for (const auto& row : adj) {
-                for (const auto& col : row) {
-                    std::cout << col << " ";
-                }
-                std::cout << std::endl;
-            }
             return adj;
         }
     }
+}
+
+MathUtility::VV findInverseMat(MathUtility::VV& matrix)
+{
+    double det = MathUtility::InverseOperation::laplaceExpansionDet(matrix);
+    MathUtility::VV cofactorMat = MathUtility::InverseOperation::findCofactorMatrix(matrix);
+    MathUtility::VV cofacMatT = MathUtility::InverseOperation::doTranspose(cofactorMat);
+    MathUtility::VV finalMat = MathUtility::InverseOperation::doInvertible(cofactorMat, det);
+
+    return finalMat;
 }
 
 // namespace End

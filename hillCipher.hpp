@@ -43,16 +43,17 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
     for (size_t i = 0; i < tokens; i++) {
         // dynamically splittingOnTheFly the string
         std::copy_n(vec.begin(), split, std::back_inserter(dimVariantMat[i]));
-        // change one dimensional container to two dimensional container
+
+        // change dimension of vector
         holder = MathUtility::dimensionVariantReturn(dimVariantMat[i], split);
 
-        std::cout << "Before encipher : " << std::endl;
-        MathUtility::dimensionVariantPrint(holder, split);
+        // before cipher
+        // MathUtility::dimensionVariantPrint(holder, split);
 
         // doing multiple with keyMatrix
         MathUtility::VV heal = MathUtility::doMultiple(keyMatrix, holder);
 
-        std::cout << "After encrypted : " << std::endl;
+        // after cipher
         MathUtility::dimensionVariantPrint(heal, split);
 
         // dynamically decreease the vector by using C++ erasing Template
@@ -101,6 +102,7 @@ void Hill::statementToken()
     try {
         setEncryptText();
         std::string vec = this->encryptText;
+        std::cout << getEncryptText();
         std::cout << std::endl;
         tokenizer(vec);
     } catch (...) {
