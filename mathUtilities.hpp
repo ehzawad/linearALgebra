@@ -2,6 +2,7 @@
 #define _MATHMathUtility_HPP_
 
 #include "inputValidate.hpp"
+#include "humanReadableIndex.hpp"
 #include <algorithm>
 #include <cctype>
 #include <climits>
@@ -189,23 +190,6 @@ bool isPrime(int num)
 
 namespace Helper
 {
-// converting englist letters to corresponding number
-// required for hill cipher or other cipher like ceaser cipher
-// A - 1
-// B - 1
-// .... Z - 26
-// also same for small letters
-//
-int engAlphabet(const char character)
-{
-    if (std::isalpha(character) && std::isupper(character)) {
-        return (character - 'A' + 1);
-    } else if (std::isalpha(character) && std::islower(character)) {
-        return (character - 'a' + 1);
-    } else {
-        return 0;
-    }
-}
 
 MathUtility::VV dimensionVariantReturn(MathUtility::V& oneD, size_t split)
 {
@@ -213,7 +197,7 @@ MathUtility::VV dimensionVariantReturn(MathUtility::V& oneD, size_t split)
 
     for (size_t i = 0; i < split; i++) {
         for (size_t j = 0; j < ONECOLUMN; j++) {
-            pseudoTranpose[i][j] = engAlphabet(oneD[i]);
+            pseudoTranpose[i][j] = PseudoIndex::engAlphabet(oneD[i]);
         }
     }
 
@@ -239,7 +223,7 @@ void dimensionVariant(MathUtility::V& oneD, size_t split)
 
     for (size_t i = 0; i < split; i++) {
         for (size_t j = 0; j < ONECOLUMN; j++) {
-            PseudoTranpose[i][j] = engAlphabet(oneD[i]);
+            PseudoTranpose[i][j] = PseudoIndex::engAlphabet(oneD[i]);
         }
     }
 
