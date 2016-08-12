@@ -1,8 +1,8 @@
 #ifndef _MATHMathUtility_HPP_
 #define _MATHMathUtility_HPP_
 
-#include "inputValidate.hpp"
 #include "humanReadableIndex.hpp"
+#include "inputValidate.hpp"
 #include <algorithm>
 #include <cctype>
 #include <climits>
@@ -13,6 +13,8 @@
 #include <vector>
 // macros
 #define ONECOLUMN 1
+
+const double LETTERS = 26;
 
 namespace MathUtility {
 using V = std::vector<double>;
@@ -188,51 +190,70 @@ bool isPrime(int num)
     }
 }
 
-namespace Helper
-{
+namespace Helper {
 
-MathUtility::VV dimensionVariantReturn(MathUtility::V& oneD, size_t split)
-{
-    MathUtility::VV pseudoTranpose(split, V(split, 0));
+    void printMatrixVariant(const MathUtility::VV& matrix, std::ostream& output = std::cout)
+    {
+        for (const auto& row : matrix) {
+            for (const auto& col : row) {
+                if (col == 0) {
+                    continue;
+                }
+                int result = (int)col;
 
-    for (size_t i = 0; i < split; i++) {
-        for (size_t j = 0; j < ONECOLUMN; j++) {
-            pseudoTranpose[i][j] = PseudoIndex::engAlphabet(oneD[i]);
+                if (result > 26) {
+                    output << std::setw(3) << (char)((result % 26) + 'A' + 1) << " ";
+                } else {
+                    output << std::setw(3) << (char)(result + 'A' - 1) << " ";
+                }
+            }
+            output << " ";
         }
+        std::cout << std::endl;
     }
 
-    return pseudoTranpose;
-}
+    MathUtility::VV dimensionVariantReturn(MathUtility::V& oneD, size_t split)
+    {
+        MathUtility::VV pseudoTranpose(split, V(split, 0));
 
-void dimensionVariantPrint(MathUtility::VV& pseudoVector, size_t split)
-{
-    for (size_t i = 0; i < split; i++) {
-        for (size_t j = 0; j < ONECOLUMN; j++) {
-            std::cout << std::setw(3) << pseudoVector[i][j] << " ";
+        for (size_t i = 0; i < split; i++) {
+            for (size_t j = 0; j < ONECOLUMN; j++) {
+                pseudoTranpose[i][j] = PseudoIndex::engAlphabet(oneD[i]);
+            }
         }
-        std::cout << "  ";
-    }
-    std::cout << std::endl
-              << std::endl;
-}
 
-// making one dimentional row vector to two dimentional column vector
-void dimensionVariant(MathUtility::V& oneD, size_t split)
-{
-    VV PseudoTranpose(split, V(split, 0));
-
-    for (size_t i = 0; i < split; i++) {
-        for (size_t j = 0; j < ONECOLUMN; j++) {
-            PseudoTranpose[i][j] = PseudoIndex::engAlphabet(oneD[i]);
-        }
+        return pseudoTranpose;
     }
 
-    std::cout << std::endl;
+    void dimensionVariantPrint(MathUtility::VV& pseudoVector, size_t split)
+    {
+        for (size_t i = 0; i < split; i++) {
+            for (size_t j = 0; j < ONECOLUMN; j++) {
+                std::cout << std::setw(3) << pseudoVector[i][j] << " ";
+            }
+            std::cout << "  ";
+        }
+        std::cout << std::endl
+                  << std::endl;
+    }
 
-    dimensionVariantPrint(PseudoTranpose, split);
-}
+    // making one dimentional row vector to two dimentional column vector
+    void dimensionVariant(MathUtility::V& oneD, size_t split)
+    {
+        VV PseudoTranpose(split, V(split, 0));
 
-// end helperNamespace
+        for (size_t i = 0; i < split; i++) {
+            for (size_t j = 0; j < ONECOLUMN; j++) {
+                PseudoTranpose[i][j] = PseudoIndex::engAlphabet(oneD[i]);
+            }
+        }
+
+        std::cout << std::endl;
+
+        dimensionVariantPrint(PseudoTranpose, split);
+    }
+
+    // end helperNamespace
 }
 
 // http://stackoverflow.com/questions/30734787/c-2d-vector-convert-int-to-double

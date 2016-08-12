@@ -38,14 +38,14 @@ public:
 void Hill::printEncryptedCode()
 {
     std::cout << "encrypted String : " << std::endl;
-    MathUtility::printMatrix(this->encryptedCodeString);
+    MathUtility::Helper::printMatrixVariant(this->encryptedCodeString);
     std::cout << std::endl;
 }
 
 void Hill::printDecryptedCode()
 {
     std::cout << "decrypted String : " << std::endl;
-    MathUtility::printMatrix(this->decryptedCodeString);
+    MathUtility::Helper::printMatrixVariant(this->decryptedCodeString);
     std::cout << std::endl;
 }
 
@@ -93,14 +93,14 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
         MathUtility::Helper::dimensionVariantPrint(heal, split);
 
         // this will help us to the whole string in vector
-        decryptedCode(heal);
+        encryptedCode(heal);
 
         MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, heal);
 
         std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
         MathUtility::Helper::dimensionVariantPrint(decrypt, split);
 
-        encryptedCode(decrypt);
+        decryptedCode(decrypt);
 
         // dynamically decreease the vector by using C++ erasing Template
         vec.erase(vec.begin(), vec.begin() + split);
