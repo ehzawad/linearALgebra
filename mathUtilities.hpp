@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cctype>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
@@ -202,9 +203,9 @@ namespace Helper {
                 int result = (int)col;
 
                 if (result > 26) {
-                    output << std::setw(3) << (char)((result % 26) + 'A' + 1);
+                    output << std::setw(3) << std::fixed << (char)(std::ceil((result % 26) + 'A' + 1));
                 } else {
-                    output << std::setw(3) << (char)(result + 'A' - 1);
+                    output << std::setw(3) << std::fixed << (char)(std::ceil(result + 'A' - 1));
                 }
             }
             output << " ";
