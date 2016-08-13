@@ -202,9 +202,9 @@ namespace Helper {
                 int result = (int)col;
 
                 if (result > 26) {
-                    output << std::setw(3) << (char)((result % 26) + 'A' + 1) << " ";
+                    output << std::setw(3) << (char)((result % 26) + 'A' + 1);
                 } else {
-                    output << std::setw(3) << (char)(result + 'A' - 1) << " ";
+                    output << std::setw(3) << (char)(result + 'A' - 1);
                 }
             }
             output << " ";
@@ -272,7 +272,7 @@ void twoDintToTwoDdouble(MathUtility::twoD& shit, MathUtility::VV& doubleShit)
 namespace InverseOperation {
     // here is not passing reference , be careful
     int laplaceExpansionDet(MathUtility::VV M);
-
+    bool isDeterminantZero(const MathUtility::VV& matrix);
     // but here all matrix are passed by reference
     int findMinor(MathUtility::VV& M, int row, int col);
     int expand(MathUtility::VV& M, int col);
@@ -369,16 +369,29 @@ namespace InverseOperation {
             return adj;
         }
     }
+
+    bool isDeterminantZero(const MathUtility::VV& matrix)
+    {
+        if (MathUtility::InverseOperation::laplaceExpansionDet(matrix) == 0) {
+            std::cerr << "Inverse Matrix is impossible, as determinant is zero" << std::endl;
+            return false;
+        }
+        return true;
+    }
 }
 
 MathUtility::VV findInverseMat(MathUtility::VV& matrix)
 {
-    double det = MathUtility::InverseOperation::laplaceExpansionDet(matrix);
-    MathUtility::VV cofactorMat = MathUtility::InverseOperation::findCofactorMatrix(matrix);
-    MathUtility::VV cofacMatT = MathUtility::InverseOperation::doTranspose(cofactorMat);
-    MathUtility::VV finalMat = MathUtility::InverseOperation::doInvertible(cofactorMat, det);
+    if (MathUtility::InverseOperation::isDeterminantZero(matrix)) {
+        double det = MathUtility::InverseOperation::laplaceExpansionDet(matrix);
+        MathUtility::VV cofactorMat = MathUtility::InverseOperation::findCofactorMatrix(matrix);
+        MathUtility::VV cofacMatT = MathUtility::InverseOperation::doTranspose(cofactorMat);
+        MathUtility::VV finalMat = MathUtility::InverseOperation::doInvertible(cofactorMat, det);
 
-    return finalMat;
+        return finalMat;
+    } else {
+        std::_Exit(EXIT_FAILURE);
+    }
 }
 
 // namespace End

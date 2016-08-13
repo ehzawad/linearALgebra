@@ -143,7 +143,6 @@ void Hill::tokenizer(std::string& vec)
     MathUtility::printMatrix(inverseKeyMatrix);
     std::cout << std::endl;
 
-    // heart of the program
     splittingOnTheFly(twoD, vec, tokens, split, holder, keyMatrix, inverseKeyMatrix);
 }
 
