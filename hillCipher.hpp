@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 
 // core class of Hill Cipher logic
 // other namespace is actually a helper class
@@ -27,8 +28,10 @@ public:
     std::string getText(void);
 
     size_t tokenSizeCalc(std::string& theString);
+
+    std::tuple<MathUtility::VV, MathUtility::VV> keyMatrixAndItsInverseTuple(void);
     // on the fly, it will encipher and decipher the text
-    void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, MathUtility::VV&, MathUtility::VV&, MathUtility::VV&);
+    void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, MathUtility::VV&, MathUtility::VV&);
     // just tokenize the whole string
     void tokenizer(std::string&);
     // will call the tokenizer method
@@ -96,8 +99,10 @@ void Hill::decryptedCode(MathUtility::VV& deCipherCode)
 }
 
 // the heart of the Hill Cipher Program
-void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, MathUtility::VV& holder, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
+void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
 {
+    // make room for holder Matrix and initialize it to zero
+    MathUtility::VV holder(this->splitLength, MathUtility::V(this->splitLength, 0));
     // this type of declaration will initialize the the variable with value zero
     size_t counter{};
     for (size_t i = 0; i < tokens; i++) {
@@ -157,12 +162,8 @@ size_t Hill::tokenSizeCalc(std::string& theString)
     return numOfTokens;
 }
 
-void Hill::tokenizer(std::string& vec)
+std::tuple<MathUtility::VV, MathUtility::VV> Hill::keyMatrixAndItsInverseTuple(void)
 {
-    size_t tokens = tokenSizeCalc(vec);
-
-    MathUtility::VV twoD(tokens);
-    MathUtility::VV holder(this->splitLength, MathUtility::V(this->splitLength, 0));
     MathUtility::VV keyMatrix = MathUtility::makeMatrix(this->splitLength, this->splitLength);
 
     std::cout << "Enter your Matrix(" << splitLength << "X" << splitLength << ")"
@@ -176,8 +177,22 @@ void Hill::tokenizer(std::string& vec)
     MathUtility::printMatrix(inverseKeyMatrix);
     std::cout << std::endl;
 
+    return std::make_tuple(keyMatrix, inverseKeyMatrix);
+}
+
+void Hill::tokenizer(std::string& vec)
+{
+    size_t tokens = tokenSizeCalc(vec);
+
+    MathUtility::VV twoD(tokens);
+
+    MathUtility::VV keyMat;
+    MathUtility::VV inverseKeyMat;
+
+    std::tie(keyMat, inverseKeyMat) = keyMatrixAndItsInverseTuple();
+
     // most important method of Hill Cipher Class
-    splittingOnTheFly(twoD, vec, tokens, holder, keyMatrix, inverseKeyMatrix);
+    splittingOnTheFly(twoD, vec, tokens, keyMat, inverseKeyMat);
 }
 
 void Hill::statementToken()
