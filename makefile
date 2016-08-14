@@ -21,5 +21,8 @@ all:
 run:
 	./$(EXE)
 
+debug:
+	gdb ./$(EXE)
+
 clean:
 	rm -f core *.o $(EXE)
