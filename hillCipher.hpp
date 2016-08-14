@@ -30,7 +30,7 @@ public:
     size_t tokenSizeCalc(std::string& theString);
 
     std::tuple<MathUtility::VV, MathUtility::VV> keyMatrixAndItsInverseTuple(void);
-    std::tuple<MathUtility::VV, MathUtility::VV> encipherDecipher(MathUtility::VV&, MathUtility::VV&, MathUtility::VV&);
+    std::tuple<MathUtility::VV, MathUtility::VV> encipherDecipher(MathUtility::VV&, size_t, MathUtility::VV&, MathUtility::VV&);
     // on the fly, it will encipher and decipher the text
     void splittingOnTheFly(std::string&, size_t tokens, MathUtility::VV&, MathUtility::VV&);
     // just tokenize the whole string
@@ -99,15 +99,13 @@ void Hill::decryptedCode(MathUtility::VV& deCipherCode)
     }
 }
 
-std::tuple<MathUtility::VV, MathUtility::VV> Hill::encipherDecipher(MathUtility::VV& holder, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
+std::tuple<MathUtility::VV, MathUtility::VV> Hill::encipherDecipher(MathUtility::VV& holder, size_t counter, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
 {
-
-    size_t counter{};
     // doing multiple with keyMatrix
     MathUtility::VV enciphered = MathUtility::doMultiple(keyMatrix, holder);
 
     // after cipher
-    std::cout << "EncryptedToken[" << std::setw(2) << ++counter << " ] -- ";
+    std::cout << "EncryptedToken[" << std::setw(2) << counter << " ] -- ";
     MathUtility::Helper::dimensionVariantPrint(enciphered, this->splitLength);
 
     // decipher the text
@@ -126,7 +124,9 @@ void Hill::splittingOnTheFly(std::string& vec, size_t tokens, MathUtility::VV& k
     // this type of declaration will initialize the the variable with value zero
     MathUtility::VV holder(this->splitLength, MathUtility::V(this->splitLength, 0));
     MathUtility::VV dimVariantMat(tokens);
+    size_t counter{};
     for (size_t i = 0; i < tokens; i++) {
+        counter++;
         // dynamically splittingOnTheFly the string
         // dynamically split the vector, copy upto to length split size
         std::copy_n(vec.begin(), this->splitLength, std::back_inserter(dimVariantMat[i]));
@@ -137,7 +137,7 @@ void Hill::splittingOnTheFly(std::string& vec, size_t tokens, MathUtility::VV& k
         MathUtility::VV encipheredToken;
         MathUtility::VV decipheredToken;
 
-        std::tie(encipheredToken, decipheredToken) = encipherDecipher(holder, keyMatrix, inverseKeyMatrix);
+        std::tie(encipheredToken, decipheredToken) = encipherDecipher(holder, counter, keyMatrix, inverseKeyMatrix);
 
         // this will help us to store the whole string in vector
         encryptedCode(encipheredToken);
