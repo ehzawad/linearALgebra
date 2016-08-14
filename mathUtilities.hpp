@@ -30,14 +30,21 @@ using twoD = std::vector<V>;
 
 void setDimension(void)
 {
+    // set dimension of matrices
+    // n X n matrix
     dimension = ValidateInput::inputData("dimension", "\\d+");
 }
 
 int getDimension(void)
 {
+    // this will return interger ,
+    // but why Integer
+    // because , remember you have take
     return std::stoi(dimension);
 }
 
+// build matrix according to user input
+// essentially, this will allocate the memory
 MathUtility::VV makeMatrix(int rows, int cols)
 {
     VV temp(rows);
@@ -61,7 +68,8 @@ bool isZero(double number, double epsilon = 1e-12)
 // printMatrix(M) -> prints Matrix M in the console
 // printMatrix(M, std::ofstream("temp.txt")) -> print Matrix M in temp.txt file
 // SIMILAR for read input
-
+// second parameter is optional, This parameter will help you to extend the Program
+// for future scaling, such as If you want to use fill stream
 void printMatrix(const MathUtility::VV& matrix, std::ostream& output = std::cout)
 {
     for (const auto& row : matrix) {
@@ -73,6 +81,7 @@ void printMatrix(const MathUtility::VV& matrix, std::ostream& output = std::cout
 }
 
 // same as printMatrix, just for double with precison
+// this is essentially help double typed Inverse Function
 void printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
 {
     for (const auto& row : matrix) {
@@ -87,6 +96,8 @@ void printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
 }
 
 // reading input from console or other file stream
+// same as printMatrix,
+// here you can also use file text
 void readMatrix(MathUtility::VV& matrix, std::istream& input = std::cin)
 {
     for (auto& row : matrix) {
@@ -94,6 +105,8 @@ void readMatrix(MathUtility::VV& matrix, std::istream& input = std::cin)
             input >> col;
             if (input.fail()) {
                 std::cin.clear(); // reset the failed state
+                // bad input as charater as a matrix will terminate the Program
+                // No excuse
                 std::_Exit(EXIT_FAILURE);
             }
         }
@@ -120,6 +133,8 @@ int findBestColumn(MathUtility::VV& M, double value = 0)
             }
         }
 
+        // As second parameter of pair<T, T>
+        // essentially store the occurrences
         if (count > bestColumn.second) {
             bestColumn.first = i;
             bestColumn.second = count;
@@ -191,6 +206,8 @@ bool isPrime(int num)
     }
 }
 
+// this is inner namespace of MathUtility namespace
+// which will help the Hill Cipher Class
 namespace Helper {
 
     void printMatrixVariant(const MathUtility::VV& matrix, std::ostream& output = std::cout)
@@ -286,6 +303,7 @@ namespace InverseOperation {
 
     int findMinor(MathUtility::VV& M, int row, int col)
     {
+        // this is mutally depends on other function
         return InverseOperation::laplaceExpansionDet(MathUtility::deleteRowAndColumn(M, row, col));
     }
 
@@ -294,6 +312,7 @@ namespace InverseOperation {
         int determinant{};
 
         for (int row = 0; row < (int)M.size(); ++row) {
+            // remember odd possible is multiple with -1 value
             int sign = ((row + col) % 2 == 1) ? -1 : 1;
 
             if (!MathUtility::isZero(M[row][col])) {
@@ -330,6 +349,7 @@ namespace InverseOperation {
             for (int col = 0; col < size; col++) {
                 int sign = ((row + col) % 2 == 1) ? -1 : 1;
 
+                // sign is (r + c)^ n
                 cofactor = sign * findMinor(M, row, col);
                 cofactorMatrix[row][col] = cofactor;
             }
@@ -353,16 +373,18 @@ namespace InverseOperation {
 
     MathUtility::VV doInvertible(MathUtility::VV& I, double detValue)
     {
-        if (detValue == 0) {
+        if (detValue == 0.0) {
             throw std::overflow_error("Divide by zero exception");
         } else {
 
             int size = I.size();
 
+            // this will memory for adjugant matrix
             MathUtility::VV adj(size, MathUtility::V(size, 0.00));
 
             for (int row = 0; row < size; ++row) {
                 for (int col = 0; col < size; col++) {
+                    // type casting is must here !!
                     adj[row][col] += (double)(I[row][col] * (1.00 / (double)detValue));
                 }
             }
@@ -381,6 +403,8 @@ namespace InverseOperation {
     }
 }
 
+// findInverseMat is compsed with few
+// composbale function , which is independently resuseable
 MathUtility::VV findInverseMat(MathUtility::VV& matrix)
 {
     if (MathUtility::InverseOperation::isDeterminantZero(matrix)) {

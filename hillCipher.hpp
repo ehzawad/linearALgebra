@@ -9,22 +9,27 @@
 #include <stdexcept>
 #include <string>
 
-#define ONECOLUMN 1
-
+// core class of Hill Cipher logic
+// other namespace is actually a helper class
 class Hill {
 private:
-    std::string encryptText;
+    // user input text
+    std::string inputText;
     MathUtility::VV encryptedCodeString;
     MathUtility::VV decryptedCodeString;
+    // this length determine the matrix size
     size_t splitLength;
 
 public:
     // setter and getter of string
-    void setEncryptText(void);
-    // get encryptText text
-    std::string getEncryptText(void);
+    void setText(void);
+    // get inputText text
+    std::string getText(void);
+    // on the fly, it will encipher and decipher the text
     void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, size_t split, MathUtility::VV&, MathUtility::VV&, MathUtility::VV&);
+    // just tokenize the whole string
     void tokenizer(std::string&);
+    // will call the tokenizer method
     void statementToken(void);
 
     // this is directly store encrypted code
@@ -50,19 +55,30 @@ void Hill::printDecryptedCode()
 }
 
 // Implementation of hill class
-void Hill::setEncryptText(void)
+void Hill::setText(void)
 {
+    // Instantiation of linux terminal process
+    // this method will hide input for short time
     termios process = linuxUtil::setNotEchoingMode();
-    this->encryptText = ValidateInput::inputData("message", ".+");
+    // input the string from the user
+    // which esseentially check REGEX pattern
+    // null input will not allowd here
+    this->inputText = ValidateInput::inputData("message", ".+");
+
+    // remember you have gone to NOT ECHOING mode
+    // so you have to revert back to previous state
     linuxUtil::goBack(process);
 }
 
-// get encryptText text
-std::string Hill::getEncryptText(void)
+// get inputText text
+std::string Hill::getText(void)
 {
-    return this->encryptText;
+    return this->inputText;
 }
 
+// this will dynamically push chipherCode string =,
+// which is esseentially a two dimensional vector
+// the splliting part pushed from splittingOnTheFly() method
 void Hill::encryptedCode(MathUtility::VV& cipherCode)
 {
     for (auto& hillCipheredCode : cipherCode) {
@@ -77,25 +93,31 @@ void Hill::decryptedCode(MathUtility::VV& deCipherCode)
     }
 }
 
+// the heart of the Hill Cipher Program
 void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, size_t split, MathUtility::VV& holder, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
 {
+    // this type of declaration will initialize the the variable with value zero
     size_t counter{};
     for (size_t i = 0; i < tokens; i++) {
         // dynamically splittingOnTheFly the string
+        // dynamically split the vector, copy upto to length split size
         std::copy_n(vec.begin(), split, std::back_inserter(dimVariantMat[i]));
+
         // change dimension of vector
         holder = MathUtility::Helper::dimensionVariantReturn(dimVariantMat[i], split);
+
         // doing multiple with keyMatrix
-        MathUtility::VV heal = MathUtility::doMultiple(keyMatrix, holder);
+        MathUtility::VV enciphered = MathUtility::doMultiple(keyMatrix, holder);
 
         // after cipher
         std::cout << "EncryptedToken[" << std::setw(2) << ++counter << " ] -- ";
-        MathUtility::Helper::dimensionVariantPrint(heal, split);
+        MathUtility::Helper::dimensionVariantPrint(enciphered, split);
 
-        // this will help us to the whole string in vector
-        encryptedCode(heal);
+        // this will help us to store the whole string in vector
+        encryptedCode(enciphered);
 
-        MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, heal);
+        // decipher the text
+        MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, enciphered);
 
         std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
         MathUtility::Helper::dimensionVariantPrint(decrypt, split);
@@ -103,29 +125,32 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
         decryptedCode(decrypt);
 
         // dynamically decreease the vector by using C++ erasing Template
+        // dynamically erase the string(std::vector) size
         vec.erase(vec.begin(), vec.begin() + split);
     }
 }
 
 void Hill::tokenizer(std::string& vec)
 {
+    // determine the token size
     size_t tokens{};
-    size_t spaceFact{};
+    // helper variable to size of split
+    size_t spaceFactor{};
 
     if (vec.size() % 2 == 0) {
         tokens = vec.size() / 2;
-        spaceFact = vec.size();
+        spaceFactor = vec.size();
     } else if ((vec.size() % 2 != 0) && MathUtility::isPrime(vec.size())) {
         vec.resize(vec.size() + 1);
         tokens = (vec.size() / 2);
-        spaceFact = vec.size();
+        spaceFactor = vec.size();
     } else {
         tokens = vec.size() / 3;
-        spaceFact = vec.size();
+        spaceFactor = vec.size();
     }
 
-    std::cout << "TOkensize : " << tokens << std::endl;
-    size_t split = (spaceFact % 2 == 0) ? 2 : 3;
+    std::cout << "TokenSize : " << tokens << std::endl;
+    size_t split = (spaceFactor % 2 == 0) ? 2 : 3;
     this->splitLength = split;
 
     MathUtility::VV twoD(tokens);
@@ -143,23 +168,29 @@ void Hill::tokenizer(std::string& vec)
     MathUtility::printMatrix(inverseKeyMatrix);
     std::cout << std::endl;
 
+    // most important method of Hill Cipher Class
     splittingOnTheFly(twoD, vec, tokens, split, holder, keyMatrix, inverseKeyMatrix);
 }
 
 void Hill::statementToken()
 {
     try {
-        setEncryptText();
+        // this will promt input from the user
+        setText();
 
-        std::string vec = this->encryptText;
+        // copy user input string in vec variable
+        std::string vec = this->inputText;
         // space is ignored now
-        vec.erase(std::remove_if(vec.begin(),
-                      vec.end(),
+        // lambda function
+        vec.erase(std::remove_if(vec.begin(), vec.end(),
                       [](char x) { return std::isspace(x); }),
             vec.end());
-        std::cout << getEncryptText();
+        std::cout << getText();
         std::cout << std::endl;
+        // caling tokenizer method
         tokenizer(vec);
+        // three dots is heloful because, it will exception
+        // whatever it is, if try block throw an exception
     } catch (...) {
         std::cout << "Something wrong there ! " << std::endl;
     }
