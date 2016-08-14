@@ -216,7 +216,7 @@ void Hill::statementToken()
             // space is ignored now
             // lambda function
             vec.erase(std::remove_if(vec.begin(), vec.end(),
-                          [](char x) { return std::isspace(x); }),
+                          [](char x) { return std::iscntrl(x); }),
                 vec.end());
             std::cout << getText();
             std::cout << std::endl;
@@ -225,7 +225,7 @@ void Hill::statementToken()
             // three dots is heloful because, it will exception
             // whatever it is, if try block throw an exception
         } else {
-            std::cout << "A character will not cipher by matrix by matrix.. wired\n";
+            std::cout << "A character will not cipher by 1 by 1 matrix.. wired\n";
             std::_Exit(EXIT_FAILURE);
         }
     } catch (...) {

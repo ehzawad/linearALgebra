@@ -216,17 +216,11 @@ namespace Helper {
                 if (col == 0) {
                     continue;
                 }
-                int result = (int)col;
-
-                if (result > 26) {
-                    output << std::setw(3) << std::fixed << (char)(std::ceil((result % 26) + 'A' + 1));
-                } else {
-                    output << std::setw(3) << std::fixed << (char)(std::ceil(result + 'A' - 1));
-                }
+                int result = std::ceil(col);
+                PseudoIndex::printPseudoIndexedChar(result);
             }
-            output << " ";
         }
-        std::cout << std::endl;
+        output << std::endl;
     }
 
     MathUtility::VV dimensionVariantReturn(MathUtility::V& oneD, size_t split)
