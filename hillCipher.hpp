@@ -16,8 +16,8 @@ class Hill {
 private:
     // user input text
     std::string inputText;
-    MathUtility::VV encryptedCodeString;
-    MathUtility::VV decryptedCodeString;
+    MathUtility::VV encryptedCodeStorageString;
+    MathUtility::VV decryptedCodeStorageString;
     // this length determine the matrix size
     size_t splitLength;
 
@@ -39,24 +39,24 @@ public:
     void statementToken(void);
 
     // this is directly store encrypted code
-    void encryptedCode(MathUtility::VV&);
+    void encryptedCodeStorage(MathUtility::VV&);
     void printEncryptedCode(void);
     // this is directly store decrypted code
-    void decryptedCode(MathUtility::VV&);
+    void decryptedCodeStorage(MathUtility::VV&);
     void printDecryptedCode(void);
 };
 
 void Hill::printEncryptedCode()
 {
     std::cout << "encrypted String : " << std::endl;
-    MathUtility::Helper::printMatrixVariant(this->encryptedCodeString);
+    MathUtility::Helper::printMatrixVariant(this->encryptedCodeStorageString);
     std::cout << std::endl;
 }
 
 void Hill::printDecryptedCode()
 {
     std::cout << "decrypted String : " << std::endl;
-    MathUtility::Helper::printMatrixVariant(this->decryptedCodeString);
+    MathUtility::Helper::printMatrixVariant(this->decryptedCodeStorageString);
     std::cout << std::endl;
 }
 
@@ -85,17 +85,17 @@ std::string Hill::getText(void)
 // this will dynamically push chipherCode string =,
 // which is esseentially a two dimensional vector
 // the splliting part pushed from splittingOnTheFly() method
-void Hill::encryptedCode(MathUtility::VV& cipherCode)
+void Hill::encryptedCodeStorage(MathUtility::VV& cipherCode)
 {
     for (auto& hillCipheredCode : cipherCode) {
-        encryptedCodeString.push_back(hillCipheredCode);
+        encryptedCodeStorageString.push_back(hillCipheredCode);
     }
 }
 
-void Hill::decryptedCode(MathUtility::VV& deCipherCode)
+void Hill::decryptedCodeStorage(MathUtility::VV& deCipherCode)
 {
     for (auto& hillCipheredCode : deCipherCode) {
-        decryptedCodeString.push_back(hillCipheredCode);
+        decryptedCodeStorageString.push_back(hillCipheredCode);
     }
 }
 
@@ -136,14 +136,13 @@ void Hill::splittingOnTheFly(std::string& vec, size_t tokens, MathUtility::VV& k
 
         MathUtility::VV encipheredToken;
         MathUtility::VV decipheredToken;
-
+        // tied with tuples
         std::tie(encipheredToken, decipheredToken) = encipherDecipher(holder, counter, keyMatrix, inverseKeyMatrix);
 
-        // this will help us to store the whole string in vector
-        encryptedCode(encipheredToken);
-        decryptedCode(decipheredToken);
+        encryptedCodeStorage(encipheredToken);
+        decryptedCodeStorage(decipheredToken);
 
-        // dynamically decrease the vector by using C++ erasing Template
+        // dynamically decrease the vector by using C++ erase of Vector Template
         // dynamically erase the string(std::vector) size
         vec.erase(vec.begin(), vec.begin() + this->splitLength);
     }
