@@ -16,8 +16,8 @@ class Hill {
 private:
     // user input text
     std::string inputText;
-    MathUtility::VV encryptedCodeStorageString;
-    MathUtility::VV decryptedCodeStorageString;
+    MathUtility::VV encryptedCodeString;
+    MathUtility::VV decryptedCodeString;
     // this length determine the matrix size
     size_t splitLength;
 
@@ -49,14 +49,14 @@ public:
 void Hill::printEncryptedCode()
 {
     std::cout << "encrypted String : " << std::endl;
-    MathUtility::Helper::printMatrixVariant(this->encryptedCodeStorageString);
+    MathUtility::Helper::printMatrixVariant(this->encryptedCodeString);
     std::cout << std::endl;
 }
 
 void Hill::printDecryptedCode()
 {
     std::cout << "decrypted String : " << std::endl;
-    MathUtility::Helper::printMatrixVariant(this->decryptedCodeStorageString);
+    MathUtility::Helper::printMatrixVariant(this->decryptedCodeString);
     std::cout << std::endl;
 }
 
@@ -88,14 +88,14 @@ std::string Hill::getText(void)
 void Hill::encryptedCodeStorage(MathUtility::VV& cipherCode)
 {
     for (auto& hillCipheredCode : cipherCode) {
-        encryptedCodeStorageString.push_back(hillCipheredCode);
+        this->encryptedCodeString.push_back(hillCipheredCode);
     }
 }
 
 void Hill::decryptedCodeStorage(MathUtility::VV& deCipherCode)
 {
     for (auto& hillCipheredCode : deCipherCode) {
-        decryptedCodeStorageString.push_back(hillCipheredCode);
+        this->decryptedCodeString.push_back(hillCipheredCode);
     }
 }
 
