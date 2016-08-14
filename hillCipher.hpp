@@ -30,6 +30,7 @@ public:
     size_t tokenSizeCalc(std::string& theString);
 
     std::tuple<MathUtility::VV, MathUtility::VV> keyMatrixAndItsInverseTuple(void);
+    std::tuple<MathUtility::VV, MathUtility::VV> encipherDecipher(MathUtility::VV&, MathUtility::VV&, MathUtility::VV&);
     // on the fly, it will encipher and decipher the text
     void splittingOnTheFly(std::string&, size_t tokens, MathUtility::VV&, MathUtility::VV&);
     // just tokenize the whole string
@@ -98,14 +99,33 @@ void Hill::decryptedCode(MathUtility::VV& deCipherCode)
     }
 }
 
+std::tuple<MathUtility::VV, MathUtility::VV> Hill::encipherDecipher(MathUtility::VV& holder, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
+{
+
+    size_t counter{};
+    // doing multiple with keyMatrix
+    MathUtility::VV enciphered = MathUtility::doMultiple(keyMatrix, holder);
+
+    // after cipher
+    std::cout << "EncryptedToken[" << std::setw(2) << ++counter << " ] -- ";
+    MathUtility::Helper::dimensionVariantPrint(enciphered, this->splitLength);
+
+    // decipher the text
+    MathUtility::VV deciphered = MathUtility::doMultiple(inverseKeyMatrix, enciphered);
+
+    std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
+    MathUtility::Helper::dimensionVariantPrint(deciphered, this->splitLength);
+
+    return std::make_tuple(enciphered, deciphered);
+}
+
 // the heart of the Hill Cipher Program
 void Hill::splittingOnTheFly(std::string& vec, size_t tokens, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
 {
     // make room for holder Matrix and initialize it to zero
-    MathUtility::VV holder(this->splitLength, MathUtility::V(this->splitLength, 0));
     // this type of declaration will initialize the the variable with value zero
+    MathUtility::VV holder(this->splitLength, MathUtility::V(this->splitLength, 0));
     MathUtility::VV dimVariantMat(tokens);
-    size_t counter{};
     for (size_t i = 0; i < tokens; i++) {
         // dynamically splittingOnTheFly the string
         // dynamically split the vector, copy upto to length split size
@@ -114,23 +134,14 @@ void Hill::splittingOnTheFly(std::string& vec, size_t tokens, MathUtility::VV& k
         // change dimension of vector
         holder = MathUtility::Helper::dimensionVariantReturn(dimVariantMat[i], this->splitLength);
 
-        // doing multiple with keyMatrix
-        MathUtility::VV enciphered = MathUtility::doMultiple(keyMatrix, holder);
+        MathUtility::VV encipheredToken;
+        MathUtility::VV decipheredToken;
 
-        // after cipher
-        std::cout << "EncryptedToken[" << std::setw(2) << ++counter << " ] -- ";
-        MathUtility::Helper::dimensionVariantPrint(enciphered, this->splitLength);
+        std::tie(encipheredToken, decipheredToken) = encipherDecipher(holder, keyMatrix, inverseKeyMatrix);
 
         // this will help us to store the whole string in vector
-        encryptedCode(enciphered);
-
-        // decipher the text
-        MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, enciphered);
-
-        std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
-        MathUtility::Helper::dimensionVariantPrint(decrypt, this->splitLength);
-
-        decryptedCode(decrypt);
+        encryptedCode(encipheredToken);
+        decryptedCode(decipheredToken);
 
         // dynamically decrease the vector by using C++ erasing Template
         // dynamically erase the string(std::vector) size
