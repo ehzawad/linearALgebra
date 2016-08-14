@@ -209,7 +209,6 @@ bool isPrime(int num)
 // this is inner namespace of MathUtility namespace
 // which will help the Hill Cipher Class
 namespace Helper {
-
     void printMatrixVariant(const MathUtility::VV& matrix, std::ostream& output = std::cout)
     {
         for (const auto& row : matrix) {
@@ -397,9 +396,9 @@ namespace InverseOperation {
     {
         if (MathUtility::InverseOperation::laplaceExpansionDet(matrix) == 0) {
             std::cerr << "Inverse Matrix is impossible, as determinant is zero" << std::endl;
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }
 
@@ -407,7 +406,7 @@ namespace InverseOperation {
 // composbale function , which is independently resuseable
 MathUtility::VV findInverseMat(MathUtility::VV& matrix)
 {
-    if (MathUtility::InverseOperation::isDeterminantZero(matrix)) {
+    if (!MathUtility::InverseOperation::isDeterminantZero(matrix)) {
         double det = MathUtility::InverseOperation::laplaceExpansionDet(matrix);
         MathUtility::VV cofactorMat = MathUtility::InverseOperation::findCofactorMatrix(matrix);
         MathUtility::VV cofacMatT = MathUtility::InverseOperation::doTranspose(cofactorMat);
