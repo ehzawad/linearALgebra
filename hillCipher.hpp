@@ -150,7 +150,13 @@ void Hill::statementToken()
 {
     try {
         setEncryptText();
+
         std::string vec = this->encryptText;
+        // space is ignored now
+        vec.erase(std::remove_if(vec.begin(),
+                      vec.end(),
+                      [](char x) { return std::isspace(x); }),
+            vec.end());
         std::cout << getEncryptText();
         std::cout << std::endl;
         tokenizer(vec);
