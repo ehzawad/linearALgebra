@@ -25,8 +25,10 @@ public:
     void setText(void);
     // get inputText text
     std::string getText(void);
+
+    size_t tokenSizeCalc(std::string& theString);
     // on the fly, it will encipher and decipher the text
-    void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, size_t split, MathUtility::VV&, MathUtility::VV&, MathUtility::VV&);
+    void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, MathUtility::VV&, MathUtility::VV&, MathUtility::VV&);
     // just tokenize the whole string
     void tokenizer(std::string&);
     // will call the tokenizer method
@@ -94,24 +96,24 @@ void Hill::decryptedCode(MathUtility::VV& deCipherCode)
 }
 
 // the heart of the Hill Cipher Program
-void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, size_t split, MathUtility::VV& holder, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
+void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, MathUtility::VV& holder, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
 {
     // this type of declaration will initialize the the variable with value zero
     size_t counter{};
     for (size_t i = 0; i < tokens; i++) {
         // dynamically splittingOnTheFly the string
         // dynamically split the vector, copy upto to length split size
-        std::copy_n(vec.begin(), split, std::back_inserter(dimVariantMat[i]));
+        std::copy_n(vec.begin(), this->splitLength, std::back_inserter(dimVariantMat[i]));
 
         // change dimension of vector
-        holder = MathUtility::Helper::dimensionVariantReturn(dimVariantMat[i], split);
+        holder = MathUtility::Helper::dimensionVariantReturn(dimVariantMat[i], this->splitLength);
 
         // doing multiple with keyMatrix
         MathUtility::VV enciphered = MathUtility::doMultiple(keyMatrix, holder);
 
         // after cipher
         std::cout << "EncryptedToken[" << std::setw(2) << ++counter << " ] -- ";
-        MathUtility::Helper::dimensionVariantPrint(enciphered, split);
+        MathUtility::Helper::dimensionVariantPrint(enciphered, this->splitLength);
 
         // this will help us to store the whole string in vector
         encryptedCode(enciphered);
@@ -120,44 +122,50 @@ void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, s
         MathUtility::VV decrypt = MathUtility::doMultiple(inverseKeyMatrix, enciphered);
 
         std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
-        MathUtility::Helper::dimensionVariantPrint(decrypt, split);
+        MathUtility::Helper::dimensionVariantPrint(decrypt, this->splitLength);
 
         decryptedCode(decrypt);
 
-        // dynamically decreease the vector by using C++ erasing Template
+        // dynamically decrease the vector by using C++ erasing Template
         // dynamically erase the string(std::vector) size
-        vec.erase(vec.begin(), vec.begin() + split);
+        vec.erase(vec.begin(), vec.begin() + this->splitLength);
     }
+}
+
+size_t Hill::tokenSizeCalc(std::string& theString)
+{
+    // determine the token size
+    size_t numOfTokens{};
+    // helper variable to size of split
+    size_t spaceFactor{};
+
+    if (theString.size() % 2 == 0) {
+        numOfTokens = theString.size() / 2;
+        spaceFactor = theString.size();
+    } else if ((theString.size() % 2 != 0) && MathUtility::isPrime(theString.size())) {
+        theString.resize(theString.size() + 1);
+        numOfTokens = (theString.size() / 2);
+        spaceFactor = theString.size();
+    } else {
+        numOfTokens = theString.size() / 3;
+        spaceFactor = theString.size();
+    }
+
+    std::cout << "TokenSize : " << numOfTokens << std::endl;
+    size_t split = (spaceFactor % 2 == 0) ? 2 : 3;
+    this->splitLength = split;
+    return numOfTokens;
 }
 
 void Hill::tokenizer(std::string& vec)
 {
-    // determine the token size
-    size_t tokens{};
-    // helper variable to size of split
-    size_t spaceFactor{};
-
-    if (vec.size() % 2 == 0) {
-        tokens = vec.size() / 2;
-        spaceFactor = vec.size();
-    } else if ((vec.size() % 2 != 0) && MathUtility::isPrime(vec.size())) {
-        vec.resize(vec.size() + 1);
-        tokens = (vec.size() / 2);
-        spaceFactor = vec.size();
-    } else {
-        tokens = vec.size() / 3;
-        spaceFactor = vec.size();
-    }
-
-    std::cout << "TokenSize : " << tokens << std::endl;
-    size_t split = (spaceFactor % 2 == 0) ? 2 : 3;
-    this->splitLength = split;
+    size_t tokens = tokenSizeCalc(vec);
 
     MathUtility::VV twoD(tokens);
-    MathUtility::VV holder(split, MathUtility::V(split, 0));
-    MathUtility::VV keyMatrix = MathUtility::makeMatrix(split, split);
+    MathUtility::VV holder(this->splitLength, MathUtility::V(this->splitLength, 0));
+    MathUtility::VV keyMatrix = MathUtility::makeMatrix(this->splitLength, this->splitLength);
 
-    std::cout << "Enter your Matrix(" << split << "X" << split << ")"
+    std::cout << "Enter your Matrix(" << splitLength << "X" << splitLength << ")"
               << ", which will be used for Crypto -->";
     std::cout << std::endl;
     MathUtility::readMatrix(keyMatrix, std::cin);
@@ -169,7 +177,7 @@ void Hill::tokenizer(std::string& vec)
     std::cout << std::endl;
 
     // most important method of Hill Cipher Class
-    splittingOnTheFly(twoD, vec, tokens, split, holder, keyMatrix, inverseKeyMatrix);
+    splittingOnTheFly(twoD, vec, tokens, holder, keyMatrix, inverseKeyMatrix);
 }
 
 void Hill::statementToken()
