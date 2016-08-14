@@ -31,7 +31,7 @@ public:
 
     std::tuple<MathUtility::VV, MathUtility::VV> keyMatrixAndItsInverseTuple(void);
     // on the fly, it will encipher and decipher the text
-    void splittingOnTheFly(MathUtility::VV&, std::string&, size_t tokens, MathUtility::VV&, MathUtility::VV&);
+    void splittingOnTheFly(std::string&, size_t tokens, MathUtility::VV&, MathUtility::VV&);
     // just tokenize the whole string
     void tokenizer(std::string&);
     // will call the tokenizer method
@@ -99,11 +99,12 @@ void Hill::decryptedCode(MathUtility::VV& deCipherCode)
 }
 
 // the heart of the Hill Cipher Program
-void Hill::splittingOnTheFly(MathUtility::VV& dimVariantMat, std::string& vec, size_t tokens, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
+void Hill::splittingOnTheFly(std::string& vec, size_t tokens, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
 {
     // make room for holder Matrix and initialize it to zero
     MathUtility::VV holder(this->splitLength, MathUtility::V(this->splitLength, 0));
     // this type of declaration will initialize the the variable with value zero
+    MathUtility::VV dimVariantMat(tokens);
     size_t counter{};
     for (size_t i = 0; i < tokens; i++) {
         // dynamically splittingOnTheFly the string
@@ -184,15 +185,13 @@ void Hill::tokenizer(std::string& vec)
 {
     size_t tokens = tokenSizeCalc(vec);
 
-    MathUtility::VV twoD(tokens);
-
     MathUtility::VV keyMat;
     MathUtility::VV inverseKeyMat;
 
     std::tie(keyMat, inverseKeyMat) = keyMatrixAndItsInverseTuple();
 
     // most important method of Hill Cipher Class
-    splittingOnTheFly(twoD, vec, tokens, keyMat, inverseKeyMat);
+    splittingOnTheFly(vec, tokens, keyMat, inverseKeyMat);
 }
 
 void Hill::statementToken()
