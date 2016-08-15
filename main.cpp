@@ -18,4 +18,5 @@ int main(void)
     } catch (...) {
         std::cout << "Something unexpected !" << std::endl;
     }
+    std::flush(std::cout);
 }

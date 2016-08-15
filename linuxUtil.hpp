@@ -68,6 +68,21 @@ void setEchoingMode(void)
         std::cerr << "termios process is not successful" << std::endl;
     }
 }
+
+// automatically called before main starts
+// that's why below two functions are static
+__attribute__((constructor)) static void hereWeGo(void)
+{
+    setEchoingMode();
+}
+
+// automatically called after execution of main
+__attribute__((destructor)) static void tearDown(void)
+{
+    setEchoingMode();
+}
+
+// end namespace
 }
 
 #endif
