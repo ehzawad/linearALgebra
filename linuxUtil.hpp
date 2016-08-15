@@ -5,51 +5,68 @@
 #ifndef _LinuxTermios_HPP_
 #define _LinuxTermios_HPP_
 
+#include <iostream>
 #include <termios.h>
 #include <unistd.h>
 
 namespace linuxUtil {
 
 // http://stackoverflow.com/questions/13694170/how-do-i-hide-user-input-with-cin-in-c
-termios setNotEchoingMode()
+void setNotEchoingMode()
 {
-    // instantiating termios object type
-    // which immediately help us to know the currentState
-    termios currentState;
+    // TCIFLUSH: Flushes input data that has been received by the system but not read by an application.
+    // STDIN_FILENO is input file descriptor associated with terminal
+    if (tcflush(STDIN_FILENO, TCIFLUSH) == 0) {
 
-    // tcgetattr() gets the parameters associated with the object referred  by
-    // fd  and  stores  them in the termios structure referenced by termios_p.
-    // This function may be invoked from a background  process;  however,  the
-    // terminal  attributes  may  be  subsequently  changed  by  a  foreground
-    // process.
+        // instantiating termios object type
+        // which immediately help us to know the currentState
 
-    // similarly,
-    // tcsetattr() is for setter for termios object
+        termios currentState;
 
-    // On program startup, the integer file descriptors  associated  with  the
-    // streams  stdin,  stdout, and stderr are 0, 1, and 2, respectively.  The
-    // preprocessor symbols STDIN_FILENO, STDOUT_FILENO, and STDERR_FILENO are
-    // defined  with  these values in <unistd.h>.
-    //
+        // tcgetattr() gets the parameters associated with the object referred  by
+        // fd  and  stores  them in the termios structure referenced by termios_p.
+        // This function may be invoked from a background  process;  however,  the
+        // terminal  attributes  may  be  subsequently  changed  by  a  foreground
+        // process.
 
-    tcgetattr(STDIN_FILENO, &currentState);
+        // similarly,
+        // tcsetattr() is for setter for termios object
 
-    termios changeState = currentState;
-    // this change store locally in current bash session
-    // tcflag c_lflag stands for localmode
-    // TCSANOW, the change occurs immediately.
-    // ~ECHO means not echoing input character
-    changeState.c_lflag &= ~ECHO;
-    tcsetattr(STDIN_FILENO, TCSANOW, &changeState);
+        // On program startup, the integer file descriptors  associated  with  the
+        // streams  stdin,  stdout, and stderr are 0, 1, and 2, respectively.  The
+        // preprocessor symbols STDIN_FILENO, STDOUT_FILENO, and STDERR_FILENO are
+        // defined  with  these values in <unistd.h>.
+        //
 
-    return currentState;
+        tcgetattr(STDIN_FILENO, &currentState);
+
+        termios changeState = currentState;
+        // this change store locally in current bash session
+        // tcflag c_lflag stands for localmode
+        // TCSANOW, the change occurs immediately.
+        // ~ECHO means not echoing input character
+        changeState.c_lflag &= ~ECHO;
+        tcsetattr(STDIN_FILENO, TCSANOW, &changeState);
+    } else {
+        std::cerr << "termios process is not successful" << std::endl;
+    }
 }
 
-void goBack(termios& previouslyRunningState)
+void setEchoingMode(void)
 {
-    // go back to normal state
-    // otherwise it will non ECHO mode in current bash session
-    tcsetattr(STDIN_FILENO, TCSANOW, &previouslyRunningState);
+    if (tcflush(STDIN_FILENO, TCIFLUSH) == 0) {
+
+        termios currentState;
+
+        tcgetattr(STDIN_FILENO, &currentState);
+
+        termios changeState = currentState;
+        changeState.c_lflag |= ECHO;
+
+        tcsetattr(STDIN_FILENO, TCSANOW, &changeState);
+    } else {
+        std::cerr << "termios process is not successful" << std::endl;
+    }
 }
 }
 

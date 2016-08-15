@@ -67,7 +67,7 @@ void Hill::setText(void)
               << "It is in hidden mode (NOT ECHOING anything as you type)" << std::endl;
     // Instantiation of linux terminal process
     // this method will hide input for short time
-    termios process = linuxUtil::setNotEchoingMode();
+    linuxUtil::setNotEchoingMode();
     // input the string from the user
     // which esseentially check REGEX pattern
     // null input will not allowd here
@@ -75,7 +75,7 @@ void Hill::setText(void)
 
     // remember you have gone to NOT ECHOING mode
     // so you have to revert back to previous state
-    linuxUtil::goBack(process);
+    linuxUtil::setEchoingMode();
 }
 
 // get inputText text
