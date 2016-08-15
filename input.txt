@@ -1,3 +1,10 @@
+## An example of 3X3 matrix
+
 1 2 3
 1 1 2
 0 1 2
+
+## An example of 2X2 matrix
+
+1 5
+1 6

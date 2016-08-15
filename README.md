@@ -2,6 +2,12 @@
 
     https://en.wikipedia.org/wiki/Hill_cipher
 
+## First clone the repo
+> then go to the project directory and build and run
+> so simple
+
+     Sample matrix is given in input.txt
+
 ### Build
 
     make
@@ -14,15 +20,14 @@
 
     make clean
 
-### Programm Output Representation
-    According to Course Requirement
+#### Programm Output Representation
 
-     PROF. DR. KHONDAKER ABDUL MALEQUE
-     Faculty, AIUB
-     Department of Mathematics
+### Core Logic of the Program
 
-## Core Logic of the Program
+#### Hill Class
 
-###### Hill Class
+### namespace is used as helped class
 
+### Mashup of OOP and functional paradigm
 
+    All namespace methods are completely reuseable

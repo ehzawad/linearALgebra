@@ -63,6 +63,8 @@ void Hill::printDecryptedCode()
 // Implementation of hill class
 void Hill::setText(void)
 {
+    std::cout << "Don't paranoid, At First Glance, It is Cryptical when you will type text\n"
+              << "It is in hidden  mode (Not Echoing anything as you type" << std::endl;
     // Instantiation of linux terminal process
     // this method will hide input for short time
     termios process = linuxUtil::setNotEchoingMode();
