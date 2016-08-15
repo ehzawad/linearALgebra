@@ -229,7 +229,7 @@ namespace Helper {
 
         for (size_t i = 0; i < split; i++) {
             for (size_t j = 0; j < ONECOLUMN; j++) {
-                pseudoTranpose[i][j] = PseudoIndex::engAlphabet(oneD[i]);
+                pseudoTranpose[i][j] = PseudoIndex::setPrintableASCIIChars(oneD[i]);
             }
         }
 
@@ -255,7 +255,7 @@ namespace Helper {
 
         for (size_t i = 0; i < split; i++) {
             for (size_t j = 0; j < ONECOLUMN; j++) {
-                PseudoTranpose[i][j] = PseudoIndex::engAlphabet(oneD[i]);
+                PseudoTranpose[i][j] = PseudoIndex::setPrintableASCIIChars(oneD[i]);
             }
         }
 
@@ -389,6 +389,7 @@ namespace InverseOperation {
     bool isDeterminantZero(const MathUtility::VV& matrix)
     {
         if (MathUtility::InverseOperation::laplaceExpansionDet(matrix) == 0) {
+            std::cout << "Oops !! Singular Matrix .." << std::endl;
             std::cerr << "Inverse Matrix is impossible, as determinant is zero" << std::endl;
             return true;
         }

@@ -17,7 +17,7 @@ namespace PseudoIndex {
 // .... Z - 26
 // also same for small letters
 //
-int engAlphabet(const char character)
+int setPrintableASCIIChars(const char character)
 {
     // JUST look at the ASCII value and
     // think about it

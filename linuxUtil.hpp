@@ -10,6 +10,7 @@
 
 namespace linuxUtil {
 
+// http://stackoverflow.com/questions/13694170/how-do-i-hide-user-input-with-cin-in-c
 termios setNotEchoingMode()
 {
     // instantiating termios object type
@@ -50,7 +51,6 @@ void goBack(termios& previouslyRunningState)
     // otherwise it will non ECHO mode in current bash session
     tcsetattr(STDIN_FILENO, TCSANOW, &previouslyRunningState);
 }
-
 }
 
 #endif
