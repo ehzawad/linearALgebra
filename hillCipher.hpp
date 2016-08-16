@@ -10,6 +10,7 @@
 #include <string>
 #include <tuple>
 
+namespace PolyGraphichCipher {
 // core class of Hill Cipher logic
 // other namespace is actually a helper class
 class Hill {
@@ -233,6 +234,8 @@ void Hill::statementToken()
     } catch (...) {
         std::cout << "Something wrong there ! " << std::endl;
     }
+}
+// namespace PolyGraphichCipher for avoid colition for future cipher
 }
 
 #endif
