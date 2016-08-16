@@ -8,7 +8,7 @@
 int main(void)
 {
     try {
-        PolyGraphichCipher::Hill Cipher;
+        PolyGraphicCipher::Hill Cipher;
 
         Cipher.statementToken();
         std::cout << std::endl;

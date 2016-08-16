@@ -10,7 +10,7 @@
 #include <string>
 #include <tuple>
 
-namespace PolyGraphichCipher {
+namespace PolyGraphicCipher {
 // core class of Hill Cipher logic
 // other namespace is actually a helper class
 class Hill {
