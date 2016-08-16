@@ -214,7 +214,7 @@ void Hill::statementToken()
 
         // copy user input string in vec variable
         std::string vec = this->inputText;
-        if (vec.size() > 2) {
+        if (vec.size() >= 2) {
             // space is ignored now
             // lambda function
             vec.erase(std::remove_if(vec.begin(), vec.end(),
