@@ -24,5 +24,8 @@ run:
 debug:
 	gdb ./$(EXE)
 
+memleak:
+	valgrind -v ./$(EXE)
+
 clean:
 	rm -f core *.o $(EXE)
