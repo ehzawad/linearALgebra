@@ -2,6 +2,12 @@
 
     https://en.wikipedia.org/wiki/Hill_cipher
 
+### Platform
+
+> LINUX build only
+
+    GUI is coming in future possibly, Abrar
+
 ## First clone the repo
 > then go to the project directory and build and run
 > so simple
