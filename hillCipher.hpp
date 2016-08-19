@@ -197,9 +197,13 @@ MathUtility::VV Hill::getMatKEYInverse(MathUtility::VV& keyMat)
 {
     MathUtility::VV inverseKeyMatrix = MathUtility::findInverseMat(keyMat);
     std::cout << "Inverse of KeyMatrix : " << std::endl;
-    MathUtility::printMatrix(inverseKeyMatrix);
-    std::cout << std::endl;
-    return inverseKeyMatrix;
+    if (inverseKeyMatrix.empty()) {
+        return {};
+    } else {
+        MathUtility::printMatrix(inverseKeyMatrix);
+        std::cout << std::endl;
+        return inverseKeyMatrix;
+    }
 }
 
 std::tuple<MathUtility::VV, MathUtility::VV> Hill::keyMatrixAndItsInverseTuple(void)
@@ -207,7 +211,12 @@ std::tuple<MathUtility::VV, MathUtility::VV> Hill::keyMatrixAndItsInverseTuple(v
     MathUtility::VV keyMat = setMatKEY();
     MathUtility::VV inverseKeyMat = getMatKEYInverse(keyMat);
 
-    return std::make_tuple(keyMat, inverseKeyMat);
+    // null vector must be checked
+    if (inverseKeyMat.empty()) {
+        return {};
+    } else {
+        return std::make_tuple(keyMat, inverseKeyMat);
+    }
 }
 
 void Hill::tokenizer(std::string& vec)
@@ -216,10 +225,15 @@ void Hill::tokenizer(std::string& vec)
 
     MathUtility::VV keyMat;
     MathUtility::VV inverseKeyMat;
+
     std::tie(keyMat, inverseKeyMat) = keyMatrixAndItsInverseTuple();
 
     // most important method of Hill Cipher Class
-    splittingOnTheFly(vec, tokens, keyMat, inverseKeyMat);
+    if (!inverseKeyMat.empty()) {
+        splittingOnTheFly(vec, tokens, keyMat, inverseKeyMat);
+    } else {
+        return;
+    }
 }
 
 void Hill::statementToken()
@@ -227,7 +241,6 @@ void Hill::statementToken()
     try {
         // this will promt input from the user
         setText();
-
         // copy user input string in vec variable
         std::string vec = this->inputText;
         if (vec.size() >= 2) {

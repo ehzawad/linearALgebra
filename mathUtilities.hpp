@@ -107,7 +107,7 @@ void readMatrix(MathUtility::VV& matrix, std::istream& input = std::cin)
                 std::cin.clear(); // reset the failed state
                 // bad input as charater as a matrix will terminate the Program
                 // No excuse
-                std::_Exit(EXIT_FAILURE);
+                return;
             }
         }
     }
@@ -410,7 +410,7 @@ MathUtility::VV findInverseMat(MathUtility::VV& matrix)
         return finalMat;
     } else {
         matrix.erase(matrix.begin(), matrix.end());
-        std::_Exit(EXIT_FAILURE);
+        return {};
     }
 }
 
