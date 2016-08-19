@@ -47,7 +47,7 @@ int getDimension(void)
 // essentially, this will allocate the memory
 MathUtility::VV makeMatrix(int rows, int cols)
 {
-    VV temp(rows);
+    MathUtility::VV temp(rows);
     for (auto& row : temp) {
         row.resize(cols);
     }
@@ -409,6 +409,7 @@ MathUtility::VV findInverseMat(MathUtility::VV& matrix)
 
         return finalMat;
     } else {
+        matrix.erase(matrix.begin(), matrix.end());
         std::_Exit(EXIT_FAILURE);
     }
 }

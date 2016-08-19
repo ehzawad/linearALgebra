@@ -25,6 +25,10 @@ private:
 public:
     // setter and getter of string
     void setText(void);
+
+    MathUtility::VV setMatKEY(void);
+    MathUtility::VV getMatKEYInverse(MathUtility::VV& keyMat);
+
     // get inputText text
     std::string getText(void);
 
@@ -176,7 +180,7 @@ size_t Hill::tokenSizeCalc(std::string& theString)
     return numOfTokens;
 }
 
-std::tuple<MathUtility::VV, MathUtility::VV> Hill::keyMatrixAndItsInverseTuple(void)
+MathUtility::VV Hill::setMatKEY(void)
 {
     MathUtility::VV keyMatrix = MathUtility::makeMatrix(this->splitLength, this->splitLength);
 
@@ -186,12 +190,24 @@ std::tuple<MathUtility::VV, MathUtility::VV> Hill::keyMatrixAndItsInverseTuple(v
     MathUtility::readMatrix(keyMatrix, std::cin);
     std::cout << std::endl;
 
-    MathUtility::VV inverseKeyMatrix = MathUtility::findInverseMat(keyMatrix);
+    return keyMatrix;
+}
+
+MathUtility::VV Hill::getMatKEYInverse(MathUtility::VV& keyMat)
+{
+    MathUtility::VV inverseKeyMatrix = MathUtility::findInverseMat(keyMat);
     std::cout << "Inverse of KeyMatrix : " << std::endl;
     MathUtility::printMatrix(inverseKeyMatrix);
     std::cout << std::endl;
+    return inverseKeyMatrix;
+}
 
-    return std::make_tuple(keyMatrix, inverseKeyMatrix);
+std::tuple<MathUtility::VV, MathUtility::VV> Hill::keyMatrixAndItsInverseTuple(void)
+{
+    MathUtility::VV keyMat = setMatKEY();
+    MathUtility::VV inverseKeyMat = getMatKEYInverse(keyMat);
+
+    return std::make_tuple(keyMat, inverseKeyMat);
 }
 
 void Hill::tokenizer(std::string& vec)
@@ -200,7 +216,6 @@ void Hill::tokenizer(std::string& vec)
 
     MathUtility::VV keyMat;
     MathUtility::VV inverseKeyMat;
-
     std::tie(keyMat, inverseKeyMat) = keyMatrixAndItsInverseTuple();
 
     // most important method of Hill Cipher Class
