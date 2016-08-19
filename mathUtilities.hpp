@@ -409,7 +409,6 @@ MathUtility::VV findInverseMat(MathUtility::VV& matrix)
 
         return finalMat;
     } else {
-        matrix.erase(matrix.begin(), matrix.end());
         return {};
     }
 }
