@@ -247,7 +247,7 @@ void Hill::statementToken()
             // space is ignored now
             // lambda function
             vec.erase(std::remove_if(vec.begin(), vec.end(),
-                          [](char x) { return std::iscntrl(x); }),
+                          [=](char x) { return std::iscntrl(x); }),
                 vec.end());
             std::cout << getText();
             std::cout << std::endl;

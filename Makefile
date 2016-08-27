@@ -19,7 +19,7 @@ LD = -lm
 
 
 # flags to pass compiler
-CXXFLAGS =  -ggdb3 -O0 -std=c++11 -lpthread -Werror -pedantic-errors
+CXXFLAGS =  -ggdb3 -O0 -std=c++14 -lpthread -Werror -pedantic-errors
 
 all:
 	$(CXX) $(HEADER_PATH) $(CXXFLAGS) $(LD) $(SRC) -o $(EXE)
