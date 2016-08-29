@@ -29,6 +29,7 @@ private:
     size_t splitLength{};
     // this store the tokenSize
     size_t tokens{};
+
 public:
     // setter and getter of string
     void setText(void);
@@ -42,7 +43,7 @@ public:
     void tokenSizeCalc(std::string& theString);
 
     std::tuple<MathUtility::VV, MathUtility::VV> keyMatrixAndItsInverseTuple(void);
-    std::tuple<MathUtility::VV, MathUtility::VV> encipherDecipher(MathUtility::VV&, size_t);
+    MathUtility::VV onlyEncrypt(MathUtility::VV&, size_t);
     // on the fly, it will encipher and decipher the text
     void splittingOnTheFly(std::string&);
     // just tokenize the whole string
@@ -56,7 +57,29 @@ public:
     // this is directly store decrypted code
     void decryptedCodeStorage(MathUtility::VV&);
     void printDecryptedCode(void);
+    void onlyDecrypt(void);
 };
+
+void Hill::onlyDecrypt()
+{
+    std::vector<std::vector<double>> v = this->encryptedCodeString;
+    size_t counter{};
+    for (size_t i = 0; i < this->tokens; i++) {
+        counter++;
+        std::vector<std::vector<double>> vCopyLocal;
+        std::copy_n(v.begin(), this->splitLength, std::back_inserter(vCopyLocal));
+
+        // decipher the text
+        MathUtility::VV deciphered = MathUtility::doMultiple(this->inverseKeyMatrix, vCopyLocal);
+        v.erase(v.begin(), v.begin() + this->splitLength);
+        // MathUtility::printMatrix(deciphered);
+
+        std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
+        MathUtility::Helper::dimensionVariantPrint(deciphered, this->splitLength);
+
+        decryptedCodeStorage(deciphered);
+    }
+}
 
 void Hill::printEncryptedCode()
 {
@@ -113,7 +136,7 @@ void Hill::decryptedCodeStorage(MathUtility::VV& deCipherCode)
     }
 }
 
-std::tuple<MathUtility::VV, MathUtility::VV> Hill::encipherDecipher(MathUtility::VV& holder, size_t counter)
+MathUtility::VV Hill::onlyEncrypt(MathUtility::VV& holder, size_t counter)
 {
     // doing multiple with keyMatrix
     MathUtility::VV enciphered = MathUtility::doMultiple(keyMatrix, holder);
@@ -122,13 +145,13 @@ std::tuple<MathUtility::VV, MathUtility::VV> Hill::encipherDecipher(MathUtility:
     std::cout << "EncryptedToken[" << std::setw(2) << counter << " ] -- ";
     MathUtility::Helper::dimensionVariantPrint(enciphered, this->splitLength);
 
-    // decipher the text
-    MathUtility::VV deciphered = MathUtility::doMultiple(inverseKeyMatrix, enciphered);
+    // // decipher the text
+    // MathUtility::VV deciphered = MathUtility::doMultiple(inverseKeyMatrix, enciphered);
+    //
+    // std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
+    // MathUtility::Helper::dimensionVariantPrint(deciphered, this->splitLength);
 
-    std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
-    MathUtility::Helper::dimensionVariantPrint(deciphered, this->splitLength);
-
-    return std::make_tuple(enciphered, deciphered);
+    return enciphered;
 }
 
 // the heart of the Hill Cipher Program
@@ -148,13 +171,10 @@ void Hill::splittingOnTheFly(std::string& vec)
         // change dimension of vector
         holder = MathUtility::Helper::dimensionVariantReturn(dimVariantMat[i], this->splitLength);
 
-        MathUtility::VV encipheredToken;
-        MathUtility::VV decipheredToken;
         // tied with tuples
-        std::tie(encipheredToken, decipheredToken) = encipherDecipher(holder, counter);
+        MathUtility::VV encipheredToken = onlyEncrypt(holder, counter);
 
         encryptedCodeStorage(encipheredToken);
-        decryptedCodeStorage(decipheredToken);
 
         // dynamically decrease the vector by using C++ erase of Vector Template
         // dynamically erase the string(std::vector) size
@@ -262,6 +282,7 @@ void Hill::statementToken()
             tokenizer(vec);
             // three dots is heloful because, it will exception
             // whatever it is, if try block throw an exception
+            onlyDecrypt();
         } else {
             std::cout << "A character will not cipher by 1 by 1 matrix.. wired\n";
             std::_Exit(EXIT_FAILURE);
