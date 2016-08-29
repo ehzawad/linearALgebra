@@ -17,11 +17,18 @@ class Hill {
 private:
     // user input text
     std::string inputText;
+    // store encrypted code string
     MathUtility::VV encryptedCodeString;
+    // store decrypted code string
     MathUtility::VV decryptedCodeString;
-    // this length determine the matrix size
-    size_t splitLength;
 
+    // keyMatrix and it's inverseKeyMatrix too !
+    MathUtility::VV keyMatrix;
+    MathUtility::VV inverseKeyMatrix;
+    // this length determine the matrix size
+    size_t splitLength{};
+    // this store the tokenSize
+    size_t tokens{};
 public:
     // setter and getter of string
     void setText(void);
@@ -32,12 +39,12 @@ public:
     // get inputText text
     std::string getText(void);
 
-    size_t tokenSizeCalc(std::string& theString);
+    void tokenSizeCalc(std::string& theString);
 
     std::tuple<MathUtility::VV, MathUtility::VV> keyMatrixAndItsInverseTuple(void);
     std::tuple<MathUtility::VV, MathUtility::VV> encipherDecipher(MathUtility::VV&, size_t, MathUtility::VV&, MathUtility::VV&);
     // on the fly, it will encipher and decipher the text
-    void splittingOnTheFly(std::string&, size_t tokens, MathUtility::VV&, MathUtility::VV&);
+    void splittingOnTheFly(std::string&, MathUtility::VV&, MathUtility::VV&);
     // just tokenize the whole string
     void tokenizer(std::string&);
     // will call the tokenizer method
@@ -125,14 +132,14 @@ std::tuple<MathUtility::VV, MathUtility::VV> Hill::encipherDecipher(MathUtility:
 }
 
 // the heart of the Hill Cipher Program
-void Hill::splittingOnTheFly(std::string& vec, size_t tokens, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
+void Hill::splittingOnTheFly(std::string& vec, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
 {
     // make room for holder Matrix and initialize it to zero
     // this type of declaration will initialize the the variable with value zero
     MathUtility::VV holder(this->splitLength, MathUtility::V(this->splitLength, 0));
     MathUtility::VV dimVariantMat(tokens);
     size_t counter{};
-    for (size_t i = 0; i < tokens; i++) {
+    for (size_t i = 0; i < this->tokens; i++) {
         counter++;
         // dynamically splittingOnTheFly the string
         // dynamically split the vector, copy upto to length split size
@@ -155,7 +162,7 @@ void Hill::splittingOnTheFly(std::string& vec, size_t tokens, MathUtility::VV& k
     }
 }
 
-size_t Hill::tokenSizeCalc(std::string& theString)
+void Hill::tokenSizeCalc(std::string& theString)
 {
     // determine the token size
     size_t numOfTokens{};
@@ -174,10 +181,10 @@ size_t Hill::tokenSizeCalc(std::string& theString)
         spaceFactor = theString.size();
     }
 
-    std::cout << "TokenSize : " << numOfTokens << std::endl;
+    this->tokens = numOfTokens;
+    std::cout << "TokenSize : " << this->tokens << std::endl;
     size_t split = (spaceFactor % 2 == 0) ? 2 : 3;
     this->splitLength = split;
-    return numOfTokens;
 }
 
 MathUtility::VV Hill::setMatKEY(void)
@@ -208,20 +215,20 @@ MathUtility::VV Hill::getMatKEYInverse(MathUtility::VV& keyMat)
 
 std::tuple<MathUtility::VV, MathUtility::VV> Hill::keyMatrixAndItsInverseTuple(void)
 {
-    MathUtility::VV keyMat = setMatKEY();
-    MathUtility::VV inverseKeyMat = getMatKEYInverse(keyMat);
+    this->keyMatrix = setMatKEY();
+    this->inverseKeyMatrix = getMatKEYInverse(this->keyMatrix);
 
     // null vector must be checked
-    if (inverseKeyMat.empty()) {
+    if (inverseKeyMatrix.empty()) {
         return {};
     } else {
-        return std::make_tuple(keyMat, inverseKeyMat);
+        return std::make_tuple(keyMatrix, inverseKeyMatrix);
     }
 }
 
 void Hill::tokenizer(std::string& vec)
 {
-    size_t tokens = tokenSizeCalc(vec);
+    tokenSizeCalc(vec);
 
     MathUtility::VV keyMat;
     MathUtility::VV inverseKeyMat;
@@ -230,7 +237,7 @@ void Hill::tokenizer(std::string& vec)
 
     // most important method of Hill Cipher Class
     if (!inverseKeyMat.empty()) {
-        splittingOnTheFly(vec, tokens, keyMat, inverseKeyMat);
+        splittingOnTheFly(vec, keyMat, inverseKeyMat);
     } else {
         return;
     }

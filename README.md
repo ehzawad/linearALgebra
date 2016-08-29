@@ -6,7 +6,7 @@
 
 > LINUX build only
 
-    GUI is coming in future possibly, Abrar
+    GUI is coming in future possibly
 
 ## First clone the repo
 > then go to the project directory and build and run
