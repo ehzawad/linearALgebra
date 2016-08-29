@@ -42,9 +42,9 @@ public:
     void tokenSizeCalc(std::string& theString);
 
     std::tuple<MathUtility::VV, MathUtility::VV> keyMatrixAndItsInverseTuple(void);
-    std::tuple<MathUtility::VV, MathUtility::VV> encipherDecipher(MathUtility::VV&, size_t, MathUtility::VV&, MathUtility::VV&);
+    std::tuple<MathUtility::VV, MathUtility::VV> encipherDecipher(MathUtility::VV&, size_t);
     // on the fly, it will encipher and decipher the text
-    void splittingOnTheFly(std::string&, MathUtility::VV&, MathUtility::VV&);
+    void splittingOnTheFly(std::string&);
     // just tokenize the whole string
     void tokenizer(std::string&);
     // will call the tokenizer method
@@ -113,7 +113,7 @@ void Hill::decryptedCodeStorage(MathUtility::VV& deCipherCode)
     }
 }
 
-std::tuple<MathUtility::VV, MathUtility::VV> Hill::encipherDecipher(MathUtility::VV& holder, size_t counter, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
+std::tuple<MathUtility::VV, MathUtility::VV> Hill::encipherDecipher(MathUtility::VV& holder, size_t counter)
 {
     // doing multiple with keyMatrix
     MathUtility::VV enciphered = MathUtility::doMultiple(keyMatrix, holder);
@@ -132,7 +132,7 @@ std::tuple<MathUtility::VV, MathUtility::VV> Hill::encipherDecipher(MathUtility:
 }
 
 // the heart of the Hill Cipher Program
-void Hill::splittingOnTheFly(std::string& vec, MathUtility::VV& keyMatrix, MathUtility::VV& inverseKeyMatrix)
+void Hill::splittingOnTheFly(std::string& vec)
 {
     // make room for holder Matrix and initialize it to zero
     // this type of declaration will initialize the the variable with value zero
@@ -151,7 +151,7 @@ void Hill::splittingOnTheFly(std::string& vec, MathUtility::VV& keyMatrix, MathU
         MathUtility::VV encipheredToken;
         MathUtility::VV decipheredToken;
         // tied with tuples
-        std::tie(encipheredToken, decipheredToken) = encipherDecipher(holder, counter, keyMatrix, inverseKeyMatrix);
+        std::tie(encipheredToken, decipheredToken) = encipherDecipher(holder, counter);
 
         encryptedCodeStorage(encipheredToken);
         decryptedCodeStorage(decipheredToken);
@@ -237,7 +237,7 @@ void Hill::tokenizer(std::string& vec)
 
     // most important method of Hill Cipher Class
     if (!inverseKeyMat.empty()) {
-        splittingOnTheFly(vec, keyMat, inverseKeyMat);
+        splittingOnTheFly(vec);
     } else {
         return;
     }
