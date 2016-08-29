@@ -15,6 +15,7 @@ namespace PolyGraphicCipher {
 // other namespace is actually a helper class
 class Hill {
 private:
+    bool flagToDecrypt = true;
     // user input text
     std::string inputText;
     // store encrypted code string
@@ -23,8 +24,8 @@ private:
     MathUtility::VV decryptedCodeString;
 
     // keyMatrix and it's inverseKeyMatrix too !
-    MathUtility::VV keyMatrix;
-    MathUtility::VV inverseKeyMatrix;
+    MathUtility::VV keyMatrix{};
+    MathUtility::VV inverseKeyMatrix{};
     // this length determine the matrix size
     size_t splitLength{};
     // this store the tokenSize
@@ -63,22 +64,31 @@ public:
 
 void Hill::onlyDecrypt()
 {
-    std::cout << std::endl;
-    std::vector<std::vector<double>> v = this->encryptedCodeString;
-    size_t counter{};
-    for (size_t i = 0; i < this->tokens; i++) {
-        counter++;
-        std::vector<std::vector<double>> vCopyLocal;
-        std::copy_n(v.begin(), this->splitLength, std::back_inserter(vCopyLocal));
+    if (this->flagToDecrypt == false) {
+        return;
+    } else {
 
-        // decipher the text
-        MathUtility::VV deciphered = MathUtility::doMultiple(this->inverseKeyMatrix, vCopyLocal);
-        v.erase(v.begin(), v.begin() + this->splitLength);
+        try {
+            std::cout << std::endl;
+            std::vector<std::vector<double>> v = this->encryptedCodeString;
+            size_t counter{};
+            for (size_t i = 0; i < this->tokens; i++) {
+                counter++;
+                std::vector<std::vector<double>> vCopyLocal;
+                std::copy_n(v.begin(), this->splitLength, std::back_inserter(vCopyLocal));
 
-        std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
-        MathUtility::Helper::dimensionVariantPrint(deciphered, this->splitLength);
+                MathUtility::VV deciphered = MathUtility::doMultiple(this->inverseKeyMatrix, vCopyLocal);
+                v.erase(v.begin(), v.begin() + this->splitLength);
 
-        decryptedCodeStorage(deciphered);
+                std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
+                MathUtility::Helper::dimensionVariantPrint(deciphered, this->splitLength);
+                // decipher the text
+
+                decryptedCodeStorage(deciphered);
+            }
+        } catch (...) {
+            std::cout << "Something crashed you !!" << std::endl;
+        }
     }
 }
 
@@ -217,7 +227,9 @@ MathUtility::VV Hill::setMatKEY(void)
 MathUtility::VV Hill::getMatKEYInverse(MathUtility::VV& keyMat)
 {
     MathUtility::VV inverseKeyMatrix = MathUtility::findInverseMat(keyMat);
+
     if (inverseKeyMatrix.empty()) {
+        this->flagToDecrypt = false;
         return {};
     } else {
         return inverseKeyMatrix;
