@@ -44,6 +44,7 @@ public:
 
     std::tuple<MathUtility::VV, MathUtility::VV> keyMatrixAndItsInverseTuple(void);
     MathUtility::VV onlyEncrypt(MathUtility::VV&, size_t);
+    void onlyDecrypt(void);
     // on the fly, it will encipher and decipher the text
     void splittingOnTheFly(std::string&);
     // just tokenize the whole string
@@ -53,15 +54,16 @@ public:
 
     // this is directly store encrypted code
     void encryptedCodeStorage(MathUtility::VV&);
-    void printEncryptedCode(void);
     // this is directly store decrypted code
     void decryptedCodeStorage(MathUtility::VV&);
+
+    void printEncryptedCode(void);
     void printDecryptedCode(void);
-    void onlyDecrypt(void);
 };
 
 void Hill::onlyDecrypt()
 {
+    std::cout << std::endl;
     std::vector<std::vector<double>> v = this->encryptedCodeString;
     size_t counter{};
     for (size_t i = 0; i < this->tokens; i++) {
@@ -72,7 +74,6 @@ void Hill::onlyDecrypt()
         // decipher the text
         MathUtility::VV deciphered = MathUtility::doMultiple(this->inverseKeyMatrix, vCopyLocal);
         v.erase(v.begin(), v.begin() + this->splitLength);
-        // MathUtility::printMatrix(deciphered);
 
         std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
         MathUtility::Helper::dimensionVariantPrint(deciphered, this->splitLength);
@@ -140,16 +141,9 @@ MathUtility::VV Hill::onlyEncrypt(MathUtility::VV& holder, size_t counter)
 {
     // doing multiple with keyMatrix
     MathUtility::VV enciphered = MathUtility::doMultiple(keyMatrix, holder);
-
     // after cipher
     std::cout << "EncryptedToken[" << std::setw(2) << counter << " ] -- ";
     MathUtility::Helper::dimensionVariantPrint(enciphered, this->splitLength);
-
-    // // decipher the text
-    // MathUtility::VV deciphered = MathUtility::doMultiple(inverseKeyMatrix, enciphered);
-    //
-    // std::cout << "DecryptedToken[" << std::setw(2) << counter << " ] -- ";
-    // MathUtility::Helper::dimensionVariantPrint(deciphered, this->splitLength);
 
     return enciphered;
 }
@@ -223,12 +217,9 @@ MathUtility::VV Hill::setMatKEY(void)
 MathUtility::VV Hill::getMatKEYInverse(MathUtility::VV& keyMat)
 {
     MathUtility::VV inverseKeyMatrix = MathUtility::findInverseMat(keyMat);
-    std::cout << "Inverse of KeyMatrix : " << std::endl;
     if (inverseKeyMatrix.empty()) {
         return {};
     } else {
-        MathUtility::printMatrix(inverseKeyMatrix);
-        std::cout << std::endl;
         return inverseKeyMatrix;
     }
 }
@@ -280,13 +271,13 @@ void Hill::statementToken()
             std::cout << std::endl;
             // caling tokenizer method
             tokenizer(vec);
-            // three dots is heloful because, it will exception
-            // whatever it is, if try block throw an exception
             onlyDecrypt();
         } else {
             std::cout << "A character will not cipher by 1 by 1 matrix.. wired\n";
             std::_Exit(EXIT_FAILURE);
         }
+        // three dots is heloful because, it will exception
+        // whatever it is, if try block throw an exception
     } catch (...) {
         std::cout << "Something wrong there ! " << std::endl;
     }
