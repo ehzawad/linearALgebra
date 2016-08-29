@@ -10,10 +10,12 @@ int main(void)
     try {
         PolyGraphicCipher::Hill Cipher;
 
+        // encryption
         Cipher.statementToken();
-        std::cout << std::endl;
-
         Cipher.printEncryptedCode();
+
+        // decryption
+        Cipher.onlyDecrypt();
         Cipher.printDecryptedCode();
     } catch (...) {
         std::cout << "Something unexpected !" << std::endl;

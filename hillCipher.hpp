@@ -271,7 +271,6 @@ void Hill::statementToken()
             std::cout << std::endl;
             // caling tokenizer method
             tokenizer(vec);
-            onlyDecrypt();
         } else {
             std::cout << "A character will not cipher by 1 by 1 matrix.. wired\n";
             std::_Exit(EXIT_FAILURE);

@@ -240,7 +240,7 @@ namespace Helper {
     {
         for (size_t i = 0; i < split; i++) {
             for (size_t j = 0; j < ONECOLUMN; j++) {
-                std::cout << std::setw(3) << pseudoVector[i][j] << " ";
+                std::cout << std::setw(3) << (int)pseudoVector[i][j] << " ";
             }
             std::cout << "  ";
         }
