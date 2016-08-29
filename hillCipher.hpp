@@ -67,7 +67,6 @@ void Hill::onlyDecrypt()
     if (this->flagToDecrypt == false) {
         return;
     } else {
-
         try {
             std::cout << std::endl;
             std::vector<std::vector<double>> v = this->encryptedCodeString;
@@ -221,7 +220,12 @@ MathUtility::VV Hill::setMatKEY(void)
     MathUtility::readMatrix(keyMatrix, std::cin);
     std::cout << std::endl;
 
-    return keyMatrix;
+    if (keyMatrix.empty()) {
+        return {};
+    } else {
+
+        return keyMatrix;
+    }
 }
 
 MathUtility::VV Hill::getMatKEYInverse(MathUtility::VV& keyMat)
@@ -242,7 +246,7 @@ std::tuple<MathUtility::VV, MathUtility::VV> Hill::keyMatrixAndItsInverseTuple(v
     this->inverseKeyMatrix = getMatKEYInverse(this->keyMatrix);
 
     // null vector must be checked
-    if (inverseKeyMatrix.empty()) {
+    if (inverseKeyMatrix.empty() || keyMatrix.empty()) {
         return {};
     } else {
         return std::make_tuple(keyMatrix, inverseKeyMatrix);
@@ -285,7 +289,7 @@ void Hill::statementToken()
             tokenizer(vec);
         } else {
             std::cout << "A character will not cipher by 1 by 1 matrix.. wired\n";
-            std::_Exit(EXIT_FAILURE);
+            return;
         }
         // three dots is heloful because, it will exception
         // whatever it is, if try block throw an exception
