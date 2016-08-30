@@ -218,13 +218,11 @@ MathUtility::VV Hill::setMatKEY(void)
               << ", which will be used for Crypto -->";
     std::cout << std::endl;
     MathUtility::readMatrix(keyMatrix, std::cin);
-    MathUtility::printMatrixDouble(keyMatrix);
     std::cout << std::endl;
 
     if (keyMatrix.empty()) {
         return {};
     } else {
-
         return keyMatrix;
     }
 }
