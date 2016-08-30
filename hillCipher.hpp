@@ -218,6 +218,7 @@ MathUtility::VV Hill::setMatKEY(void)
               << ", which will be used for Crypto -->";
     std::cout << std::endl;
     MathUtility::readMatrix(keyMatrix, std::cin);
+    MathUtility::printMatrixDouble(keyMatrix);
     std::cout << std::endl;
 
     if (keyMatrix.empty()) {
@@ -278,7 +279,7 @@ void Hill::statementToken()
         // copy user input string in vec variable
         std::string vec = this->inputText;
         if (vec.size() >= 2) {
-            // space is ignored now
+            // CTRL key is ignored now
             // lambda function
             vec.erase(std::remove_if(vec.begin(), vec.end(),
                           [=](char x) { return std::iscntrl(x); }),
@@ -297,7 +298,7 @@ void Hill::statementToken()
         std::cout << "Something wrong there ! " << std::endl;
     }
 }
-// namespace PolyGraphichCipher for avoid colition for future cipher
+// namespace PolyGraphichCipher for avoid collition for future cipher
 }
 
 #endif
