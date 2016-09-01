@@ -51,7 +51,7 @@ public:
     // just tokenize the whole string
     void tokenizer(std::string&);
     // will call the tokenizer method
-    void statementToken(void);
+    void doEncrypt(void);
 
     // this is directly store encrypted code
     void encryptedCodeStorage(MathUtility::VV&);
@@ -267,7 +267,7 @@ void Hill::tokenizer(std::string& vec)
     }
 }
 
-void Hill::statementToken()
+void Hill::doEncrypt()
 {
     try {
         // this will promt input from the user

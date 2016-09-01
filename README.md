@@ -34,6 +34,25 @@
 
 ### namespace is used as helped class
 
-### Mashup of OOP and functional paradigm
+### OOP
 
     All namespace methods are completely reuseable
+
+### Good side
+
+    No memory leak, uninitized value as programm is checked by google sanitizer
+
+### Downside
+
+    seperation of concern
+
+    Only decryption will not work well here because encrypted code is rounding using required  modulo
+
+    To work with decrypted code you have to work with value not with character
+
+### Linux Terminal Issue
+
+    Linux termios object is called in linuxUtil.hpp file
+
+    If Program crash unexpectedly badly, then you have to close the terminal
+    otherwise Not Echoing mode (password mode will not close)

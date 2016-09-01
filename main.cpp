@@ -11,7 +11,7 @@ int main(void)
         PolyGraphicCipher::Hill Cipher;
 
         // encryption
-        Cipher.statementToken();
+        Cipher.doEncrypt();
         Cipher.printEncryptedCode();
 
         // decryption
