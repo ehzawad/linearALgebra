@@ -173,8 +173,6 @@ void Hill::splittingOnTheFly(std::string& vec)
 
         // change dimension of vector
         holder = MathUtility::Helper::dimensionVariantReturn(dimVariantMat[i], this->splitLength);
-
-        // tied with tuples
         MathUtility::VV encipheredToken = onlyEncrypt(holder, counter);
 
         encryptedCodeStorage(encipheredToken);
