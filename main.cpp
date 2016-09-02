@@ -1,5 +1,4 @@
 #include "hillCipher.hpp"
-#include "mathUtilities.hpp"
 #include <algorithm>
 #include <fstream>
 #include <stdexcept>

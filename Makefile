@@ -11,7 +11,7 @@ else
     HEADER_PATH =
 endif
 
-SRC = main.cpp
+SRC = hillCipher.cpp main.cpp
 
 EXE = main
 

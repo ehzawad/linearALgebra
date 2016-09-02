@@ -8,7 +8,7 @@
 
 namespace ValidateInput {
 
-bool validate(const std::string& data, const std::string& expression)
+inline bool validate(const std::string& data, const std::string& expression)
 {
     std::regex validationExpression = std::regex(expression);
     // if input data does not match with user defined regex
@@ -16,7 +16,7 @@ bool validate(const std::string& data, const std::string& expression)
     return std::regex_match(data, validationExpression);
 }
 
-std::string inputData(const std::string& fieldName, const std::string& expression)
+inline std::string inputData(const std::string& fieldName, const std::string& expression)
 {
     std::string data;
 

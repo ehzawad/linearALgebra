@@ -12,7 +12,7 @@
 namespace linuxUtil {
 
 // http://stackoverflow.com/questions/13694170/how-do-i-hide-user-input-with-cin-in-c
-void setNotEchoingMode()
+inline void setNotEchoingMode()
 {
     // TCIFLUSH: Flushes input data that has been received by the system but not read by an application.
     // STDIN_FILENO is input file descriptor associated with terminal
@@ -52,7 +52,7 @@ void setNotEchoingMode()
     }
 }
 
-void setEchoingMode(void)
+inline void setEchoingMode(void)
 {
     if (tcflush(STDIN_FILENO, TCIFLUSH) == 0) {
 

@@ -23,19 +23,19 @@ using VV = std::vector<V>;
 // three dimensional vector
 // using VVV = std::vector<VV>;
 
-std::string dimension;
+extern std::string dimension;
 //
 using oneD = std::vector<int>;
 using twoD = std::vector<V>;
 
-void setDimension(void)
+inline void setDimension(void)
 {
     // set dimension of matrices
     // n X n matrix
     dimension = ValidateInput::inputData("dimension", "\\d+");
 }
 
-int getDimension(void)
+inline int getDimension(void)
 {
     // this will return interger ,
     // but why Integer
@@ -45,7 +45,7 @@ int getDimension(void)
 
 // build matrix according to user input
 // essentially, this will allocate the memory
-MathUtility::VV makeMatrix(int rows, int cols)
+inline MathUtility::VV makeMatrix(int rows, int cols)
 {
     MathUtility::VV temp(rows);
     for (auto& row : temp) {
@@ -58,7 +58,7 @@ MathUtility::VV makeMatrix(int rows, int cols)
 // If number is clouser enough to zero then like 0.00000000000001 set defaults to zero
 // this is not strictly necessary
 
-bool isZero(double number, double epsilon = 1e-12)
+inline bool isZero(double number, double epsilon = 1e-12)
 {
     return (number < epsilon) && (number > -epsilon);
 }
@@ -70,7 +70,7 @@ bool isZero(double number, double epsilon = 1e-12)
 // SIMILAR for read input
 // second parameter is optional, This parameter will help you to extend the Program
 // for future scaling, such as If you want to use fill stream
-void printMatrix(const MathUtility::VV& matrix, std::ostream& output = std::cout)
+inline void printMatrix(const MathUtility::VV& matrix, std::ostream& output = std::cout)
 {
     for (const auto& row : matrix) {
         for (const auto& col : row) {
@@ -82,7 +82,7 @@ void printMatrix(const MathUtility::VV& matrix, std::ostream& output = std::cout
 
 // same as printMatrix, just for double with precison
 // this is essentially help double typed Inverse Function
-void printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
+inline void printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
 {
     for (const auto& row : matrix) {
         for (const auto& col : row) {
@@ -98,7 +98,7 @@ void printMatrixDouble(const VV& matrix, std::ostream& output = std::cout)
 // reading input from console or other file stream
 // same as printMatrix,
 // here you can also use file text
-void readMatrix(MathUtility::VV& matrix, std::istream& input = std::cin)
+inline void readMatrix(MathUtility::VV& matrix, std::istream& input = std::cin)
 {
     for (auto& row : matrix) {
         for (auto& col : row) {
@@ -119,7 +119,7 @@ void readMatrix(MathUtility::VV& matrix, std::istream& input = std::cin)
 
 //  function for finding column where 'value' repeats the most
 // By default it seeks the column with the most amount of zeros
-int findBestColumn(MathUtility::VV& M, double value = 0)
+inline int findBestColumn(MathUtility::VV& M, double value = 0)
 {
     // first = column index
     // second = number of 'value' occurrences
@@ -144,7 +144,7 @@ int findBestColumn(MathUtility::VV& M, double value = 0)
     return bestColumn.first;
 }
 
-MathUtility::VV deleteRowAndColumn(MathUtility::VV M, int i, int j)
+inline MathUtility::VV deleteRowAndColumn(MathUtility::VV M, int i, int j)
 {
     // delete column ...as it is pointer to pointer
     for (int k = 0; k < (int)M.size(); ++k) {
@@ -157,12 +157,12 @@ MathUtility::VV deleteRowAndColumn(MathUtility::VV M, int i, int j)
     return M;
 }
 
-bool isMulPossible(VV& matA, VV& matB)
+inline bool isMulPossible(VV& matA, VV& matB)
 {
     return matA[0].size() == matB.size();
 }
 
-MathUtility::VV doMultiple(MathUtility::VV& matA, MathUtility::VV& matB)
+inline MathUtility::VV doMultiple(MathUtility::VV& matA, MathUtility::VV& matB)
 {
     // multipleRow comes from column of first matrixA
     size_t multipleRow = matA.size();
@@ -190,7 +190,7 @@ MathUtility::VV doMultiple(MathUtility::VV& matA, MathUtility::VV& matB)
 
 // remember prime number always interger , so no need of template
 // faster prime check, taken from stackoverflow.com
-bool isPrime(int num)
+inline bool isPrime(int num)
 {
     if (num <= 3) {
         return num > 1;
@@ -209,7 +209,7 @@ bool isPrime(int num)
 // this is inner namespace of MathUtility namespace
 // which will help the Hill Cipher Class
 namespace Helper {
-    void printMatrixVariant(const MathUtility::VV& matrix, std::ostream& output = std::cout)
+  inline void printMatrixVariant(const MathUtility::VV& matrix, std::ostream& output = std::cout)
     {
         for (const auto& row : matrix) {
             for (const auto& col : row) {
@@ -223,7 +223,7 @@ namespace Helper {
         output << std::endl;
     }
 
-    MathUtility::VV dimensionVariantReturn(MathUtility::V& oneD, size_t split)
+   inline MathUtility::VV dimensionVariantReturn(MathUtility::V& oneD, size_t split)
     {
         MathUtility::VV pseudoTranpose(split, V(split, 0));
 
@@ -236,7 +236,7 @@ namespace Helper {
         return pseudoTranpose;
     }
 
-    void dimensionVariantPrint(MathUtility::VV& pseudoVector, size_t split)
+   inline void dimensionVariantPrint(MathUtility::VV& pseudoVector, size_t split)
     {
         for (size_t i = 0; i < split; i++) {
             for (size_t j = 0; j < ONECOLUMN; j++) {
@@ -249,7 +249,7 @@ namespace Helper {
     }
 
     // making one dimentional row vector to two dimentional column vector
-    void dimensionVariant(MathUtility::V& oneD, size_t split)
+   inline void dimensionVariant(MathUtility::V& oneD, size_t split)
     {
         VV PseudoTranpose(split, V(split, 0));
 
@@ -268,7 +268,7 @@ namespace Helper {
 }
 
 // http://stackoverflow.com/questions/30734787/c-2d-vector-convert-int-to-double
-void twoDintToTwoDdouble(MathUtility::twoD& shit, MathUtility::VV& doubleShit)
+inline void twoDintToTwoDdouble(MathUtility::twoD& shit, MathUtility::VV& doubleShit)
 {
     doubleShit.reserve(shit.size());
     for (auto&& v : shit) {
@@ -294,13 +294,13 @@ namespace InverseOperation {
     // are required for calculating matrix cofactors{cofactor matrix},
     // which in turn are useful for computing both the determinant and inverse of square matrices.
 
-    int findMinor(MathUtility::VV& M, int row, int col)
+   inline int findMinor(MathUtility::VV& M, int row, int col)
     {
         // this is mutally depends on other function
         return InverseOperation::laplaceExpansionDet(MathUtility::deleteRowAndColumn(M, row, col));
     }
 
-    int expand(MathUtility::VV& M, int col)
+   inline int expand(MathUtility::VV& M, int col)
     {
         int determinant{};
 
@@ -315,7 +315,7 @@ namespace InverseOperation {
         return determinant;
     }
 
-    int laplaceExpansionDet(MathUtility::VV M)
+   inline int laplaceExpansionDet(MathUtility::VV M)
     {
         int determinant{};
 
@@ -330,7 +330,7 @@ namespace InverseOperation {
         return determinant;
     }
 
-    MathUtility::VV findCofactorMatrix(MathUtility::VV& M)
+   inline MathUtility::VV findCofactorMatrix(MathUtility::VV& M)
     {
         int cofactor{};
 
@@ -351,7 +351,7 @@ namespace InverseOperation {
         return cofactorMatrix;
     }
 
-    MathUtility::VV doTranspose(MathUtility::VV& A)
+   inline MathUtility::VV doTranspose(MathUtility::VV& A)
     {
         int size = A.size();
 
@@ -364,7 +364,7 @@ namespace InverseOperation {
         return A;
     }
 
-    MathUtility::VV doInvertible(MathUtility::VV& I, double detValue)
+   inline MathUtility::VV doInvertible(MathUtility::VV& I, double detValue)
     {
         if (detValue == 0.0) {
             throw std::overflow_error("Divide by zero exception");
@@ -386,7 +386,7 @@ namespace InverseOperation {
         }
     }
 
-    bool isDeterminantZero(const MathUtility::VV& matrix)
+   inline bool isDeterminantZero(const MathUtility::VV& matrix)
     {
         if (MathUtility::InverseOperation::laplaceExpansionDet(matrix) == 0) {
             std::cout << "Oops !! Singular Matrix .." << std::endl;
@@ -399,7 +399,7 @@ namespace InverseOperation {
 
 // findInverseMat is compsed with few
 // composbale function , which is independently resuseable
-MathUtility::VV findInverseMat(MathUtility::VV& matrix)
+inline MathUtility::VV findInverseMat(MathUtility::VV& matrix)
 {
     if (!MathUtility::InverseOperation::isDeterminantZero(matrix)) {
         double det = MathUtility::InverseOperation::laplaceExpansionDet(matrix);

@@ -17,7 +17,7 @@ namespace PseudoIndex {
 // .... Z - 26
 // also same for small letters
 //
-int setPrintableASCIIChars(const char character)
+inline int setPrintableASCIIChars(const char character)
 {
     // JUST look at the ASCII value and
     // think about it
@@ -32,7 +32,7 @@ int setPrintableASCIIChars(const char character)
     }
 }
 
-void printPseudoIndexedChar(int result, std::ostream& output = std::cout)
+inline void printPseudoIndexedChar(int result, std::ostream& output = std::cout)
 {
     // virtually I am taking all character from their ASCII list
     // that's why that is not actual index or shifting
