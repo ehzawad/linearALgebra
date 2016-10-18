@@ -2,13 +2,22 @@
 
     https://en.wikipedia.org/wiki/Hill_cipher
 
+###### Character mapping Matrix
+
+    A-->1 ... Z-->26
+
+    a-->27 ... b-->28
+
+    and so on..!! see code
+
+
 ### Platform
 
 > LINUX build only
 
     GUI is coming in future possibly
 
-## First clone the repo
+### First clone the repo
 > then go to the project directory and build and run
 > so simple
 
@@ -55,4 +64,9 @@
     Linux termios object is called in linuxUtil.hpp file
 
     If Program crash unexpectedly badly, then you have to close the terminal
-    otherwise Not Echoing mode (password mode will not close)
+
+##### This codebase is POSIX compatible
+
+### Improvement
+
+    You can apply c++ template(generic) easily

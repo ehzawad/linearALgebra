@@ -15,11 +15,11 @@ SRC = hillCipher.cpp main.cpp
 
 EXE = main
 
-LD = -lm
+LD = -lm -lpthread -lcrypt
 
 
 # flags to pass compiler
-CXXFLAGS =  -ggdb3 -O0 -std=c++14 -lpthread -Werror -pedantic-errors
+CXXFLAGS =  -ggdb3 -O0 -std=c++14 -Werror -Wall -pedantic-errors
 
 all:
 	$(CXX) $(HEADER_PATH) $(CXXFLAGS) $(LD) $(SRC) -o $(EXE)
