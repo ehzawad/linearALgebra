@@ -15,7 +15,7 @@ SRC = hillCipher.cpp main.cpp
 
 EXE = main
 
-LD = -lm -lpthread -lcrypt
+LD = -lm -lpthread -lcrypto
 
 
 # flags to pass compiler
